@@ -24,8 +24,11 @@ After you prove something, you will see a small "No goals" message, which is the
 your proof is finished.
 -/
 
+/-
+使用 ring 策略，跳过简单的环运算
+-/
 example (a b : ℝ) : (a+b)^2 = a^2 + 2*a*b + b^2 := by {
-  sorry
+  ring
 }
 
 /- In the first example above, take a closer look at where Lean displays parentheses.
@@ -73,9 +76,12 @@ what is new and in red what is about to change.
 Now try it yourself. Note that ring can still do calculations,
 but it doesn't use the assumptions `h` and `h'`
 -/
-
+/-
+这节介绍如何引用条件假设
+-/
 example (a b c d : ℝ) (h : b = d + d) (h' : a = b + c) : a + b = c + 4 * d := by {
-  sorry
+  rw [h', h]
+  ring
 }
 
 /- ## Rewriting with a lemma
@@ -113,8 +119,12 @@ You can either use `ring` or rewrite with `mul_one x : x * 1 = x` to simplify th
 right-hand side.
 -/
 
+/-
+如何引用引理
+-/
 example (a b c : ℝ) : exp (a + b - c) = (exp a * exp b) / (exp c * exp 0) := by {
-  sorry
+  rw [exp_sub, exp_add, exp_zero] -- mul_one 包含在 ring 中，可以省略
+  ring
 }
 
 /-
@@ -136,9 +146,11 @@ Note this rewriting from right to left story is all about sides in the equality 
 *use*, not about sides in what you want to *prove*. The `rw [← h]` will replace the right-hand side
 by the left-hand side, so it will look for `b + c` in the current goal and replace it with `a`.
 -/
-
+/-
+带入等式另一侧
+-/
 example (a b c d : ℝ) (h : a = b + b) (h' : b = c) (h'' : a = d) : b + c = d := by {
-  sorry
+  rw [←h', ←h, h'']
 }
 
 /- ## Rewriting in a local assumption
@@ -150,9 +162,13 @@ in order to replace `exp(x + y)` by `exp(x) * exp(y)` in assumption `h`.
 The `exact` tactic allows you to give an explicit proof term to prove the current goal.
 -/
 
+/-
+对引理进行改写
+-/
 example (a b c d : ℝ) (h : c = d*a - b) (h' : b = a*d) : c = 0 := by {
   rw [h'] at h
   ring at h
+  -- 等价地，rw [h]
   -- Our assumption `h` is now exactly what we have to prove
   exact h
 }
@@ -181,11 +197,11 @@ Let's do some exercises using `calc`.
 
 example (a b c : ℝ) (h : a = b + c) : exp (2 * a) = (exp b) ^ 2 * (exp c) ^ 2 := by {
   calc
-    exp (2 * a) = exp (2 * (b + c))                 := by sorry
-              _ = exp ((b + b) + (c + c))           := by sorry
-              _ = exp (b + b) * exp (c + c)         := by sorry
-              _ = (exp b * exp b) * (exp c * exp c) := by sorry
-              _ = (exp b) ^ 2 * (exp c)^2           := by sorry
+    exp (2 * a) = exp (2 * (b + c))                 := by rw [h]
+              _ = exp ((b + b) + (c + c))           := by ring
+              -- _ = exp (b + b) * exp (c + c)         := ?_
+              _ = (exp b * exp b) * (exp c * exp c) := by rw [exp_add, exp_add, exp_add]
+              _ = (exp b) ^ 2 * (exp c)^2           := by ring
 }
 
 /-
@@ -200,7 +216,10 @@ Aligning the equal signs and `:=` signs is not necessary but looks tidy.
 -/
 
 example (a b c d : ℝ) (h : c = d*a + b) (h' : b = a*d) : c = 2*a*d := by {
-  sorry
+  calc
+    c = d * a + b := by rw [h]
+    _ = d * a + a * d := by rw [h']
+    _ = 2 * a * d := by ring
 }
 
 /-
