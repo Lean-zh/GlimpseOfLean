@@ -15,6 +15,10 @@ In Lean, `P x` has type `Prop`.
 
 Lean sees a proof `h` of `∀ x, P x` as a function sending any `x : X` to
 a proof `h x` of `P x`.
+
+命题： `∀ x, P x`
+从证明角度，存在证明步骤（映射）h，将 h(X) 映射到 P(X) 中
+
 This already explains the main way to use an assumption or lemma which
 starts with a `∀`.
 
@@ -37,6 +41,7 @@ We will also use the `rfl` tactic, which proves equalities that are true
 by definition (in a very strong sense), it stands for "reflexivity".
 -/
 
+-- 有个问题，f + g 是怎么定义的？
 example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by {
   -- Our assumption on that f is even means ∀ x, f (-x) = f x
   unfold even_fun at hf
@@ -48,7 +53,7 @@ example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + 
   intro x
   -- and let's compute
   calc
-    (f + g) (-x) = f (-x) + g (-x)  := by rfl
+    (f + g) (-x) = f (-x) + g (-x)  := by rfl -- + 的定义
                _ = f x + g (-x)     := by rw [hf x]
                _ = f x + g x        := by rw [hg x]
                _ = (f + g) x        := by rfl
@@ -56,6 +61,7 @@ example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + 
 
 
 /-
+一些策略会主动 unfold 目标，因此不用写成显式的目标，也能使用。
 Tactics like `unfold`, `apply`, `exact`, `rfl` and `calc` will automatically unfold definitions.
 You can test this by deleting the `unfold` lines in the above example.
 
@@ -91,8 +97,27 @@ symbol you can put your mouse cursor above the symbol and wait for one second.
 -/
 
 example (f g : ℝ → ℝ) (hf : even_fun f) : even_fun (g ∘ f) := by {
-  sorry
+  unfold even_fun at hf
+  unfold even_fun
+  intro x
+  calc
+    (g ∘ f) (-x) = g (f (-x)) := by rfl
+              _  = g (f (x)):= by rw [hf]
 }
+
+example (f g : ℝ → ℝ) (hf : even_fun f) : even_fun (g ∘ f) := by {
+  intro x
+  have h: (g ∘ f) (x) = (g ∘ f) (-x)
+  calc
+(g∘f) x = g (f x) := by rfl
+    _  = (g (f (-x))):= by rw [hf]
+  rw [←h]
+}
+
+
+/-
+这里对空格的敏感性有点复杂
+-/
 
 /-
 Let's have more quantifiers, and play with forward and backward reasoning.
@@ -107,11 +132,15 @@ def non_increasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ 
 /- Let's be very explicit and use forward reasoning first. -/
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by {
+  unfold non_decreasing at hf hg
+  unfold non_decreasing
   -- Let x₁ and x₂ be real numbers such that x₁ ≤ x₂
-  intro x₁ x₂ h
+  intro x₁ x₂ -- 进入到命题
+  intro h
   -- Since f is non-decreasing, f x₁ ≤ f x₂.
   have step₁ : f x₁ ≤ f x₂
-  · exact hf x₁ x₂ h
+  -- · exact hf x₁ x₂ h
+  . exact hf _ _ h
   -- Since g is non-decreasing, we then get g (f x₁) ≤ g (f x₂).
   exact hg (f x₁) (f x₂) step₁
 }
@@ -140,9 +169,35 @@ directly involving the original assumption, as in the next variation:
 -/
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by {
+  unfold non_decreasing at hg
   intro x₁ x₂ h
-  exact hg (f x₁) (f x₂) (hf x₁ x₂ h)
+  -- (hf x₁ x₂ h) 作用类似于 specialize
+  -- 其为 have 的缩写
+  have hf'
+  . exact (hf x₁ x₂ h)
+  exact hg (f x₁) (f x₂) hf'
 }
+-- 人类在证明过程中，特别是长证明，通常会说，只需证，即证之类，用于重新加强证明目标地意识。或许，可以以注释地形式加入到证明中。这还是比较像人的。
+-- 另外。模型推理似乎很少会引用外部资源，比如交互过程中，目标是需要提前占位的，但推理似乎是一步到位，有没有什么训练方法，能让模型在随意位置中断，引入外部信息，然后继续。
+-- toolformer 是一种思路，通过多次交互来实现，但有没有可能让模型在一开始就这样训练，依赖外部资源地交互。
+
+/-
+题外话：
+我发现，这些证明根本不是“人看的”。杂一看就是天书，而且文字逻辑与通常的编程语言不一样，也不是普通的数学证明语言，它明显更抽象，更规则。
+
+当我处在“解题”状态时，我能理解这些证明，但这种证明，既不是简单的数学语言，也不像编程语言。而是一种杂揉体。
+
+理解这种语言，除了文本本身，还需要结合右侧面板的 goal。
+这其实很像人类的工作模式，我们在证明时，头脑会保持一个 goal 进行指引。
+
+---
+
+我觉得吧，人类在做这类证明的时候，从来不是线性看文本的，怎么模拟思维背后的这个东西。就是说，怎么模拟头脑的模型，文本是和这个头脑模型一直交互的。这个例子中，头脑模型就是一个证明目标。
+
+包括，哪怕我们人去看这个证明，也不是线性地往下看，不是单纯地上下文。
+一个想法：使用一个杂揉体，比如 -文本-思维状态-文本-... 不断地交互
+p.s. 此时，突然觉得自己对 AI 理解太浅，需要的时候不能灵活定制。。。
+-/
 
 /-
 Let's see how backward reasoning would look like here.
@@ -156,6 +211,7 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
   intro x₁ x₂ h
   -- We need to prove (g ∘ f) x₁ ≤ (g ∘ f) x₂.
   -- Since g is non-decreasing, it suffices to prove f x₁ ≤ f x₂
+  unfold non_decreasing at hf hg
   apply hg
   -- which follows from our assumption on f
   apply hf
@@ -165,13 +221,16 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_increasing g) :
     non_increasing (g ∘ f) := by {
-  sorry
+  intro x₁ x₂ h
+  apply hg
+  apply hf
+  exact h
 }
 
 /- # Finding lemmas
 
 Lean's mathematical library contains many useful facts,
-and remembering all of them my name is infeasible.
+and remembering all of them by name is infeasible.
 The following exercises teach you two such techniques.
 * `simp` will simplify complicated expressions.
 * `apply?` will find lemmas from the library.
@@ -180,14 +239,16 @@ The following exercises teach you two such techniques.
 /- Use `simp` to prove the following. Note that `X : Set ℝ`
 means that `X` is a set containing (only) real numbers. -/
 example (x : ℝ) (X Y : Set ℝ) (hx : x ∈ X) : x ∈ (X ∩ Y) ∪ (X \ Y) := by {
-  sorry
+   simp
+   exact hx
 }
 
 /- Use `apply?` to find the lemma that every continuous function with compact support
 has a global minimum. -/
 
 example (f : ℝ → ℝ) (hf : Continuous f) (h2f : HasCompactSupport f) : ∃ x, ∀ y, f x ≤ f y := by {
-  sorry
+  exact Continuous.exists_forall_le_of_hasCompactSupport hf h2f
+
 }
 
 /-

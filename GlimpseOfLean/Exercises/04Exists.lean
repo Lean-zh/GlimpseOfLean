@@ -40,8 +40,20 @@ example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := b
 /- You can choose your own style in the next exercise. -/
 
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
-  sorry
+  constructor
+  intro h hpq
+  exact h hpq.1 hpq.2
+
+  intro h p' q'
+  apply h
+  exact ⟨p', q'⟩
 }
+
+
+-- example (p q r : Prop) : (p → q → r) → ((p → q) → r) := by{
+--    intro h pq
+
+-- }
 
 /- Of course Lean doesn't need any help to prove this kind of logical tautologies.
 This is the job of the `tauto` tactic, which can prove true statements in propositional logic. -/
@@ -49,6 +61,11 @@ example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
   tauto
 }
 
+/-
+一个系统怎么使用另一个系统。
+比如在 LEAN 里调用 MATHEMATICA
+在 AI 里调用 LEAN
+-/
 /- # Extential quantifiers
 
 In order to prove `∃ x, P x`, we give some `x₀` using tactic `use x₀` and
@@ -69,7 +86,7 @@ complicated expression.
 -/
 example (n : ℕ) (h : ∃ k : ℕ, n = k + 1) : n > 0 := by {
   -- Let's fix k₀ such that n = k₀ + 1.
-  rcases h with ⟨k₀, hk₀⟩
+  rcases h with ⟨k₀, hk₀⟩ -- 这一步提取
   -- It now suffices to prove k₀ + 1 > 0.
   rw [hk₀]
   -- and we have a lemma about this
@@ -85,7 +102,17 @@ By definition, `a ∣ b ↔ ∃ k, b = a*k`, so you can prove `a ∣ b` using th
 -/
 
 example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : b ∣ c) : a ∣ c := by {
-  sorry
+  rcases h₁ with ⟨u, g₁⟩ -- b = a * u
+  rcases h₂ with ⟨v, g₂⟩ -- c = b * v
+  -- c = a * u * v
+  have g: c = a * (u * v)
+  calc
+    c = b * v := by rw [g₂]
+    _ = a * u * v := by rw [g₁]
+    _ = a * (u * v) := by ring
+
+  use u*v
+  exact g
 }
 
 
@@ -96,7 +123,11 @@ We can now start combining quantifiers, using the definition
 -/
 
 example (f g : ℝ → ℝ) (h : Surjective (g ∘ f)) : Surjective g := by {
-  sorry
+  unfold Surjective
+  intro b
+  rcases h b with ⟨a, h'⟩
+  use f a
+  exact h'
 }
 
 /- This is the end of this file about `∃` and `∧`. You've learned about tactics

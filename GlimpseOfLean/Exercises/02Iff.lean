@@ -35,8 +35,15 @@ prove one-by-one.
 -/
 
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 0 < a^2 + b^2 := by {
-  sorry
+  apply add_pos
+  apply sq_pos_of_pos
+  exact ha
+  exact sq_pos_of_pos hb
 }
+
+/-
+我觉得，这些证明其实比较基础，没必要小题大作地展开。困难题我们在进行拆解（比如NNG 的习题）
+-/
 
 /-
 You can also give a prove with forward reasoning, using the `have` tactic.
@@ -59,7 +66,13 @@ example (a : ℝ) (ha : 0 < a) : 0 < (a^2)^2 := by {
 /- Now prove the same lemma as before using forwards reasoning. -/
 
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 0 < a^2 + b^2 := by {
-  sorry
+  have h1 : 0 < a^2
+  . exact sq_pos_of_pos ha
+  have h2 : 0 < b^2
+  . apply sq_pos_of_pos
+    exact hb
+  exact add_pos h1 h2
+
 }
 
 
@@ -71,15 +84,41 @@ implication `a > 0 → (a^2)^2 > 0` but the premise was already introduced for u
 -/
 
 example (a : ℝ) : a > 0 → b > 0 → a + b > 0 := by {
-  intro ha hb -- You can choose any names here
+  intro ha
+  intro hb -- You can choose any names here
   exact add_pos ha hb
 }
 
 /- Now prove the following simple statement in propositional logic.
 Note that `p → q → r` means `p → (q → r)`. -/
 example (p q r : Prop) : (p → q) → (p → q → r) → p → r := by {
-  sorry
+  intro h1 -- 假设条件 (p → q)
+  intro h2 -- 假设条件 (p → q → r)
+  intro h3 -- 条件 p
+  have h4 : q → r
+  . exact h2 h3
+  apply h4
+  apply h1
+  exact h3
 }
+
+-- 方法2 正向
+example (p q r : Prop) : (p → q) → (p → q → r) → p → r := by {
+  intro h1 h2 h3
+  have h4 : q → r
+  . exact h2 h3
+  have h5
+  . apply h1
+    exact h3
+  exact h4 h5
+}
+/-
+逻辑推理
+翻译： h1 : p → q 能推出，当 h2 : p → (q → r) 成立时 p → r
+证明：
+若 p 成立，则根据 h1，q 成立，且 q → r
+根据 h2 得 r
+-/
 
 /- # Equivalences
 
@@ -109,7 +148,11 @@ Let's prove a variation
 -/
 
 example {a b : ℝ} (c : ℝ) : a + c ≤ b + c ↔ a ≤ b := by {
-  sorry
+  rw [← sub_nonneg]
+  have key : b + c - (a + c) = b - a
+  . ring
+  rw [key]
+  rw [sub_nonneg]
 }
 
 /-
@@ -125,7 +168,10 @@ is used.
 example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by {
   calc
     b = 0 + b := by ring
-    _ ≤ a + b := by { rw [add_le_add_iff_right b] ; exact ha  }
+    _ ≤ a + b := by {
+      rw [add_le_add_iff_right b]
+      exact ha
+      }
 }
 
 /-
@@ -140,6 +186,8 @@ double implication. We can access the two implications of an equivalence `h : P 
 example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by {
   calc
     b = 0 + b := by ring
+    -- 使用 exact 而不是等价重写
+    -- (c : ℝ) : a + c ≤ b + c ↔ a ≤ b
     _ ≤ a + b := by exact (add_le_add_iff_right b).2 ha
 }
 
@@ -147,8 +195,27 @@ example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by {
 /- Let's do a variant using `add_le_add_iff_left a : a + b ≤ a + c ↔ b ≤ c` instead. -/
 
 example (a b : ℝ) (hb : 0 ≤ b) : a ≤ a + b := by {
-  sorry
+  calc
+    a = a + 0 := by ring
+    _ ≤ a + b := by {
+      rw [add_le_add_iff_left]
+      exact hb
+    }
 }
+
+example (a b : ℝ) (hb : 0 ≤ b) : a ≤ a + b := by {
+  calc
+    a = a + 0 := by ring
+    _ ≤ a + b := by{
+      -- 当前需要证明 a + 0 ≤ a + b
+      -- add_le_add_iff_left.2 : b ≤ c → a + b ≤ a + c
+      -- 将这个命题作用在 0 ≤ b 上
+      exact (add_le_add_iff_left a).2 hb
+    }
+}
+/-
+
+-/
 
 /-
 ## Proving equivalences
@@ -178,7 +245,17 @@ example (a b : ℝ) : (a-b)*(a+b) = 0 ↔ a^2 = b^2 := by {
 /- You can try it yourself in this exercise. -/
 
 example (a b : ℝ) : a = b ↔ b - a = 0 := by {
-  sorry
+  constructor
+  . intro h
+    calc
+      b - a = a - a := by rw [←h]
+      _     = 0 := by ring
+  . intro h
+    calc
+      a = 0 + a := by ring
+      _ = b - a + a := by rw [←h]
+      _ = b := by ring
+
 }
 
 /-
