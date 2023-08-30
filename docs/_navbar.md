@@ -5,4 +5,4 @@
 * Language
   * [English](https://glimpse.lookeng.cn)
   * [简体中文](https://glimpse.lookeng.cn/zh-docs)
-  * [中文-笔记](https://glimpse.lookeng.cn/note)
+  * [中文笔记](https://glimpse.lookeng.cn/notes)
