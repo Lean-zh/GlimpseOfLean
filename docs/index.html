@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Glimpse of Lean</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: '',
+      repo: ''
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+</body>
+</html>
+
+<script>
+  window.$docsify = {
+    name: 'Tutorial',
+    repo: 'https://github.com/RexWzh/GlimpseOfLean',
+    loadNavbar: true,  // Load custom navbar
+    loadSidebar: true, // Load custom sidebar
+    // By default, all titles in the document will be rendered into a directory,
+    // and the maximum supported rendering title level can be configured.
+    maxLevel: 2,
+    subMaxLevel: 4, // the maximum level of the directory generated
+    mergeNavbar: true, // merge the navbar into the sidebar on small screens
+    alias: { // define route aliases, you can define route rules more freely using regular expressions
+      '/.*/_sidebar.md': '/_sidebar.md', // prevent accidental rollback
+      '/.*/_navbar.md': '/_navbar.md'
+    },
+    coverpage: true,
+    search: {
+      placeholder: 'Serach',
+      noData: 'Not Found',
+      depth: 3
+    },
+  }
+</script>
+<script src="//unpkg.com/prismjs/components/prism-bash.js"></script>
+<script src="//unpkg.com/prismjs/components/prism-sql.js"></script>
+<script src="//unpkg.com/prismjs/components/prism-python.js"></script>
+<script src="//unpkg.com/docsify-copy-code"></script>
