@@ -1,5 +1,7 @@
 - [README](README.md)
 
+- [Introduction](Introduction.md)
+- [README(From REPO)](README_REPO.md)
 - Exercises
   - [01Rewriting](Exercises/01Rewriting.md)
   - [02Iff](Exercises/02Iff.md)

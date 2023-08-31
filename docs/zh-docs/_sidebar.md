@@ -1,5 +1,7 @@
 - [README](README.md)
 
+- [引言](Introduction.md)
+- [仓库简介](README_zh.md)
 - 练习题
   - [01Rewriting](Exercises/01Rewriting.md)
   - [02Iff](Exercises/02Iff.md)

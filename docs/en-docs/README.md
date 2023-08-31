@@ -2,7 +2,8 @@
 
 Documentation of the project [GlimpseOfLean](https://github.com/RexWzh/GlimpseOfLean) (Unofficial). The goal of this project is to provide a quick start guide for Lean beginners.
 
-## Installation
+
+## Documentation
 
 Install docsify via npm:
 ```bash
