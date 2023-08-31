@@ -1,2 +1,5 @@
 /build
 /lake-packages/*
+
+.ipynb_checkpoints
+__pycache__
