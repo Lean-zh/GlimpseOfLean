@@ -79,7 +79,7 @@ complicated expression.
 -/
 example (n : ℕ) (h : ∃ k : ℕ, n = k + 1) : n > 0 := by {
   -- Let's fix k₀ such that n = k₀ + 1.
-  rcases h with ⟨k₀, hk₀⟩
+  rcases h with ⟨k₀, hk₀⟩ -- 这里 k₀ 是一个变量，hk₀ 是一个等式 | 不能用 h.1 的方式引用 k₀
   -- It now suffices to prove k₀ + 1 > 0.
   rw [hk₀]
   -- and we have a lemma about this

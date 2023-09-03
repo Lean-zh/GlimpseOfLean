@@ -1,6 +1,3 @@
-/-
-
--/
 import GlimpseOfLean.Library.Basic
 import Mathlib.Data.Complex.Exponential
 open Real
@@ -137,7 +134,7 @@ Since equality is a symmetric relation, we can also replace the right-hand side 
 equality by the left-hand side using `←` as in the following example.
 -/
 example (a b c : ℝ) (h : a = b + c) (h' : a + e = d + c) : b + c + e = d + c := by {
-  rw [← h, h']
+  rw [←h, h']
 }
 
 /-
@@ -189,9 +186,9 @@ at the tactic state.
 
 example (a b c d : ℝ) (h : c = b*a - d) (h' : d = a*b) : c = 0 := by {
   calc
-    c = b*a - d   := by rw [h]
-    _ = b*a - a*b := by rw [h']
-    _ = 0         := by ring
+c = b*a - d   := by rw [h]
+  _ = b*a - a*b := by rw [h']
+  _ = 0         := by ring
 }
 
 /-

@@ -157,6 +157,7 @@ use the `specialize` tactic to replace `hf` by its specialization to the relevan
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by {
+  unfold non_decreasing at *
   intro x₁ x₂ h
   specialize hf x₁ x₂ h
   exact hg (f x₁) (f x₂) hf
@@ -176,6 +177,11 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
   have hf'
   . exact (hf x₁ x₂ h)
   exact hg (f x₁) (f x₂) hf'
+}
+example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
+    non_decreasing (g ∘ f) := by {
+    intro x₁ x₂ h
+    exact hg _ _ (hf _ _ h)
 }
 -- 人类在证明过程中，特别是长证明，通常会说，只需证，即证之类，用于重新加强证明目标地意识。或许，可以以注释地形式加入到证明中。这还是比较像人的。
 -- 另外。模型推理似乎很少会引用外部资源，比如交互过程中，目标是需要提前占位的，但推理似乎是一步到位，有没有什么训练方法，能让模型在随意位置中断，引入外部信息，然后继续。
@@ -203,6 +209,10 @@ p.s. 此时，突然觉得自己对 AI 理解太浅，需要的时候不能灵�
 Let's see how backward reasoning would look like here.
 As usual with this style, we use `apply` and enjoy Lean specializing assumptions for us
 using so-called unification.
+-/
+
+/-
+题外话的题外话：你觉得不是“人看的”，那是因为你的掌握熟练程度不够，训练不够。照你怎么说，编程代码也”不是人看的“
 -/
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :

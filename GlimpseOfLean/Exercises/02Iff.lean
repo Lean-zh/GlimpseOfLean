@@ -12,6 +12,19 @@ For instance, given a real number `a`, the lemma `sq_pos_of_pos` claims `0 < a �
 so the proof belows apply the "function" `sq_pos_of_pos` to the assumption `ha`.
 -/
 
+example (h : P → Q)(P : P) : Q := by{
+  exact h P
+}
+
+example (h : P → Q → R)(hp : P)(hq : Q) : R := by{
+  exact h hp hq
+}
+
+example (h : P → Q → R)(hp : P)(hq : Q) : R := by{
+  have h1 : Q → R := by exact h hp
+  exact h1 hq
+}
+
 example (a : ℝ) (ha : 0 < a) : 0 < a^2 := by {
   exact sq_pos_of_pos ha
 }
@@ -21,11 +34,20 @@ The above proof is a direct proof: we already know `0 < a` and we feed this fact
 implication.
 We can also use backward reasoning using the `apply` tactic.
 -/
+example (h : P → Q → R)(hp : P)(hq : Q) : R := by{
+ apply h -- we need to prove `P` and `Q` to prove `R`
+ exact hp
+ exact hq
+}
 
 example (a : ℝ) (ha : 0 < a) : 0 < (a^2)^2 := by {
   apply sq_pos_of_pos -- Thanks to `sq_pos_of_pos`, it suffices to prove `0 < a^2`
   apply sq_pos_of_pos -- Thanks to `sq_pos_of_pos`, it suffices to prove `0 < a`
   exact ha -- this is exactly our assumption `ha`.
+}
+
+example (a : ℝ) (ha : 0 < a) : 0 < (a^2)^2 := by {
+  exact sq_pos_of_pos (sq_pos_of_pos ha)
 }
 
 /-
@@ -68,11 +90,11 @@ example (a : ℝ) (ha : 0 < a) : 0 < (a^2)^2 := by {
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 0 < a^2 + b^2 := by {
   have h1 : 0 < a^2
   . exact sq_pos_of_pos ha
-  have h2 : 0 < b^2
-  . apply sq_pos_of_pos
-    exact hb
+  have h2 : 0 < b^2 := by exact sq_pos_of_pos hb
+  -- have h2 : 0 < b^2
+  -- . apply sq_pos_of_pos
+  --   exact hb
   exact add_pos h1 h2
-
 }
 
 
@@ -88,6 +110,12 @@ example (a : ℝ) : a > 0 → b > 0 → a + b > 0 := by {
   intro hb -- You can choose any names here
   exact add_pos ha hb
 }
+
+-- 实际上，这就是 add_pos
+example (a : ℝ) : a > 0 → b > 0 → a + b > 0 := by {
+  exact add_pos
+}
+
 
 /- Now prove the following simple statement in propositional logic.
 Note that `p → q → r` means `p → (q → r)`. -/
@@ -111,6 +139,16 @@ example (p q r : Prop) : (p → q) → (p → q → r) → p → r := by {
   . apply h1
     exact h3
   exact h4 h5
+}
+
+-- 方法3 正向
+example (p q r : Prop) : (p → q) → (p → q → r) → p → r := by {
+  intro h1 -- 假设条件 (p → q)
+  intro h2 -- 假设条件 (p → q → r)
+  intro h3 -- 条件 p
+  have q'
+  . exact h1 h3
+  exact h2 h3 q'
 }
 /-
 逻辑推理
@@ -136,13 +174,21 @@ In the following exercises we will use the lemma:
 -/
 
 example {a b c : ℝ} : c + a ≤ c + b ↔ a ≤ b := by {
-  rw [← sub_nonneg]
+  -- sub_nonneg 将 0 ≤ y - x 转化为 x ≤ y
+  -- ←sub_nonneg 将 x ≤ y 转化为 0 ≤ y - x
+  rw [← sub_nonneg] -- Q: 为什么是在左侧？默认从左到右？
   have key : (c + b) - (c + a) = b - a -- Here we introduce an intermediate statement named key
   · ring   -- and prove it after a `·`
   rw [key] -- we can now use `key`. This `rw` uses an equality result, not an equivalence
   rw [sub_nonneg] -- and switch back to reach the tautology a ≤ b ↔ a ≤ b
 }
 
+example {a b c : ℝ} : a ≤ b ↔ c + a ≤ c + b := by {
+  rw [← sub_nonneg]
+  have key: (c + b) - (c + a) = b - a
+  . ring
+  rw [←key, sub_nonneg]
+}
 /-
 Let's prove a variation
 -/

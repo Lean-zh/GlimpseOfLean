@@ -37,6 +37,28 @@ This condition will be spelled `continuous_at f x₀`.-/
 def continuous_at (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
 ∀ ε > 0, ∃ δ > 0, ∀ x, |x - x₀| ≤ δ → |f x - f x₀| ≤ ε
 
+-- 这里 ∀ ε > 0 是 ∀ ε → (ε > 0 → ) 的简写?
+
+example (f : ℝ → ℝ) (u : ℕ → ℝ) (x₀ : ℝ) (hu : seq_limit u x₀) (hf : continuous_at f x₀) :
+  seq_limit (f ∘ u) (f x₀) := by {
+  unfold seq_limit at *
+  unfold continuous_at at *
+  intro ε hε
+  -- 对任意 ε>0 由 hf(f 连续性)，存在 δ>0 使得对任意 x, |x-x₀|≤δ ⇒ |f(x)-f(x₀)|≤ε
+  rcases hf ε hε with ⟨δ, δ_pos, Hδ⟩
+  -- 对给定的 δ, 由 hu(u 收敛性)，存在 N 使得对任意 n≥N, |u_n-x₀|≤δ
+  rcases hu δ δ_pos with ⟨N, HN⟩
+  -- 令 N' = N
+  use N
+  -- 令 n≥N'，则 |f(u_n)-f(x₀)|≤ε
+  intros n hn
+  -- 由 HN(n≥N) 和 Hδ(|x-x₀|≤δ) 得 |f(u_n)-f(x₀)|≤ε
+  calc
+    |(f ∘ u) n - f x₀| = |f (u n) - f x₀| := by rfl
+                     _ ≤ ε                := Hδ _ (HN _ hn)
+
+}
+
 /-- Now we claim that if `f` is continuous at `x₀` then it is sequentially continuous
 at `x₀`: for any sequence `u` converging to `x₀`, the sequence `f ∘ u` converges
 to `f x₀`.  -/
@@ -53,7 +75,10 @@ example (f : ℝ → ℝ) (u : ℕ → ℝ) (x₀ : ℝ) (hu : seq_limit u x₀)
   intros ε hε
   -- By assumption on `f` applied to this positive `ε`, we get a positive `δ`
   -- such that, for all real number `x`, if `|x - x₀| ≤ δ` then `|f(x) - f(x₀)| ≤ ε` (1).
+  -- 这里 obtain 将过程写出来了，实际上可以省略
+  -- obtain ⟨δ, δ_pos, Hf⟩ := hf ε hε
   obtain ⟨δ, δ_pos, Hf⟩ : ∃ δ > 0, ∀ x, |x - x₀| ≤ δ → |f x - f x₀| ≤ ε := hf ε hε
+
   -- The assumption on `u` applied to this `δ` gives a natural number `N` such that
   -- for every natural number `n`, if `n ≥ N` then `|u_n - x₀| ≤ δ`   (2).
   obtain ⟨N, Hu⟩ : ∃ N, ∀ n ≥ N, |u n - x₀| ≤ δ := hu δ δ_pos

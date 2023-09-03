@@ -54,6 +54,14 @@ example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + 
                _ = (f + g) x        := by rfl
 }
 
+example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by {
+  intro x
+  calc
+  (f + g) (-x) = f (-x) + g (-x)  := by rfl
+              _ = f x + g (-x)     := by rw [hf x]
+              _ = f x + g x        := by rw [hg x]
+              _ = (f + g) x        := by rfl
+}
 
 /-
 Tactics like `unfold`, `apply`, `exact`, `rfl` and `calc` will automatically unfold definitions.
@@ -112,6 +120,7 @@ def non_increasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ 
 /- Let's be very explicit and use forward reasoning first. -/
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by {
+  unfold non_decreasing at *
   -- Let x₁ and x₂ be real numbers such that x₁ ≤ x₂
   intro x₁ x₂ h
   -- Since f is non-decreasing, f x₁ ≤ f x₂.
@@ -133,8 +142,12 @@ use the `specialize` tactic to replace `hf` by its specialization to the relevan
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by {
+  unfold non_decreasing at *
   intro x₁ x₂ h
   specialize hf x₁ x₂ h
+  -- 效果等同于
+  -- have hf : f x₁ ≤ f x₂
+  -- · exact hf x₁ x₂ h
   exact hg (f x₁) (f x₂) hf
 }
 
@@ -157,6 +170,7 @@ using so-called unification.
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by {
+  unfold non_decreasing at *
   -- Let x₁ and x₂ be real numbers such that x₁ ≤ x₂
   intro x₁ x₂ h
   -- We need to prove (g ∘ f) x₁ ≤ (g ∘ f) x₂.
