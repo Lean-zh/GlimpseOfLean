@@ -1,2 +1,4 @@
 /build
 /lake-packages/*
+.ipynb_checkpoints
+*.jsonl
