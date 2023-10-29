@@ -1,0 +1,6 @@
+[book]
+authors = ["rex"]
+language = "zh-CN"
+multilingual = false
+src = "docs"
+title = "初探 LEAN"

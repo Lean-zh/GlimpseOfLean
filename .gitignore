@@ -2,3 +2,4 @@
 /lake-packages/*
 .ipynb_checkpoints
 *.jsonl
+book/
