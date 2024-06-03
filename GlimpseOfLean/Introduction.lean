@@ -1,45 +1,47 @@
+
+
 import GlimpseOfLean.Library.Basic
 
 namespace Introduction
 
-/-
-# Introduction to this tutorial
+/- # 本教程简介
 
-If you have a small screen, you can press
-`alt-Z` (or `option-Z`) to enable word wrap.
+如果你的屏幕较小，可以按下
+`alt-Z`（或`option-Z`）来启用自动换行。
 
-Welcome to this tutorial designed to give you a glimpse of Lean in a couple of hours.
+欢迎来到本教程，本教程旨在让你在几个小时内对 Lean 有个初步的了解。
 
-First let us see what a Lean proof looks like, without trying to understand any syntactical
-detail yet. You won't have to type anything in this file.
+首先，让我们看看一个 Lean 证明是什么样子的，尽管不必理解任何语法细节。在这个文件中，你无需输入任何内容。
 
-If everything works, you currently see a panel to the right of this text with title
-"Lean Infoview", with a message like "No info found."
-This panel will start displaying interesting things inside the proof.
+如果一切正常，你现在在这篇文章的右边会看到一个标题为
+"Lean Infoview" 的面板，上面显示着像 "No info found." 这样的信息。
+这个面板在证明的过程中会显示有趣的内容。
 
-First let us review two calculus definitions.
+首先让我们来复习下两个微积分的定义。
 -/
 
-/-- A sequence `u` of real numbers converges to `l` if `∀ ε > 0, ∃ N, ∀ n ≥ N, |u_n - l| ≤ ε`.
-This condition will be spelled `seq_limit u l`. -/
+/- 一个实数序列 `u` 收敛于 `l` 的条件是当 `∀ ε > 0, ∃ N, ∀ n ≥ N, |u_n - l| ≤ ε`。这个条件将被表示为 `seq_limit u l`。
+-/
+
 def seq_limit (u : ℕ → ℝ) (l : ℝ) : Prop :=
 ∀ ε > 0, ∃ N, ∀ n ≥ N, |u n - l| ≤ ε
 
-/- In the above definition, note that the `n`-th term of the sequence `u` is denoted
-simply by `u n`.
+/- 在上述定义中，请注意序列 `u` 的第 `n` 项被简单地记作 `u n`。
 
-Similarly, in the next definition, `f x` is what we would write `f(x)` on paper.
-Also note that implication is denoted by a single arrow (we'll explain why later). -/
+类似地，在下一个定义中，`f x` 是我们在纸上写作 `f(x)` 的形式。 还要注意，蕴含关系由一个箭头表示（我们稍后会解释原因）。
+-/
 
-/-- A function`f : ℝ → ℝ` is continuous at `x₀` if
-`∀ ε > 0, ∃ δ > 0, ∀ x, |x - x₀| ≤ δ ⇒ |f(x) - f(x₀)| ≤ ε`.
-This condition will be spelled `continuous_at f x₀`.-/
+/- 一个函数 `f : ℝ → ℝ` 在 `x₀` 处连续，如果满足以下条件：
+`∀ ε > 0, ∃ δ > 0, ∀ x, |x - x₀| ≤ δ ⇒ |f(x) - f(x₀)| ≤ ε`。
+这个条件将被说明为 `continuous_at f x₀`。
+-/
+
 def continuous_at (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
 ∀ ε > 0, ∃ δ > 0, ∀ x, |x - x₀| ≤ δ → |f x - f x₀| ≤ ε
 
-/-- Now we claim that if `f` is continuous at `x₀` then it is sequentially continuous
-at `x₀`: for any sequence `u` converging to `x₀`, the sequence `f ∘ u` converges
-to `f x₀`.  -/
+/- 现在我们要证明：如果函数 `f` 在 `x₀` 处连续，那么它在 `x₀` 处就是序列连续的：对于任何收敛于 `x₀` 的序列 `u`，序列 `f ∘ u` 收敛于 `f x₀`。
+-/
+
 example (f : ℝ → ℝ) (u : ℕ → ℝ) (x₀ : ℝ) (hu : seq_limit u x₀) (hf : continuous_at f x₀) :
   seq_limit (f ∘ u) (f x₀) := by { -- This `by` keyword marks the beginning of the proof
   -- Put your text cursor here and watch the Lean InfoView panel to the right.
@@ -68,7 +70,8 @@ example (f : ℝ → ℝ) (u : ℕ → ℝ) (x₀ : ℝ) (hu : seq_limit u x₀)
   -- This finishes the proof!
   }
 
-/-
-Now that this proof is over, you can use the file explorer to the
-left of this panel to open the file `Exercises > 01Rewriting.lean`.
+/- 现在这个证明已经结束，你可以使用面板左侧的文件浏览器打开 `练习 > 01重写.lean`文件。
+-/
+
+/- 
 -/

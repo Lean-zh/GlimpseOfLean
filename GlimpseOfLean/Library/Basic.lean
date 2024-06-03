@@ -1,3 +1,5 @@
+
+
 import Mathlib.Tactic.LibrarySearch
 import Mathlib.Tactic.Propose
 import Mathlib.Data.Real.Basic
@@ -27,8 +29,10 @@ namespace PiNotation
 open Lean.Parser Term
 open Lean.PrettyPrinter.Delaborator
 
-/-- Dependent function type (a "pi type"). The notation `Π x : α, β x` can
-also be written as `(x : α) → β x`. -/
+/- 依赖函数类型（一个 "pi 类型"）。记号 `Π x : α, β x`
+也可以写作 `(x : α) → β x`。
+-/
+
 -- A direct copy of forall notation but with `Π`/`Pi` instead of `∀`/`Forall`.
 @[term_parser]
 def piNotation := leading_parser:leadPrec
@@ -36,8 +40,9 @@ def piNotation := leading_parser:leadPrec
   many1 (ppSpace >> (binderIdent <|> bracketedBinder)) >>
   optType >> ", " >> termParser
 
-/-- Dependent function type (a "pi type"). The notation `Π x ∈ s, β x` is
-short for `Π x, x ∈ s → β x`. -/
+/- 依赖函数类型（"pi 类型"）。 符号 `Π x ∈ s, β x` 是 `Π x, x ∈ s → β x` 的简写。
+-/
+
 -- A copy of forall notation from `Std.Util.ExtendedBinder` for pi notation
 syntax "Π " binderIdent binderPred ", " term : term
 
@@ -47,15 +52,16 @@ macro_rules
   | `(Π _ $pred:binderPred, $p) =>
     `(Π x, satisfies_binder_pred% x $pred → $p)
 
-/-- Since pi notation and forall notation are interchangable, we can
-parse it by simply using the forall parser. -/
+/- 由于 pi 符号和 forall 符号是可以互换的，我们可以通过简单地使用 forall 解析器来解析它。
+-/
+
 @[macro PiNotation.piNotation] def replacePiNotation : Lean.Macro
   | .node info _ args => return .node info ``Lean.Parser.Term.forall args
   | _ => Lean.Macro.throwUnsupported
 
-/-- Override the Lean 4 pi notation delaborator with one that uses `Π`.
-Note that this takes advantage of the fact that `(x : α) → p x` notation is
-never used for propositions, so we can match on this result and rewrite it. -/
+/- 使用一个使用 `Π` 的 Lean 4 pi 符号摘录器覆盖原来的那个。注意这样做是利用了 `(x : α) → p x` 符号不会被用于命题的事实，因此我们可以匹配这个结果并重写它。
+-/
+
 @[delab forallE]
 def delabPi : Delab := whenPPOption Lean.getPPNotation do
   let stx ← delabForall
@@ -93,11 +99,12 @@ end PiNotation
 section SupInfNotation
 open Lean Lean.PrettyPrinter.Delaborator
 
-/-!
-Improvements to the unexpanders in `Mathlib.Order.CompleteLattice`.
+/- !
+对 `Mathlib.Order.CompleteLattice` 中的 unexpanders 的改进。
 
-These are implemented as delaborators directly.
+这些是直接作为 delaborators 实现的。
 -/
+
 @[delab app.iSup]
 def iSup_delab : Delab := whenPPOption Lean.getPPNotation do
   let #[_, _, ι, f] := (← SubExpr.getExpr).getAppArgs | failure
@@ -152,7 +159,9 @@ def infᵢ_delab : Delab := whenPPOption Lean.getPPNotation do
     | _ => pure stx
   return stx
 
-/-- The Exists notation has similar considerations as sup/inf -/
+/- Exists 符号具有与 sup/inf 类似的考虑因素
+-/
+
 @[delab app.Exists]
 def exists_delab : Delab := whenPPOption Lean.getPPNotation do
   let #[ι, f] := (← SubExpr.getExpr).getAppArgs | failure
@@ -204,10 +213,10 @@ end SupInfNotation
 section UnionInterNotation
 open Lean Lean.PrettyPrinter.Delaborator
 
-/-!
-Improvements to the unexpanders in `Mathlib.Data.Set.Lattice`.
+/- !
+对 `Mathlib.Data.Set.Lattice` 中的 unexpanders 的改进。
 
-These are implemented as delaborators directly.
+这些都是直接实现为去高级化工具。
 -/
 
 @[delab app.Set.unionᵢ]
@@ -282,8 +291,8 @@ def delabProdProjs : Delab := do
   | `($(x).snd) => `($(x).2)
   | _ => failure
 
-/-! That works when the projection is a simple term, but we need
-another approach when the projections are functions with applied arguments. -/
+/- ! 当投影是一个简单的项时，这种方法是有效的，但当投影是带有应用参数的函数时，我们需要另一种方法。
+-/
 
 @[app_unexpander Prod.fst]
 def unexpandProdFst : Lean.PrettyPrinter.Unexpander
@@ -304,7 +313,10 @@ end ProdProjNotation
 lemma ge_max_iff {α : Type _} [LinearOrder α] {p q r : α} : r ≥ max p q  ↔ r ≥ p ∧ r ≥ q :=
 max_le_iff
 
-/- No idea why this is not in mathlib-/
+/- 不知为何这个并不在 mathlib 中
+
+-/
+
 lemma eq_of_abs_sub_le_all (x y : ℝ) : (∀ ε > 0, |x - y| ≤ ε) → x = y := by
   intro h
   apply eq_of_abs_sub_nonpos
@@ -399,3 +411,6 @@ lemma lowerBounds_range {α ι : Type _} [Preorder α] {s : ι → α} {x : α} 
 @[simp]
 lemma upperBounds_range {α ι : Type _} [Preorder α] {s : ι → α} {x : α} : x ∈ upperBounds (Set.range s) ↔ ∀ i, s i ≤ x :=
   lowerBounds_range (α := OrderDual α)
+
+/- 
+-/

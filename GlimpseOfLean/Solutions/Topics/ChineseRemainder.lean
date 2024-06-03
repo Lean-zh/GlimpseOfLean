@@ -1,3 +1,5 @@
+
+
 import GlimpseOfLean.Library.Basic
 import Mathlib.RingTheory.Ideal.Quotient
 import Mathlib.RingTheory.Ideal.Operations
@@ -81,3 +83,6 @@ noncomputable def chineseIso [Fintype ι] (I : ι → Ideal R) (hI : ∀ i j, i 
 
 end Ideal
 end chinese
+
+/- 
+-/

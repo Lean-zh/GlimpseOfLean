@@ -1,24 +1,24 @@
+
+
 import GlimpseOfLean.Library.Basic
 
 open Function
 
-/-
-## Conjunctions
+/- ## 合取
 
-In this file, we learn how to handle the conjunction ("logical and") operator
-and the existential quantifier.
+在这个文件中，我们将学习如何处理合取（“逻辑与”）操作符和存在量词。
 
-In Lean the conjunction of two statements `P` and `Q` is denoted by `P ∧ Q`, read as "P and Q".
+在 Lean 中，两个声明 `P` 和 `Q` 的合取由 `P ∧ Q` 表示，读作 "P 和 Q"。
 
-We can use a conjunction similarly to the `↔`:
-* If `h : P ∧ Q` then `h.1 : P` and `h.2 : Q`.
-* To prove `P ∧ Q` use the `constructor` tactic.
+我们可以像使用 '↔' 一样使用合取：
+* 如果 `h : P ∧ Q`，那么 `h.1 : P` 和 `h.2 : Q`。
+* 要证明 `P ∧ Q`，使用 `constructor` 策略。
 
-Furthermore, we can decompose conjunction and equivalences.
-* If `h : P ∧ Q`, the tactic `rcases h with ⟨hP, hQ⟩`
-  gives two new assumptions `hP : P` and `hQ : Q`.
-* If `h : P ↔ Q`, the tactic `rcases h with ⟨hPQ, hQP⟩`
-  gives two new assumptions `hPQ : P → Q` and `hQP : Q → P`.
+此外，我们可以分解合取和等价性。
+* 如果 `h : P ∧ Q`，策略 `rcases h with ⟨hP, hQ⟩`
+  会给出两个新的假设 `hP : P` 和 `hQ : Q`。
+* 如果 `h : P ↔ Q`，策略 `rcases h with ⟨hPQ, hQP⟩`
+  会给出两个新的假设 `hPQ : P → Q` 和 `hQP : Q → P`。
 -/
 
 example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := by {
@@ -29,15 +29,77 @@ example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := b
   · exact h' hq
 }
 
-/- One can also prove a conjunction without the constructor tactic by gathering both sides
-using the `⟨`/`⟩` brackets, so the above proof can be rewritten as. -/
+/- 人们也可以在不使用构造器策略的情况下证明一个结论，只需使用 `⟨`/`⟩` 括号将两侧的证据收集起来，所以上述证明可以被重写为。
+-/
 
 example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := by {
   intro hpq
   exact ⟨h hpq.1, h' hpq.2⟩
 }
 
-/- You can choose your own style in the next exercise. -/
+/- 你可以在接下来的练习中选择你自己的风格。
+
+# CAN PROOFS IN LEAN HELP YOU UNDERSTAND MATHS?
+
+对于使用 Lean 的数学证明，是否能帮助你理解数学？
+
+To answer this, let’s see the proof of a simple theorem in lean proof mode. It will give you an idea of how theorems are proved in Lean.
+ 
+为了回答这个问题，让我们看一下在 Lean 证明模式下一个简单的定理的证明。它会给你一个关于定理在 Lean 中是如何被证明的概念。
+
+## The Theorem \(x \cdot y = y \cdot x\)
+
+### 定理 \(x \cdot y = y \cdot x\)
+
+The theorem says that multiplication is commutative. This is a truth universally acknowledged in the realm of mathematics. Here’s how Lean represents and proves the theorem:
+
+这个定理表明，乘法是可交换的。这是数学领域公认的真理。以下是 Lean 如何表示和证明这个定理:
+
+### Theorem in Lean
+
+### 在 Lean 里的定理
+
+The given statement will appear like:
+
+给出的陈述会如下所示：
+
+```lean
+theorem mul_comm (x y : ℕ) : x * y = y * x
+```
+
+The proof mode is started by using `begin` and `end`. Here’s the entire theorem and proof in Lean:
+
+通过使用 `begin` 和 `end` 来开始证明模式。以下是在 Lean 中的整个定理以及证明：
+
+```lean
+theorem mul_comm (x y : ℕ) : x * y = y * x :=
+begin
+  induction y with d hd,
+  { rw mul_zero, rw zero_mul },
+  { rw succ_mul, rw ←hd, rw mul_succ }
+end
+```
+
+The symbol `:=` indicates the start of the proof.
+
+Symbo `rw` stands for rewrite. It means Lean should use the equation in the bracket to simplify the statement.
+
+The symbol `←` points the equation to be used in the opposite direction.
+
+The symbol `induction` offers a way to perform induction on natural numbers.
+
+Symbol `with` is used to introduce two things: the base case and the inductive case. They are denoted by `d` and `hd` respectively.
+
+符号 `:=` 表示证明的开始。
+
+符号 `rw` 代表重写。它意味着 Lean 应该使用括号中的等式来简化陈述。
+
+符号 `←` 指向应以相反的方向使用的等式。
+
+符号 `induction` 提供了对自然数进行归纳的方式。
+
+符号 `with` 用于引入两件事:基本情况和归纳情况。它们分别由 `d` 和 `hd` 表示。
+-/
 
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
   -- sorry
@@ -53,30 +115,28 @@ example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
   -- sorry
 }
 
-/- Of course Lean doesn't need any help to prove this kind of logical tautologies.
-This is the job of the `tauto` tactic, which can prove true statements in propositional logic. -/
+/- 当然，Lean 不需要任何帮助来证明这类逻辑自明的命题。
+这就是 `tauto` 策略的作用，它可以证明命题逻辑中的真实语句。
+-/
+
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
   tauto
 }
 
-/- # Extential quantifiers
+/- # 存在量词
 
-In order to prove `∃ x, P x`, we give some `x₀` using tactic `use x₀` and
-then prove `P x₀`. This `x₀` can be an object from the local context
-or a more complicated expression. In the example below, the property
-to check after `use` is true by definition so the proof is over.
+为了证明 `∃ x, P x`，我们提供一些 `x₀` 使用策略 `use x₀`，然后证明 `P x₀`。这个 `x₀` 可以是来自局部环境的对象，也可以是更复杂的表达式。在下面的例子中，`use` 后要检查的属性根据定义是真的，所以证明就结束了。
 -/
+
 example : ∃ n : ℕ, 8 = 2*n := by {
   use 4
 }
 
-/-
-In order to use `h : ∃ x, P x`, we use the `rcases` tactic to fix
-one `x₀` that works.
+/- 为了使用 `h : ∃ x, P x`，我们使用 `rcases` 策略来确定一个有效的 `x₀`。
 
-Again `h` can come straight from the local context or can be a more
-complicated expression.
+同样，`h` 可以直接来自局部上下文，或者可以是一个更复杂的表达式。
 -/
+
 example (n : ℕ) (h : ∃ k : ℕ, n = k + 1) : n > 0 := by {
   -- Let's fix k₀ such that n = k₀ + 1.
   rcases h with ⟨k₀, hk₀⟩
@@ -86,12 +146,9 @@ example (n : ℕ) (h : ∃ k : ℕ, n = k + 1) : n > 0 := by {
   exact Nat.succ_pos k₀
 }
 
-/-
-The next exercises use divisibility in ℤ (beware the ∣ symbol which is
-not ASCII).
+/- 下面的习题将使用 ℤ 的可整除性（注意 ∣ 符号，这不是 ASCII）。
 
-By definition, `a ∣ b ↔ ∃ k, b = a*k`, so you can prove `a ∣ b` using the
-`use` tactic.
+根据定义，`a ∣ b ↔ ∃ k, b = a*k`，所以你可以使用 `use` 策略来证明 `a ∣ b`。
 -/
 
 example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : b ∣ c) : a ∣ c := by {
@@ -106,11 +163,13 @@ example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : b ∣ c) : a ∣ c := by {
   -- sorry
 }
 
-
-/-
-We can now start combining quantifiers, using the definition
+/- 我们现在可以开始组合量词，使用定义
 
   `Surjective (f : X → Y) := ∀ y, ∃ x, f x = y`
+  
+翻译为：
+
+  `满射 (f : X → Y) := 对于所有 的 y，存在 x，使得 f x = y`
 -/
 
 example (f g : ℝ → ℝ) (h : Surjective (g ∘ f)) : Surjective g := by {
@@ -122,14 +181,17 @@ example (f g : ℝ → ℝ) (h : Surjective (g ∘ f)) : Surjective g := by {
   -- sorry
 }
 
-/- This is the end of this file about `∃` and `∧`. You've learned about tactics
+/- 这是关于 `∃` 和 `∧` 的文件的结束。你已经学习了战术
 * `rcases`
 * `tauto`
 * `use`
 
-This is the end of the `Basics` folder. We deliberately left out the logical or operator
-and everything around negation so that you could move as quickly as possible into
-actual mathematical content. You now get to choose one file from the `Topics`.
+这是 `Basics` 文件夹的结束。我们故意留出了逻辑或运算符
+和所有关于否定的内容，这样你就可以尽快进入
+实际的数学内容。你现在可以从 `Topics` 中选择一个文件。
 
-See the bottom of `03Forall` for descriptions of the choices.
+请参阅 `03Forall` 底部的选择描述。
+-/
+
+/- 
 -/

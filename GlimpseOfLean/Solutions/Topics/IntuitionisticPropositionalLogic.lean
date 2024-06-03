@@ -1,16 +1,19 @@
+
+
 import GlimpseOfLean.Library.Basic
 open Set
 
 namespace IntuitionisticPropositionalLogic
 
-/- Let's try to implement a language of intuitionistic propositional logic.
+/- 我们试图实现直觉主义命题逻辑的语言。
 
-Note that there is also version of this file for classical logic: `ClassicalPropositionalLogic.lean`
+注意，这个文件也有一个经典逻辑版本：`ClassicalPropositionalLogic.lean`
 -/
 
 def Variable : Type := ℕ
 
-/- We define propositional formula, and some notation for them. -/
+/- 我们定义了命题公式，并为它们制定了一些符号表示法。
+-/
 
 inductive Formula : Type where
   | var : Variable → Formula
@@ -31,11 +34,12 @@ def top := ~bot
 def equiv (A B : Formula) : Formula := (A ⇒ B) && (B ⇒ A)
 local infix:29 (priority := high) " ⇔ " => equiv
 
-/-
-Next we define Heyting algebra semantics.
+/- 接下来我们定义海廷代数语义学。
 
-A valuation valued in Heyting algebra `H` is just a map from variables to `H`
-Let's define how to evaluate a valuation on propositional formulae. -/
+在海廷代数`H`中的估值只是一个从变量到`H`的映射
+我们来定义如何对命题公式进行估值评估。
+-/
+
 variable {H : Type _} [HeytingAlgebra H]
 @[simp]
 def eval (v : Variable → H) : Formula → H
@@ -45,21 +49,19 @@ def eval (v : Variable → H) : Formula → H
   | A && B => eval v A ⊓ eval v B
   | A ⇒ B => eval v A ⇨ eval v B
 
-/- We say that `A` is a consequence of `Γ` if for all valuations in any Heyting algebra, if
-  `eval v B` is above a certain element for all `B ∈ Γ` then `eval v A` is above this element.
-  Note that for finite sets `Γ` this corresponds exactly to
-  `Infimum { eval v B | B ∈ Γ } ≤ eval v A`.
-  This "yoneda'd" version of the definition of validity is very convenient to work with. -/
+/- 我们称 `A` 是 `Γ` 的一个推断，如果对于任何 Heyting 代数中的所有取值，如果 `eval v B` 对于所有 `B ∈ Γ` 都高于某个元素，那么 `eval v A` 也高于这个元素。注意，对于有限集 `Γ`，这正好对应于 `Infimum { eval v B | B ∈ Γ } ≤ eval v A`。这个 "yoneda'd" 版本的有效性定义非常方便我们使用。
+-/
+
 def Models (Γ : Set Formula) (A : Formula) : Prop :=
   ∀ {H : Type} [HeytingAlgebra H] {v : Variable → H} {c}, (∀ B ∈ Γ, c ≤ eval v B) → c ≤ eval v A
 
 local infix:27 (priority := high) " ⊨ " => Models
 def Valid (A : Formula) : Prop := ∅ ⊨ A
 
-/- Here are some basic properties of validity.
+/- 下面是一些有效性的基本属性。
 
-  The tactic `simp` will automatically simplify definitions tagged with `@[simp]` and rewrite
-  using theorems tagged with `@[simp]`. -/
+  `simp` 策略会自动简化标记为 `@[simp]` 的定义，并使用标记为 `@[simp]` 的定理进行重写。
+-/
 
 variable {v : Variable → H} {A B : Formula}
 @[simp] lemma eval_neg : eval v ~A = (eval v A)ᶜ := by simp
@@ -77,7 +79,8 @@ lemma isTrue_equiv : eval v (A ⇔ B) = (eval v A ⇨ eval v B) ⊓ (eval v B �
   -- sorry
 }
 
-/- As an exercise, let's prove the following proposition, which holds in intuitionistic logic. -/
+/- 作为一个练习，我们来证明以下命题，这在直观逻辑中是成立的。
+-/
 
 example : Valid (~(A && ~A)) := by {
   -- sorry
@@ -85,14 +88,16 @@ example : Valid (~(A && ~A)) := by {
   -- sorry
 }
 
-/- Let's define provability w.r.t. intuitionistic logic. -/
+/- 让我们以直觉逻辑来定义可证明性。
+-/
+
 section
 set_option hygiene false -- this is a hacky way to allow forward reference in notation
 local infix:27 " ⊢ " => ProvableFrom
 
+/- `Γ ⊢ A` 是一个谓词，表示有一个以 `A` 作为结论的证明树，其假设来自于 `Γ`。这是直觉主义逻辑自然演绎的典型规则列表。
+-/
 
-/- `Γ ⊢ A` is the predicate that there is a proof tree with conclusion `A` with assumptions from
-  `Γ`. This is a typical list of rules for natural deduction with intuitionistic logic. -/
 inductive ProvableFrom : Set Formula → Formula → Prop
   | ax    : ∀ {Γ A},   A ∈ Γ   → Γ ⊢ A
   | impI  : ∀ {Γ A B},  insert A Γ ⊢ B                → Γ ⊢ A ⇒ B
@@ -119,15 +124,15 @@ macro_rules
   | `(tactic| solve_mem) => `(tactic| first | apply mem_insert | apply mem_insert_of_mem; solve_mem)
   | `(tactic| apply_ax)  => `(tactic| { apply ax; solve_mem })
 
-/- To practice with the proof system, let's prove the following.
-  You can either use the `apply_ax` tactic defined on the previous lines, which proves a goal that
-  is provable using the `ax` rule.
-  Or you can do it manually, using the following lemmas about insert.
+/- 为了熟悉证明系统，让我们证明以下内容。
+  你可以使用前面定义的 `apply_ax` 策略，该策略可以证明一个可以通过 `ax` 规则证明的目标。
+  或者你可以手动操作，使用以下关于插入的引理。
 ```
   mem_insert x s : x ∈ insert x s
   mem_insert_of_mem y : x ∈ s → x ∈ insert y s
 ```
 -/
+
 example : Provable ((~A || ~B) ⇒ ~(A && B)) := by {
   -- sorry
   apply impI
@@ -140,7 +145,9 @@ example : Provable ((~A || ~B) ⇒ ~(A && B)) := by {
   -- sorry
 }
 
-/- Optional exercise -/
+/- 可选练习
+-/
+
 example : Provable (~(A && ~A)) := by {
   -- sorry
   apply impI
@@ -148,7 +155,9 @@ example : Provable (~(A && ~A)) := by {
   -- sorry
 }
 
-/- Optional exercise -/
+/- 可选练习
+-/
+
 example : Provable ((~A && ~B) ⇒ ~(A || B)) := by {
   -- sorry
   apply impI
@@ -159,14 +168,14 @@ example : Provable ((~A && ~B) ⇒ ~(A || B)) := by {
   -- sorry
 }
 
-/- You can prove the following using `induction` on `h`. You will want to tell Lean that you want
-  to prove it for all `Δ` simultaneously using `induction h generalizing Δ`.
-  Lean will mark created assumptions as inaccessible (marked with †)
-  if you don't explicitly name them.
-  You can name the last inaccessible variables using for example `rename_i ih` or
-  `rename_i A B h ih`. Or you can prove a particular case using `case impI ih => <proof>`.
-  You will probably need to use the lemma
-  `insert_subset_insert : s ⊆ t → insert x s ⊆ insert x t`. -/
+/- 你可以使用 `归纳法` 在 `h` 上进行以下证明。你可能会希望告诉 Lean ，你希望同时为所有的 `Δ` 进行证明，可以使用 `induction h generalizing Δ` 来实现。
+  Lean 会将你没有明确命名的假设标记为不可访问（用 † 标记）。
+  例如你可以使用 `rename_i ih` 或 
+  `rename_i A B h ih` 来为最后的不可访问变量命名。或者你可以使用 `case impI ih => <proof>` 来证明特定的情况。
+  你可能需要使用这个引理
+  `insert_subset_insert : s ⊆ t → insert x s ⊆ insert x t`。
+-/
+
 lemma weakening (h : Γ ⊢ A) (h2 : Γ ⊆ Δ) : Δ ⊢ A := by {
   -- sorry
   induction h generalizing Δ
@@ -183,8 +192,9 @@ lemma weakening (h : Γ ⊢ A) (h2 : Γ ⊆ Δ) : Δ ⊢ A := by {
   -- sorry
 }
 
-/- Use the `apply?` tactic to find the lemma that states `Γ ⊆ insert x Γ`.
-  You can click the blue suggestion in the right panel to automatically apply the suggestion. -/
+/- 使用 `apply?` 策略来找到陈述 `Γ ⊆ insert x Γ` 的引理。
+  你可以点击右侧面板中的蓝色建议，来自动应用这个建议。
+-/
 
 lemma ProvableFrom.insert (h : Γ ⊢ A) : insert B Γ ⊢ A := by {
   -- sorry
@@ -194,7 +204,9 @@ lemma ProvableFrom.insert (h : Γ ⊢ A) : insert B Γ ⊢ A := by {
   -- sorry
 }
 
-/- Proving the deduction theorem is now easy. -/
+/- 现在，证明演绎定理变得十分简单。
+-/
+
 lemma deduction_theorem (h : Γ ⊢ A) : insert (A ⇒ B) Γ ⊢ B := by {
   -- sorry
   intros
@@ -212,7 +224,9 @@ lemma Provable.mp (h1 : Provable (A ⇒ B)) (h2 : Γ ⊢ A) : Γ ⊢ B := by {
   -- sorry
 }
 
-/- This is tricky, since you need to compute using operations in a Heyting algebra. -/
+/- 这个问题有些棘手，因为你需要使用 Heyting 代数中的运算进行计算。
+-/
+
 set_option maxHeartbeats 0 in
 theorem soundness_theorem (h : Γ ⊢ A) : Γ ⊨ A := by {
   -- sorry
@@ -267,13 +281,14 @@ theorem valid_of_provable (h : Provable A) : Valid A := by {
   -- sorry
 }
 
-/-
-  If you want, you can now try some these longer projects.
+/-   如果你愿意，现在可以尝试一些更长的项目。
 
-  1. Define Kripke semantics and prove soundness w.r.t. Kripke semantics.
+  1. 定义 Kripke 语义并证明相对于 Kripke 语义的正确性。
 
-  2. Prove completeness w.r.t. either Heyting algebra semantics or Kripke semantics.
-
+  2. 对 Heyting 代数语义或 Kripke 语义证明完备性。
 -/
 
 end IntuitionisticPropositionalLogic
+
+/- 
+-/

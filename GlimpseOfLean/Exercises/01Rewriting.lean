@@ -1,153 +1,126 @@
+
+
 import GlimpseOfLean.Library.Basic
 import Mathlib.Data.Complex.Exponential
 open Real
 
-/-
-# Computing
+/- # 计算
 
-## The ring tactic
+## 环算策略
 
-One of the earliest kind of proofs one encounters while learning mathematics is proving by
-a calculation. It may not sound like a proof, but this is actually using lemmas expressing
-properties of operations on numbers. Of course we usually don't want to invoke those explicitly
-so mathlib has a tactic `ring` taking care of proving equalities that follow by applying
-the properties of all commutative rings.
+在学习数学的过程中，我们遇到的最早的一种证明是通过计算来证明。这可能听起来不像是一种证明，但实际上这是在使用表达数字运算性质的引理。当然，我们通常不想显式地调用这些，所以 mathlib 有一个 `ring` 策略，专门处理通过应用所有交换环的性质而得出的等式证明。
 -/
-
 
 example (a b c : ℝ) : (a * b) * c = b * (a * c) := by {
   ring
 }
 
-/- It's your turn, replace the word sorry below by a proof. In this case the proof is just `ring`.
-After you prove something, you will see a small "No goals" message, which is the indication that
-your proof is finished.
+/- 现在轮到你了，将下面的 "sorry" 替换为一个证据。在这个例子中，证明只是 `ring`。
+在你证明一些事情之后，你会看到一个小的 "No goals" 消息，这是你的证明已经完成的标志。
 -/
 
 example (a b : ℝ) : (a+b)^2 = a^2 + 2*a*b + b^2 := by {
   sorry
 }
 
-/- In the first example above, take a closer look at where Lean displays parentheses.
-The `ring` tactic certainly knows about associativity of multiplication, but sometimes
-it is useful to understand that binary operation really are binary and an expression like
-`a*b*c` is read as `(a*b)*c` by Lean and the fact that is equal `a*(b*c)` is a lemma
-that is used by the `ring` tactic when needed.
+/- 在上述的第一个例子中，仔细看看 Lean 在哪里显示括号。
+`ring` 策略当然知道乘法的结合律，但有时候理解二元操作真的是二元的以及类似
+`a*b*c` 的表达式被 Lean 读作 `(a*b)*c` 是有用的，事实上这等于 `a*(b*c)` 是一个引理
+当需要的时候会被 `ring` 策略使用。
 -/
 
+/- ## 重写策略
 
-/-
-## The rewriting tactic
-
-Let us now see how to compute using assumptions relating the involved numbers.
-This uses the fundamental property of equality: if two
-mathematical objects A and B are equal then, in any statement involving A, one can replace A
-by B. This operation is called rewriting, and the Lean tactic for this is `rw`.
-Carefully step through the proof below and try to understand what is happening.
+让我们现在看看如何利用涉及数字的假设进行计算。
+这利用了等式的基本属性：如果两个数学对象 A 和 B 是相等的，那么在任何涉及 A 的陈述中，都可以用 B 来代替 A。这个操作被称为重写，而 Lean 的策略对应的命名为 `rw`。请仔细逐步理解下面的证明，并尝试理解正在发生的事情。
 -/
+
 example (a b c d e : ℝ) (h : a = b + c) (h' : b = d - e) : a + e = d + c := by {
   rw [h]
   rw [h']
   ring
 }
 
-/-
-Note the `rw` tactic changes the current goal. After the first line of the above proof,
-the new goal is `b + c + e = d + c`. So you can read this first proof step as saying:
-"I wanted to prove, `a + e = d + c` but, since assumption `h` tells me `a = b + c`,
-it suffices to prove `b + c + e = d + c`."
+/- 注意 `rw` 策略是用来改变当前目标的。在上述证明的第一行之后，新的目标是 `b + c + e = d + c`。因此，你可以把这第一步证明理解为："我想要证明，`a + e = d + c`，但是，由于假设 `h` 告诉我 `a = b + c`，我只需要证明 `b + c + e = d + c` 就足够了。"
 
-One can actually do several rewritings in one command.
+实际上，我们可以在一条命令中做几个重写。
 -/
+
 example (a b c d : ℝ) (h : a = b + c) (h' : b = d - e) : a + e = d + c := by {
   rw [h, h']
   ring
 }
 
-/-
-Note that putting your cursor between `h` and`h'` shows you the intermediate proof state.
+/- 注意，将光标置于 `h` 和 `h'` 之间会显示中间的证明状态。
 
-Note also the subtle background color change in the tactic state that show you in green
-what is new and in red what is about to change.
+还需要注意的是，策略状态背景色的细微变化，绿色部分表示新的内容，红色部分表示即将改变的部分。
 
-Now try it yourself. Note that ring can still do calculations,
-but it doesn't use the assumptions `h` and `h'`
+现在请你自己试试。注意 `ring` 依然可以进行计算，但它并不使用假设 `h` 和 `h'`。
 -/
 
 example (a b c d : ℝ) (h : b = d + d) (h' : a = b + c) : a + b = c + 4 * d := by {
   sorry
 }
 
-/- ## Rewriting with a lemma
+/- ## 使用引理进行重写
 
-In the previous examples, we rewrote the goal using a local assumption. But we can
-also use lemmas. For instance let us prove a lemma about exponentiation.
-Since `ring` only knows how to prove things from the axioms of rings,
-it doesn't know how to work with exponentiation.
-For the following lemma, we will rewrite with the lemma
-`exp_add x y` twice, which is a proof that `exp(x+y) = exp(x) * exp(y)`.
+在前面的示例中，我们使用本地假设重写了目标。但我们也可以使用引理。例如，让我们证明一个关于指数的引理。
+由于 `ring` 只知道如何从环的公理中证明事物，它不知道如何处理指数。
+对于以下的引理，我们将两次使用引理 `exp_add x y` 进行重写，该引理证明了 `exp(x+y) = exp(x) * exp(y)`。
 -/
+
 example (a b c : ℝ) : exp (a + b + c) = exp a * exp b * exp c := by {
   rw [exp_add (a + b) c]
   rw [exp_add a b]
 }
 
-/-
-Note also that after the second `rw` the goal becomes
-`exp a * exp b * exp c = exp a * exp b * exp c` and Lean immediately declares the proof is done.
+/- 请注意，在第二次 `rw` 之后，目标变为
+`exp a * exp b * exp c = exp a * exp b * exp c`，Lean 会立即声明证明已经完成。
 
-If we don't provide arguments to the lemmas, Lean will rewrite the first matching
-subexpression. In our example this is good enough. Sometimes more control is needed.
+如果我们不提供引理的参数，Lean 将重写第一个匹配的子表达式。在我们的示例中，这已经足够好。有时需要更多的控制。
 -/
+
 example (a b c : ℝ) : exp (a + b + c) = exp a * exp b * exp c := by {
   rw [exp_add, exp_add]
 }
 
-/-
-Let's do an exercise, where you also have to use
-`exp_sub x y : exp(x-y) = exp(x) / exp(y)` and `exp_zero : exp 0 = 1`.
+/- 让我们做一个练习，你也需要使用
+`exp_sub x y : exp(x-y) = exp(x) / exp(y)` 和 `exp_zero : exp 0 = 1`。
 
-Recall that `a + b - c` means `(a + b) - c`.
+记住，`a + b - c` 代表的是 `(a + b) - c`。
 
-You can either use `ring` or rewrite with `mul_one x : x * 1 = x` to simplify the denominator on the
-right-hand side.
+你可以使用 `ring` 或者通过重写 `mul_one x : x * 1 = x` 来简化等式右侧的分母。
 -/
 
 example (a b c : ℝ) : exp (a + b - c) = (exp a * exp b) / (exp c * exp 0) := by {
   sorry
 }
 
-/-
-## Rewriting from right to left
+/- ## 从右至左进行重写
 
-Since equality is a symmetric relation, we can also replace the right-hand side of an
-equality by the left-hand side using `←` as in the following example.
+由于等式是对称的，我们也可以使用 `←` ，将等式的右边替换为左边，如下例所示。
 -/
+
 example (a b c : ℝ) (h : a = b + c) (h' : a + e = d + c) : b + c + e = d + c := by {
   rw [← h, h']
 }
 
-/-
-Whenever you see in a Lean file a symbol that you don't see on your keyboard, such as ←,
-you can put your mouse cursor above it and learn from a tooltip how to type it.
-In the case of ←, you can type it by typing "\l ", so backslash-l-space.
+/- 无论何时，只要你在 Lean 文件中看到你键盘上没有的符号，比如 ←，你都可以将鼠标光标放在其上方，通过工具提示学习如何输入它。对于 ← 这个符号，你可以通过输入 "\l "，也就是反斜杠-l-空格来输入。
 
-Note this rewriting from right to left story is all about sides in the equality you want to
-*use*, not about sides in what you want to *prove*. The `rw [← h]` will replace the right-hand side
-by the left-hand side, so it will look for `b + c` in the current goal and replace it with `a`.
+注意，这种从右到左的重写都是关心你想要*使用*的等式的两边，而不是你想要*证明*的东西的两边。`rw [← h]` 将会用左边替换右边，因此它会在当前目标中寻找 `b + c` 并将其替换为 `a`。
 -/
 
 example (a b c d : ℝ) (h : a = b + b) (h' : b = c) (h'' : a = d) : b + c = d := by {
   sorry
 }
 
-/- ## Rewriting in a local assumption
+/- ## 在局部假设中重写
 
-We can also perform rewriting in an assumption of the local context, using for instance
+我们也可以在局部上下文的假设中进行重写，例如使用
   `rw [exp_add x y] at h`
-in order to replace `exp(x + y)` by `exp(x) * exp(y)` in assumption `h`.
+来替换假设 `h` 中的 `exp(x + y)` 为 `exp(x) * exp(y)`。
 
-The `exact` tactic allows you to give an explicit proof term to prove the current goal.
+`exact` 策略允许你给出显式的证明项来证明当前的目标。
 -/
 
 example (a b c d : ℝ) (h : c = d*a - b) (h' : b = a*d) : c = 0 := by {
@@ -157,15 +130,11 @@ example (a b c d : ℝ) (h : c = d*a - b) (h' : b = a*d) : c = 0 := by {
   exact h
 }
 
-/- ## Calculation layout using calc
+/- ## 使用 calc 进行计算布局
 
-What is written in the above example is very far away from what we would write on
-paper. Let's now see how to get a more natural layout (and also return to using `ring`
-instead of explicit lemma invocations).
-After each `:=` below, the goal is to prove equality with the preceding line
-(or the left-hand on the first line).
-Carefully check you understand this by putting your cursor after each `by` and looking
-at the tactic state.
+上述例子所写的内容与我们在纸上写的内容相去甚远。让我们看看如何获得更自然的布局（同时也恢复使用 `ring` 而不是显式的引理调用）。  
+在下面的每个 `:=` 之后，目标是证明与前面一行（或第一行的左边）相等。  
+通过将鼠标指针置于每个 `by` 后面并查看策略状态，仔细检查你是否理解了这一点。
 -/
 
 example (a b c d : ℝ) (h : c = b*a - d) (h' : d = a*b) : c = 0 := by {
@@ -175,8 +144,7 @@ example (a b c d : ℝ) (h : c = b*a - d) (h' : d = a*b) : c = 0 := by {
     _ = 0         := by ring
 }
 
-/-
-Let's do some exercises using `calc`.
+/- 我们来使用 `calc` 做一些练习。
 -/
 
 example (a b c : ℝ) (h : a = b + c) : exp (2 * a) = (exp b) ^ 2 * (exp c) ^ 2 := by {
@@ -188,26 +156,25 @@ example (a b c : ℝ) (h : a = b + c) : exp (2 * a) = (exp b) ^ 2 * (exp c) ^ 2 
               _ = (exp b) ^ 2 * (exp c)^2           := by sorry
 }
 
-/-
-From a practical point of view, when writing such a proof, it is sometimes convenient to:
-* pause the tactic state view update in VScode by clicking the Pause icon button
-  in the top right corner of the Lean Infoview panel.
-* write the full calculation, ending each line with ":= ?_"
-* resume tactic state update by clicking the Play icon button and fill in proofs.
+/- 从实际角度来看，在编写这样的证明时，有时候采取以下操作会很方便：
+* 通过在 Lean 信息视图面板的右上角点击暂停图标按钮，暂停 VScode 中的策略状态视图更新。
+* 编写完整的计算过程，每行结束时用“:= ?_”。
+* 通过点击播放图标按钮恢复策略状态更新，并填充证明。
 
-The underscores should be placed below the left-hand-side of the first line below the `calc`.
-Aligning the equal signs and `:=` signs is not necessary but looks tidy.
+下划线应放在 `calc` 下面的第一行的左手边的部分下面。
+将等号和 `:= `  对齐并不是必要的，但会显得整洁。
 -/
 
 example (a b c d : ℝ) (h : c = d*a + b) (h' : b = a*d) : c = 2*a*d := by {
   sorry
 }
 
-/-
-Congratulations, this is the end of your first exercise file! You've seen what typing
-a Lean proof looks like and have learned about the following tactics:
+/- 恭喜你，这是你的第一个练习文件的结束！你已经看到了 Lean 证明的格式以及学习了以下策略：
 * `ring`
 * `rw`
 * `exact`
 * `calc`
+-/
+
+/- 
 -/

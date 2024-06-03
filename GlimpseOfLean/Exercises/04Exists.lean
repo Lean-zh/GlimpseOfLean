@@ -1,24 +1,24 @@
+
+
 import GlimpseOfLean.Library.Basic
 
 open Function
 
-/-
-## Conjunctions
+/- ## 合取
 
-In this file, we learn how to handle the conjunction ("logical and") operator
-and the existential quantifier.
+在此文件中，我们将学习如何处理合取（"逻辑与"）运算符和存在量词。
 
-In Lean the conjunction of two statements `P` and `Q` is denoted by `P ∧ Q`, read as "P and Q".
+在 Lean 中，两个陈述 `P` 和 `Q` 的合取表示为 `P ∧ Q`，读作 "P and Q"。
 
-We can use a conjunction similarly to the `↔`:
-* If `h : P ∧ Q` then `h.1 : P` and `h.2 : Q`.
-* To prove `P ∧ Q` use the `constructor` tactic.
+我们可以类似于 `↔` 来使用合取：
+* 如果 `h : P ∧ Q` 那么 `h.1 : P` 和 `h.2 : Q`。
+* 为了证明 `P ∧ Q`，使用 `constructor` 策略。
 
-Furthermore, we can decompose conjunction and equivalences.
-* If `h : P ∧ Q`, the tactic `rcases h with ⟨hP, hQ⟩`
-  gives two new assumptions `hP : P` and `hQ : Q`.
-* If `h : P ↔ Q`, the tactic `rcases h with ⟨hPQ, hQP⟩`
-  gives two new assumptions `hPQ : P → Q` and `hQP : Q → P`.
+此外，我们可以分解合取和等价。
+* 如果 `h : P ∧ Q`，策略 `rcases h with ⟨hP, hQ⟩`
+  会给出两个新的假设 `hP : P` 和 `hQ : Q`。
+* 如果 `h : P ↔ Q`，策略 `rcases h with ⟨hPQ, hQP⟩`
+  会给出两个新的假设 `hPQ : P → Q` 和 `hQP : Q → P`。
 -/
 
 example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := by {
@@ -29,44 +29,46 @@ example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := b
   · exact h' hq
 }
 
-/- One can also prove a conjunction without the constructor tactic by gathering both sides
-using the `⟨`/`⟩` brackets, so the above proof can be rewritten as. -/
+/- 我们也可以在不使用构造函数策略的情况下证明一个并列关系，通过使用 `⟨`/`⟩` 括号收集两侧内容，所以上述的证明可以被重写为。
+-/
 
 example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := by {
   intro hpq
   exact ⟨h hpq.1, h' hpq.2⟩
 }
 
-/- You can choose your own style in the next exercise. -/
+/- 你可以在下一个练习中选择你自己的风格。
+
+
+-/
 
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
   sorry
 }
 
-/- Of course Lean doesn't need any help to prove this kind of logical tautologies.
-This is the job of the `tauto` tactic, which can prove true statements in propositional logic. -/
+/- 当然，Lean 在证明这类逻辑恒等式方面并不需要任何帮助。这是 `tauto` 策略的工作，它能在命题逻辑中证明真实的陈述。
+-/
+
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
   tauto
 }
 
-/- # Extential quantifiers
+/- # 存在量词
 
-In order to prove `∃ x, P x`, we give some `x₀` using tactic `use x₀` and
-then prove `P x₀`. This `x₀` can be an object from the local context
-or a more complicated expression. In the example below, the property
-to check after `use` is true by definition so the proof is over.
+为了证明 `∃ x, P x` ，我们提供某些 `x₀` ，使用策略 `use x₀` ，
+然后证明 `P x₀` 。这个 `x₀` 可以是来自局部环境的对象
+或者更复杂的表达式。在下面的例子中， `use` 后要检查的属性按照定义是正确的，所以证明到此结束。
 -/
+
 example : ∃ n : ℕ, 8 = 2*n := by {
   use 4
 }
 
-/-
-In order to use `h : ∃ x, P x`, we use the `rcases` tactic to fix
-one `x₀` that works.
+/- 为了使用 `h : ∃ x, P x`，我们使用 `rcases` 策略来固定一个有效的 `x₀`。
 
-Again `h` can come straight from the local context or can be a more
-complicated expression.
+同样，`h` 可以直接来自本地上下文，也可以是更复杂的表达式。
 -/
+
 example (n : ℕ) (h : ∃ k : ℕ, n = k + 1) : n > 0 := by {
   -- Let's fix k₀ such that n = k₀ + 1.
   rcases h with ⟨k₀, hk₀⟩
@@ -76,37 +78,37 @@ example (n : ℕ) (h : ∃ k : ℕ, n = k + 1) : n > 0 := by {
   exact Nat.succ_pos k₀
 }
 
-/-
-The next exercises use divisibility in ℤ (beware the ∣ symbol which is
-not ASCII).
+/- 接下来的习题将使用ℤ中的整除（注意 ∣ 符号，它不是 ASCII）。
 
-By definition, `a ∣ b ↔ ∃ k, b = a*k`, so you can prove `a ∣ b` using the
-`use` tactic.
+根据定义，`a ∣ b ↔ ∃ k, b = a*k`，所以你可以使用 `use` 策略来证明 `a ∣ b`。
 -/
 
 example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : b ∣ c) : a ∣ c := by {
   sorry
 }
 
-
-/-
-We can now start combining quantifiers, using the definition
+/- 我们现在可以开始结合量词，使用定义
 
   `Surjective (f : X → Y) := ∀ y, ∃ x, f x = y`
+
+这是 "映射的反向" 的定义。意思是对于所有的 `y`，都存在某个 `x`，使得 `f` 函数作用于 `x` 之后得到 `y`。
 -/
 
 example (f g : ℝ → ℝ) (h : Surjective (g ∘ f)) : Surjective g := by {
   sorry
 }
 
-/- This is the end of this file about `∃` and `∧`. You've learned about tactics
+/- 这是关于 `∃` 和 `∧` 的文件的结尾。你已经学到了以下技巧：
 * `rcases`
 * `tauto`
 * `use`
 
-This is the end of the `Basics` folder. We deliberately left out the logical or operator
-and everything around negation so that you could move as quickly as possible into
-actual mathematical content. You now get to choose one file from the `Topics`.
+这是 `基础` 文件夹的结束。我们故意没有包括逻辑或运算符
+和所有关于否定的内容，以便你能尽快进入
+实际的数学内容。你现在可以从 `主题` 中选择一个文件。
 
-See the bottom of `03Forall` for descriptions of the choices.
+请查看 `03Forall` 底部对可选项的描述。
+-/
+
+/- 
 -/
