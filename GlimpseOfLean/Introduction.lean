@@ -6,10 +6,10 @@ namespace Introduction
 
 /- # 本教程简介
 
-如果你的屏幕较小，可以按下
+如果你的 VSCode 屏幕显示不下，可以按下
 `alt-Z`（或`option-Z`）来启用自动换行。
 
-欢迎来到本教程，本教程旨在让你在几个小时内对 Lean 有个初步的了解。
+欢迎来到本教程，教程旨在让你在几个小时内对 Lean 有个初步的了解。
 
 首先，让我们看看一个 Lean 证明是什么样子的，尽管不必理解任何语法细节。在这个文件中，你无需输入任何内容。
 
@@ -43,35 +43,29 @@ def continuous_at (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
 -/
 
 example (f : ℝ → ℝ) (u : ℕ → ℝ) (x₀ : ℝ) (hu : seq_limit u x₀) (hf : continuous_at f x₀) :
-  seq_limit (f ∘ u) (f x₀) := by { -- This `by` keyword marks the beginning of the proof
-  -- Put your text cursor here and watch the Lean InfoView panel to the right.
-  -- Then move your cursor from line to line in the proof while monitoring the Infoview.
+  seq_limit (f ∘ u) (f x₀) := by {
+  -- 这里的 `by` 关键字标志着开始证明的地方
+  -- 将光标放在这里，观察右侧的 Lean InfoView 面板。
+  -- 在证明的过程中，根据需要将光标从一行移动到另一行，同时监视 InfoView 面板。
 
-  -- Our goal is to prove that, for any positive `ε`, there exists a natural
-  -- number `N` such that, for any natural number `n` at least `N`,
-  --  `|f(u_n) - f(x₀)|` is at most `ε`.
+  -- 我们的目标是证明，对于任意正的 `ε` ，存在一个自然数 `N` ，使得对于任意自然数 `n` ，如果 `n ≥ N` ，则 `|f(u_n) - f(x₀)|` 至多为 `ε`。
   unfold seq_limit
-  -- Fix a positive number `ε`.
+  -- 取一个正数 `ε`。
   intros ε hε
-  -- By assumption on `f` applied to this positive `ε`, we get a positive `δ`
-  -- such that, for all real number `x`, if `|x - x₀| ≤ δ` then `|f(x) - f(x₀)| ≤ ε` (1).
+  -- 根据 `f` 的连续性，在这个正数 `ε` 上，我们得到一个正数 `δ` ，使得对于所有实数 `x` ，当 `|x - x₀| ≤ δ` 时，有 `|f(x) - f(x₀)| ≤ ε` (1)。
   obtain ⟨δ, δ_pos, Hf⟩ : ∃ δ > 0, ∀ x, |x - x₀| ≤ δ → |f x - f x₀| ≤ ε := hf ε hε
-  -- The assumption on `u` applied to this `δ` gives a natural number `N` such that
-  -- for every natural number `n`, if `n ≥ N` then `|u_n - x₀| ≤ δ`   (2).
+  -- 根据 `u` 的收敛性，在这个正数 `δ` 上，我们得到一个自然数 `N` ，使得对于每个自然数 `n` ，如果 `n ≥ N` ，则 `|u_n - x₀| ≤ δ` (2)。
   obtain ⟨N, Hu⟩ : ∃ N, ∀ n ≥ N, |u n - x₀| ≤ δ := hu δ δ_pos
-  -- Let's prove `N` is suitable.
+  -- 下面，我们证明 `N` 是合适的。
   use N
-  -- Fix `n` which is at least `N`. Let's prove `|f(u_n) - f(x₀)| ≤ ε`.
+  -- 取一个大于等于 `N` 的 `n` 。我们证明 `|f(u_n) - f(x₀)| ≤ ε`。
   intros n hn
-  -- Thanks to (1) applied to `u_n`, it suffices to prove that `|u_n - x₀| ≤ δ`.
+  -- 根据 (1) 对 `u_n` 的应用，我们只需证明 `|u_n - x₀| ≤ δ`。
   apply Hf
-  -- This follows from property (2) and our assumption on `n`.
+  -- 这可以通过 (2) 的性质以及我们对 `n` 的假设得到。
   exact Hu n hn
-  -- This finishes the proof!
+  -- 证明结束！
   }
 
-/- 现在这个证明已经结束，你可以使用面板左侧的文件浏览器打开 `练习 > 01重写.lean`文件。
--/
-
-/- 
+/- 现在此证明已经结束，您可以使用面板左侧的文件浏览器打开文件 `Exercises > 01Rewriting.lean` 开始练习。
 -/
