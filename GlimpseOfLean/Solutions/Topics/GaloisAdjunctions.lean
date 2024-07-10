@@ -134,7 +134,7 @@ instance (X : Type) [PartialOrder X] [CompleteLattice X] : CompleteLattice (Orde
 
 `α` 上的偏序定义了一个二元关系 `≤` ，其具有反身性（每个元素都对自身有序）、反对称性（如果 `a ≤ b` 并且 `b ≤ a` ，那么 `a = b` ）和传递性（如果 `a ≤ b` 并且 `b ≤ c` ，那么 `a ≤ c` ）。
 
-一个元素 `a` 是集合 `s` 的下确界，如果它满足两个条件： 
+一个元素 `a` 是集合 `s` 的下确界，如果它满足两个条件：
 
 1. `a` 是 `s` 中所有元素的下界。这就是说，对于所有的 `x ∈ s` ，我们有 `a ≤ x` 。
 2. 如果 `b` 是 `s` 的任何下界，那么 `a` 不小于 `b` 。也就是说，如果对于所有的 `x ∈ s` ，我们有 `b ≤ x` ，那么 `a ≤ b` 。
@@ -325,7 +325,7 @@ lemma isSupUnion {Y : Type} (S : Set (Set Y)) : isSup S (⋃₀ S) := by {
   · intro ht u hu x hx
     apply ht
     use u
-    tauto
+  -- tauto
   -- sorry
 }
 
@@ -888,5 +888,5 @@ lemma push_generate (f : G →* G') : push f ∘ generate = generate ∘ (Set.im
 end Subgroups
 end Tutorial
 
-/- 
+/-
 -/
