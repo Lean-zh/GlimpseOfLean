@@ -7,12 +7,13 @@ This script converts Lean files to Markdown format by:
 2. Converting code sections to ```lean code blocks
 3. Preserving inline comments (--) as part of the code
 
-Usage: python lean_to_markdown.py <input_folder> <output_folder>
+Usage: python lean_to_markdown.py <input_folder> <output_folder> [--prefix PREFIX]
 """
 
 import os
 import sys
 import re
+import argparse
 from pathlib import Path
 
 def parse_lean_file(content):
@@ -146,13 +147,14 @@ def convert_file(input_path, output_path):
     except Exception as e:
         print(f"Error converting {input_path}: {e}")
 
-def convert_directory(input_dir, output_dir):
+def convert_directory(input_dir, output_dir, prefix=""):
     """
     Convert all Lean files in a directory to Markdown, preserving structure.
     
     Args:
         input_dir (Path): Input directory path
         output_dir (Path): Output directory path
+        prefix (str): Prefix to add before .md extension (e.g., "zh" for .zh.md)
     """
     input_path = Path(input_dir)
     output_path = Path(output_dir)
@@ -174,8 +176,11 @@ def convert_directory(input_dir, output_dir):
         # Calculate relative path to preserve directory structure
         relative_path = lean_file.relative_to(input_path)
         
-        # Change extension to .md
-        md_relative_path = relative_path.with_suffix('.md')
+        # Change extension to .md with optional prefix
+        if prefix:
+            md_relative_path = relative_path.with_suffix(f'.{prefix}.md')
+        else:
+            md_relative_path = relative_path.with_suffix('.md')
         
         # Create output path
         output_file = output_path / md_relative_path
@@ -186,16 +191,28 @@ def main():
     """
     Main function to handle command line arguments and start conversion.
     """
-    if len(sys.argv) != 3:
-        print("Usage: python lean_to_markdown.py <input_folder> <output_folder>")
-        print("Example: python lean_to_markdown.py GlimpseOfLean docs")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        description='Convert Lean files to Markdown format',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""Examples:
+  python lean_to_markdown.py GlimpseOfLean docs
+  python lean_to_markdown.py GlimpseOfLean docs --prefix zh
+  python lean_to_markdown.py GlimpseOfLean docs --prefix en"""
+    )
     
-    input_folder = sys.argv[1]
-    output_folder = sys.argv[2]
+    parser.add_argument('input_folder', help='Input folder containing Lean files')
+    parser.add_argument('output_folder', help='Output folder for Markdown files')
+    parser.add_argument('--prefix', '-p', default='', 
+                       help='Prefix to add before .md extension (e.g., "zh" for .zh.md, "en" for .en.md)')
     
-    print(f"Converting Lean files from {input_folder} to {output_folder}")
-    convert_directory(input_folder, output_folder)
+    args = parser.parse_args()
+    
+    if args.prefix:
+        print(f"Converting Lean files from {args.input_folder} to {args.output_folder} with prefix '{args.prefix}'")
+    else:
+        print(f"Converting Lean files from {args.input_folder} to {args.output_folder}")
+    
+    convert_directory(args.input_folder, args.output_folder, args.prefix)
     print("Conversion completed!")
 
 if __name__ == "__main__":

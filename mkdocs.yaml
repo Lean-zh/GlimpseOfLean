@@ -1,0 +1,160 @@
+site_name: GlimpseOfLean 文档
+site_description: Lean 4 快速入门教程
+site_author: GlimpseOfLean Community
+site_url: https://leanprover.cn/GlimpseOfLean
+
+repo_name: Lean-zh/GlimpseOfLean
+repo_url: https://github.com/Lean-zh/GlimpseOfLean
+edit_uri: edit/master/docs/
+
+docs_dir: docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.prune
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.action.view
+  language: zh
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          # default: true
+          name: English
+          build: true
+          site_name: "GlimpseOfLean 文档"
+        - locale: zh
+          default: true
+          name: English
+          build: true
+          site_name: "GlimpseOfLean Documentation"
+          nav_translations:
+            Home: 首页
+            Introduction: 介绍
+            Exercises: 练习
+            Rewriting: 重写
+            Iff: 当且仅当
+            Forall: 全称量词
+            Exists: 存在量词
+            Shorter: 简化版
+            Topics: 主题
+            Classical Propositional Logic: 经典命题逻辑
+            Galois Adjunctions: 伽罗瓦伴随
+            Intuitionistic Propositional Logic: 直觉主义命题逻辑
+            Probability: 概率论
+            Ring Theory: 环论
+            Sequence Limits: 序列极限
+            Library: 库
+            Basic: 基础
+            Ring: 环
+            Short: 简化
+            Solutions: 解答
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: true
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: lean
+          class: lean
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
+  - tables
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.arithmatex:
+      generic: true
+
+extra:
+  alternate:
+    - name: 中文
+      link: /GlimpseOfLean/
+      lang: zh
+    - name: English
+      link: /GlimpseOfLean/en/
+      lang: en
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/PatrickMassot/GlimpseOfLean
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Introduction: Introduction.md
+  - Exercises:
+    - Rewriting: Exercises/01Rewriting.md
+    - Iff: Exercises/02Iff.md
+    - Forall: Exercises/03Forall.md
+    - Exists: Exercises/04Exists.md
+    - Shorter: Exercises/Shorter.md
+    - Topics:
+      - Classical Propositional Logic: Exercises/Topics/ClassicalPropositionalLogic.md
+      - Galois Adjunctions: Exercises/Topics/GaloisAdjunctions.md
+      - Intuitionistic Propositional Logic: Exercises/Topics/IntuitionisticPropositionalLogic.md
+      - Probability: Exercises/Topics/Probability.md
+      - Ring Theory: Exercises/Topics/RingTheory.md
+      - Sequence Limits: Exercises/Topics/SequenceLimits.md
+  - Library:
+    - Basic: Library/Basic.md
+    - Probability: Library/Probability.md
+    - Ring: Library/Ring.md
+    - Short: Library/Short.md
+  - Solutions:
+    - Rewriting: Solutions/01Rewriting.md
+    - Iff: Solutions/02Iff.md
+    - Forall: Solutions/03Forall.md
+    - Exists: Solutions/04Exists.md
+    - Shorter: Solutions/Shorter.md
+    - Topics:
+      - Classical Propositional Logic: Solutions/Topics/ClassicalPropositionalLogic.md
+      - Galois Adjunctions: Solutions/Topics/GaloisAdjunctions.md
+      - Intuitionistic Propositional Logic: Solutions/Topics/IntuitionisticPropositionalLogic.md
+      - Probability: Solutions/Topics/Probability.md
+      - Ring Theory: Solutions/Topics/RingTheory.md
+      - Sequence Limits: Solutions/Topics/SequenceLimits.md
