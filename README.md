@@ -50,6 +50,10 @@
 
     [![在 Gitpod 中打开](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Lean-zh/GlimpseOfLean)
 
+> 注：在 Codespace 中，可通过以下快捷键开启自动换行：
+> - macOS：Option + Z
+> - Windows：Alt + Z
+
 ## 本地安装
 
 如果你想要完整的 Lean 体验，你应该在电脑上安装它。
