@@ -1,6 +1,6 @@
 import GlimpseOfLean.Library.Short
 
-/- # Lean 简短入门
+/- # Lean 快速入门
 
 这个文件是 Glimpse of Lean 项目的简短版本。它适合那些想要花费两个小时来了解 Lean 的人。希望两个小时足够至少完成关于实数数列极限的首批练习。如果你进度较快或有更多时间，可以尝试完成所有这些练习。
 

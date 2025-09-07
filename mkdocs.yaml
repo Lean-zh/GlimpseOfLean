@@ -1,11 +1,11 @@
 site_name: GlimpseOfLean 文档
 site_description: Lean 4 快速入门教程
-site_author: GlimpseOfLean Community
+site_author: Lean-zh 社区
 site_url: https://leanprover.cn/GlimpseOfLean
 
 repo_name: Lean-zh/GlimpseOfLean
 repo_url: https://github.com/Lean-zh/GlimpseOfLean
-edit_uri: edit/master/docs/
+edit_uri: edit/zh_CN/docs/
 
 docs_dir: docs/
 
@@ -64,7 +64,7 @@ plugins:
             Iff: 当且仅当
             Forall: 全称量词
             Exists: 存在量词
-            Shorter: 简化版
+            Shorter: 快速入门
             Topics: 主题
             Classical Propositional Logic: 经典命题逻辑
             Galois Adjunctions: 伽罗瓦伴随
@@ -128,11 +128,11 @@ nav:
   - Home: index.md
   - Introduction: Introduction.md
   - Exercises:
+    - Shorter: Exercises/Shorter.md
     - Rewriting: Exercises/01Rewriting.md
     - Iff: Exercises/02Iff.md
     - Forall: Exercises/03Forall.md
     - Exists: Exercises/04Exists.md
-    - Shorter: Exercises/Shorter.md
     - Topics:
       - Classical Propositional Logic: Exercises/Topics/ClassicalPropositionalLogic.md
       - Galois Adjunctions: Exercises/Topics/GaloisAdjunctions.md
@@ -140,11 +140,6 @@ nav:
       - Probability: Exercises/Topics/Probability.md
       - Ring Theory: Exercises/Topics/RingTheory.md
       - Sequence Limits: Exercises/Topics/SequenceLimits.md
-  - Library:
-    - Basic: Library/Basic.md
-    - Probability: Library/Probability.md
-    - Ring: Library/Ring.md
-    - Short: Library/Short.md
   - Solutions:
     - Rewriting: Solutions/01Rewriting.md
     - Iff: Solutions/02Iff.md
@@ -158,3 +153,9 @@ nav:
       - Probability: Solutions/Topics/Probability.md
       - Ring Theory: Solutions/Topics/RingTheory.md
       - Sequence Limits: Solutions/Topics/SequenceLimits.md
+  - Library:
+    - Basic: Library/Basic.md
+    - Probability: Library/Probability.md
+    - Ring: Library/Ring.md
+    - Short: Library/Short.md
+  
