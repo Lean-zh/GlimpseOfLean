@@ -1,0 +1,1660 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lean 4 快速入门教程">
+      
+      
+        <meta name="author" content="GlimpseOfLean Community">
+      
+      
+        <link rel="canonical" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/GaloisAdjunctions/">
+      
+      
+        <link rel="prev" href="../ClassicalPropositionalLogic/">
+      
+      
+        <link rel="next" href="../IntuitionisticPropositionalLogic/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>伽罗瓦伴随 - GlimpseOfLean Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#101galois" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="GlimpseOfLean Documentation" class="md-header__button md-logo" aria-label="GlimpseOfLean Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GlimpseOfLean Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              伽罗瓦伴随
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../en/Solutions/Topics/GaloisAdjunctions/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Lean-zh/GlimpseOfLean" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  介绍
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Exercises/01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  练习
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Library/Basic/" class="md-tabs__link">
+          
+  
+  
+  库
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  解答
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="GlimpseOfLean Documentation" class="md-nav__button md-logo" aria-label="GlimpseOfLean Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GlimpseOfLean Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Lean-zh/GlimpseOfLean" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    介绍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Exercises/01Rewriting/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    练习
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Library/Basic/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    库
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    解答
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            解答
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01Rewriting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    重写
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02Iff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    当且仅当
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03Forall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    全称量词
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04Exists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    存在量词
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shorter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    简化版
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    主题
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            主题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassicalPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    经典命题逻辑
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    伽罗瓦伴随
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IntuitionisticPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    直觉主义命题逻辑
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    概率论
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RingTheory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    环论
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SequenceLimits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    序列极限
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/edit/master/docs/Solutions/Topics/GaloisAdjunctions.zh.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/raw/master/docs/Solutions/Topics/GaloisAdjunctions.zh.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<pre class="lean"><code>import GlimpseOfLean.Library.Basic
+
+open PiNotation
+</code></pre>
+<h1 id="101galois">抽象废话101：Galois 伴随</h1>
+<p>在这个文件中，我们将使用最简单的伴随例子：完备格之间的 Galois 连接。Lean 的数学库 Mathlib 中有很多关于这个主题的内容，但在这里我们将为了练习而构建我们自己的版本。这个文件构建了这些对象的基本理论，你在这个文件中证明的每个引理都被命名了，可以重复使用来证明后续的引理。</p>
+<pre class="lean"><code>namespace Tutorial
+
+section InfSup
+variable [PartialOrder X]
+</code></pre>
+<p>在这一节中，<code>X</code> 是一个配备了偏序关系的类型。所以你可以使用以下引理：
+* <code>le_rfl {a : X} : a ≤ a</code>
+* <code>le_trans {a b c : X} (h : a ≤ b) (h' : b ≤ c) : a ≤ c</code>
+* <code>le_antisymm {a b : X} (h : a ≤ b) (h' : b ≤ a) : a = b</code></p>
+<p>参数周围的花括号表示这些参数是隐式的，所以 Lean 永远不会要求它们，因为它们肯定可以从上下文中推断出来；特别是，当应用包含花括号中变量的引理时，你应该<em>不</em>提供相应的值。</p>
+<p>我们还将使用集合 <code>s</code> 的下界集的定义：</p>
+<p><code>lowerBounds s = {x  | ∀ a ∈ s, x ≤ a}</code></p>
+<p>以及类似地</p>
+<p><code>upperBounds s = {x  | ∀ a ∈ s, a ≤ x}</code></p>
+<ul>
+<li>如果 <code>X</code> 中的每个元素是集合 <code>s</code> 的下界当且仅当它在 <code>x₀</code> 下方，则元素 <code>x₀</code> 是 <code>X</code> 中集合 <code>s</code> 的下确界。</li>
+</ul>
+<pre class="lean"><code>def isInf (s : Set X) (x₀ : X) :=
+  ∀ x, x ∈ lowerBounds s ↔ x ≤ x₀
+
+lemma isInf.lowerBound {s : Set X} {x₀ : X} (h : isInf s x₀) : x₀ ∈ lowerBounds s := by
+  -- sorry
+  rw [h]
+  -- Slower alternative:
+  -- specialize h x₀
+  -- apply h.2
+  -- apply le_rfl
+  -- sorry
+</code></pre>
+<ul>
+<li>一个集合最多有一个下确界。</li>
+</ul>
+<pre class="lean"><code>def isInf.eq {s : Set X} {x₀ x₁ : X} (hx₀ : isInf s x₀) (hx₁ : isInf s x₁) : x₀ = x₁ := by
+  -- sorry
+  apply le_antisymm
+  · exact (hx₁ x₀).1 (isInf.lowerBound hx₀)
+    -- Slower alternative:
+    -- apply (hx₁ x₀).1
+    -- apply isInf.lowerBound hx₀
+  · exact (hx₀ x₁).1 (isInf.lowerBound hx₁)
+  -- sorry
+</code></pre>
+<ul>
+<li>如果 <code>X</code> 中的每个元素是集合 <code>s</code> 的上界当且仅当 <code>x₀</code> 在它下方，则元素 <code>x₀</code> 是 <code>X</code> 中集合 <code>s</code> 的上确界。</li>
+</ul>
+<pre class="lean"><code>def isSup (s : Set X) (x₀ : X) :=
+  ∀ x, x ∈ upperBounds s ↔ x₀ ≤ x
+</code></pre>
+<p>下一个引理通过将 <code>isInf.lowerBound</code> 应用到配备相反序关系的 <code>X</code> 来证明。你不需要准确理解这是如何实现的，因为会提供所有使用这个技巧的证明。</p>
+<pre class="lean"><code>lemma isSup.upperBound {s : Set X} {x₀ : X} (h : isSup s x₀) : x₀ ∈ upperBounds s :=
+  isInf.lowerBound (X := OrderDual X) h
+</code></pre>
+<ul>
+<li>一个集合最多有一个上确界。</li>
+</ul>
+<pre class="lean"><code>lemma isSup.eq {s : Set X} {x₀ x₁ : X} (hx₀ : isSup s x₀) (hx₁ : isSup s x₁) : x₀ = x₁ :=
+  isInf.eq (X := OrderDual X) hx₀ hx₁
+</code></pre>
+<ul>
+<li>如果一个从 <code>Set X</code> 到 <code>X</code> 的函数将每个集合发送到该集合的下确界，则它是一个下确界函数。</li>
+</ul>
+<pre class="lean"><code>def isInfFun (I : Set X → X) :=
+  ∀ s : Set X, isInf s (I s)
+</code></pre>
+<ul>
+<li>如果一个从 <code>Set X</code> 到 <code>X</code> 的函数将每个集合发送到该集合的上确界，则它是一个上确界函数。</li>
+</ul>
+<pre class="lean"><code>def isSupFun (S : Set X → X) :=
+  ∀ s : Set X, isSup s (S s)
+</code></pre>
+<p>下一个引理是这个文件中的第一个关键结果。如果 <code>X</code> 承认一个下确界函数，那么它自动承认一个上确界函数。</p>
+<pre class="lean"><code>lemma isSup_of_isInf {I : Set X → X} (h : isInfFun I) : isSupFun (fun s ↦ I (upperBounds s)) := by
+  -- sorry
+  intro s x
+  constructor
+  · intro hx
+    exact (h _).lowerBound hx
+  · intros hx y hy
+    calc
+      y ≤ I (upperBounds s) := (h _ y).mp (fun z hz ↦ hz hy)
+      _ ≤ x                 := hx
+  -- sorry
+</code></pre>
+<p>当然，我们也有从上确界函数构造下确界函数的对偶结果。</p>
+<pre class="lean"><code>lemma isInf_of_isSup {S : Set X → X} (h : isSupFun S) : isInfFun (fun s ↦ S (lowerBounds s)) :=
+  isSup_of_isInf (X := OrderDual X) h
+</code></pre>
+<p>我们现在准备好了这个文件的第一个主要定义：完备格。</p>
+<ul>
+<li>一个完备格是一个配备了偏序、下确界函数和上确界函数的类型。例如，<code>X = Set Y</code> 配备包含序、交集函数和并集函数是一个完备格。特别是，这里的 "lattice" here has nothing to do with lattices as discrete subgroups in Euclidean spaces.</li>
+</ul>
+<pre class="lean"><code>class CompleteLattice (X : Type) [PartialOrder X] where
+  I : Set X → X
+  I_isInf : isInfFun I
+  S : Set X → X
+  S_isSup : isSupFun S
+</code></pre>
+<ul>
+<li>将一个完备格 <code>X</code> 转换为对偶格。当使用上面的 <code>OrderDual</code> 技巧时，Lean 将自动选取这个构造。</li>
+</ul>
+<pre class="lean"><code>instance (X : Type) [PartialOrder X] [CompleteLattice X] : CompleteLattice (OrderDual X) where
+  I := CompleteLattice.S (X := X)
+  I_isInf := CompleteLattice.S_isSup (X := X)
+  S := CompleteLattice.I (X := X)
+  S_isSup := CompleteLattice.I_isInf (X := X)
+</code></pre>
+<p>我们现在可以使用上面的第一个主要结果来从偏序类型上的下确界或上确界函数构建一个完备格。</p>
+<ul>
+<li>从偏序类型上的下确界函数构建完备格结构。</li>
+</ul>
+<pre class="lean"><code>def CompleteLattice.mk_of_Inf {I : Set X → X} (h : isInfFun I) : CompleteLattice X where
+ I := I
+ I_isInf := h
+ S := fun s ↦ I (upperBounds s)
+ S_isSup := isSup_of_isInf h
+</code></pre>
+<ul>
+<li>从偏序类型上的上确界函数构建完备格结构。</li>
+</ul>
+<pre class="lean"><code>def CompleteLattice.mk_of_Sup {S : Set X → X} (h : isSupFun S) : CompleteLattice X where
+ I := fun s ↦ S (lowerBounds s)
+ I_isInf := isInf_of_isSup h
+ S := S
+ S_isSup := h
+</code></pre>
+<p>直到本节的结尾，<code>X</code> 都将是一个完备格。</p>
+<pre class="lean"><code>variable [CompleteLattice X]
+</code></pre>
+<ul>
+<li>完备格上的下确界函数。</li>
+</ul>
+<pre class="lean"><code>notation "Inf" =&gt; CompleteLattice.I
+</code></pre>
+<ul>
+<li>完备格上的上确界函数。</li>
+</ul>
+<pre class="lean"><code>notation "Sup" =&gt; CompleteLattice.S
+</code></pre>
+<p>我们现在以完备格的形式重新表述上面证明的几个引理。</p>
+<pre class="lean"><code>lemma lowerBound_Inf (s : Set X) : Inf s ∈ lowerBounds s :=
+  (CompleteLattice.I_isInf _).lowerBound
+
+lemma upperBound_Sup (s : Set X) : Sup s ∈ upperBounds s :=
+  (CompleteLattice.S_isSup _).upperBound
+</code></pre>
+<p>我们现在证明一系列引理，断言 <code>Inf</code>（然后由对偶性 <code>Sup</code>）按照你的直觉行为。如果你认为你能够证明它们并且想看更有趣的东西，你可以自由地跳过它们转到伴随节。</p>
+<p>在下面的第一个引理中，你可能想使用 <code>lowerBounds_mono_set ⦃s t : Set α⦄ (hst : s ⊆ t) : lowerBounds t ⊆ lowerBounds s</code> 或者作为你证明的一部分重新证明它。</p>
+<pre class="lean"><code>lemma Inf_pair {x x' : X} : x ≤ x' ↔ Inf {x, x'} = x := by
+  -- sorry
+  constructor
+  · intro h
+    apply (CompleteLattice.I_isInf _).eq
+    intro z
+    constructor
+    · intro hz
+      apply hz
+      simp
+    · intro hz
+      simp
+      constructor
+      · apply hz
+      · calc z ≤ x  := by apply hz -- or simply `:= hz`
+             _ ≤ x' := by apply h -- or simply `:= h`
+  · intro h
+    calc
+      x = Inf {x, x'} := by rw [h]
+      _ ≤ x' := by apply lowerBound_Inf; simp
+  -- sorry
+
+lemma Sup_pair {x x' : X} : x ≤ x' ↔ Sup {x, x'} = x' := by
+  rw [Set.pair_comm x x']
+  exact Inf_pair (X := OrderDual X)
+</code></pre>
+<p>让我们证明 <code>Set</code> 形成一个完备格。</p>
+<pre class="lean"><code>lemma isInfInter {Y : Type} (S : Set (Set Y)) : isInf S (⋂₀ S) := by
+  -- sorry
+  intro t
+  constructor
+  · intro ht x hx u hu
+    exact ht hu hx
+  · intro ht u hu x hx
+    exact ht hx _ hu
+  -- sorry
+
+lemma isSupUnion {Y : Type} (S : Set (Set Y)) : isSup S (⋃₀ S) := by
+  -- sorry
+  intro t
+  constructor
+  · intro ht x hx
+    rcases hx with ⟨s, hs, hx⟩
+    exact ht hs hx
+  · intro ht u hu x hx
+    apply ht
+    use u
+  -- sorry
+
+instance {Y : Type} : CompleteLattice (Set Y) where
+  I := Set.sInter
+  I_isInf := fun S ↦ isInfInter S
+  S := Set.sUnion
+  S_isSup := fun S ↦ isSupUnion S
+
+end InfSup
+
+section Adjunction</code></pre>
+<p>我们现在准备好了这个文件的第二个中心定义：有序类型之间的伴随。</p>
+<ul>
+<li>有序类型之间的一对函数 <code>l</code> 和 <code>r</code> 是伴随的，如果 <code>∀ x y, l x ≤ y ↔ x ≤ r y</code>。人们也说它们形成一个 Galois 连接。这里 <code>l</code> 代表"左"，<code>r</code> 代表"右"。</li>
+</ul>
+<pre class="lean"><code>def adjunction [PartialOrder X] [PartialOrder Y] (l : X → Y) (r : Y → X) :=
+  ∀ x y, l x ≤ y ↔ x ≤ r y
+</code></pre>
+<p>你需要记住的例子是直接像和逆像之间的伴随。给定 <code>f : α → β</code>，我们有：
+* <code>Set.image f : Set α → Set β</code> 记作 <code>f ''</code>
+* <code>Set.preimage f : Set β → Set α</code> 记作 <code>f ⁻¹'</code></p>
+<pre class="lean"><code>lemma image_preimage_adjunction {α β : Type} (f : α → β) :
+    adjunction (Set.image f) (Set.preimage f) := by
+  intros s t
+  exact Set.image_subset_iff
+
+lemma adjunction.dual [PartialOrder X] [PartialOrder Y] {l : X → Y} {r : Y → X}
+    (h : adjunction l r) :
+    adjunction (X := OrderDual Y) (Y := OrderDual X) r l := by
+  -- sorry
+  intros y x
+  constructor
+  exact (h x y).2
+  exact (h x y).1
+  -- sorry
+</code></pre>
+<p>在这一节的剩余部分，<code>X</code> 和 <code>Y</code> 是完备格。</p>
+<pre class="lean"><code>variable [PartialOrder X] [CompleteLattice X] [PartialOrder Y] [CompleteLattice Y]
+</code></pre>
+<p>我们现在迎来这个文件的第二个主要定理：完备格的伴随函子定理。这个定理说完备格之间的函数是左伴随（或右伴随）当且仅当它与 <code>Sup</code>（或与 <code>Inf</code>）交换。</p>
+<p>我们首先定义候选的右伴随（不对原始映射做任何假设）。</p>
+<ul>
+<li>为完备格之间的映射构造一个候选的右伴随。如果映射与 <code>Sup</code> 交换，这是一个真正的伴随，参见 <code>adjunction_of_Sup</code>。</li>
+</ul>
+<pre class="lean"><code>def mk_right (l : X → Y) : Y → X := fun y ↦ Sup {x | l x ≤ y}
+</code></pre>
+<p>下面定理的证明不长，但也不是完全显而易见的。首先你需要理解陈述中的记号。<code>l '' s</code> 是 <code>s</code> 在 <code>l</code> 下的直接像。这个 <code>''</code> 是 <code>Set.image</code> 的记号。将你的光标放在这个记号上并使用上下文菜单"跳转到定义"将带你到定义 <code>Set.image</code> 并包含关于它的大量引理的文件。在参考解决方案中使用的那些是：</p>
+<ul>
+<li><code>Set.image_pair : (f : α → β) (a b : α) : f '' {a, b} = {f a, f b}</code></li>
+<li><code>Set.image_preimage_subset (f : α → β) (s : Set β) : f '' (f ⁻¹' s) ⊆ s</code></li>
+</ul>
+<p>证明提示：一个方向很容易，不使用关键假设。对于另一个方向，你可能应该首先证明 <code>Monotone l</code>，即 <code>∀ ⦃a b⦄, a ≤ b → l a ≤ l b</code>，然后证明对于每个 <code>y</code>，<code>Sup (l '' { x | l x ≤ y }) ≤ y</code>。</p>
+<pre class="lean"><code>theorem adjunction_of_Sup {l : X → Y} (h : ∀ s : Set X, l (Sup s) = Sup (l '' s)) :
+    adjunction l (mk_right l) := by
+  -- sorry
+  intro x y
+  constructor
+  · intro h'
+    exact (CompleteLattice.S_isSup {x | l x ≤ y}).upperBound h'
+  · intro h'
+    have l_mono : Monotone l := by
+      intro a b hab
+      have := h {a, b}
+      rw [Sup_pair.1 hab, Set.image_pair] at this
+      exact Sup_pair.2 this.symm
+    have Sup_le_y : Sup (l '' { x | l x ≤ y }) ≤ y := by
+      apply (CompleteLattice.S_isSup (l '' { x | l x ≤ y }) y).1
+      intro y' hy'
+      rcases hy' with ⟨x, hx, hxy'⟩
+      rw [← hxy']
+      apply hx
+    calc
+      l x ≤ l (mk_right l y) := l_mono h'
+      _   = Sup (l '' { x | l x ≤ y }) := h {x | l x ≤ y}
+      _   ≤ y := Sup_le_y
+  -- sorry
+</code></pre>
+<p>当然，我们也可以玩同样的游戏来构造左伴随。</p>
+<ul>
+<li>为完备格之间的映射构造一个候选的左伴随。如果映射与 <code>Inf</code> 交换，这是一个真正的伴随，参见 <code>adjunction_of_Inf</code>。</li>
+</ul>
+<pre class="lean"><code>def mk_left (r : Y → X) : X → Y := fun x ↦ Inf {y | x ≤ r y}
+
+theorem adjunction_of_Inf {r : Y → X} (h : ∀ s : Set Y, r (Inf s) = Inf (r '' s)) :
+    adjunction (mk_left r) r :=
+  fun x y ↦ (adjunction_of_Sup (X := OrderDual Y) (Y := OrderDual X) h y x).symm
+
+end Adjunction
+
+section Topology</code></pre>
+<p>在这一节中，我们将上面开发的理论应用到点集拓扑。我们的第一个目标是为给定类型上的拓扑类型 <code>Topology X</code> 配备完备格结构。然后我们将任何映射 <code>f : X → Y</code> 转换为 <code>Topology X</code> 和 <code>Topology Y</code> 之间的伴随 <code>(f⁎, f ^*)</code> 并用它来构建乘积拓扑。当然 mathlib 知道这一切，但我们将继续构建我们自己的理论。</p>
+<pre class="lean"><code>@[ext]
+structure Topology (X : Type) where
+  isOpen : Set X → Prop
+  isOpen_iUnion : ∀ {ι : Type}, ∀ {s : ι → Set X}, (∀ i, isOpen (s i)) → isOpen (⋃ i, s i)
+  isOpen_iInter : ∀ {ι : Type}, ∀ {s : ι → Set X}, (∀ i, isOpen (s i)) → Finite ι → isOpen (⋂ i, s i)
+</code></pre>
+<p>让我们对我们的定义进行两个快速的合理性检查，因为许多教科书在拓扑空间的定义中包含冗余条件。</p>
+<pre class="lean"><code>lemma isOpen_empty (T : Topology X) : T.isOpen ∅ := by
+  have : (∅ : Set X) = ⋃ i : Empty, i.rec := by
+    rw [Set.iUnion_of_empty]
+  rw [this]
+  exact T.isOpen_iUnion Empty.rec
+
+lemma isOpen_univ (T : Topology X) : T.isOpen Set.univ := by
+  have : (Set.univ : Set X) = ⋂ i : Empty, i.rec := by
+    rw [Set.iInter_of_empty]
+  rw [this]
+  exact T.isOpen_iInter  Empty.rec (Finite.of_fintype Empty)
+</code></pre>
+<p>定义 <code>Topology</code> 上的 <code>ext</code> 属性告诉 Lean 自动构建以下扩展性引理：<code>Topology.ext_iff (T T' : Topology X), T = T' ↔ x.isOpen = y.isOpen</code> 它还为 <code>ext</code> 策略注册这个引理使用（我们将在下面回到这个）。</p>
+<ul>
+<li>我们使用对偶于 <code>Set (Set X)</code> 诱导的序的序来排序 <code>Topology X</code>。选择这种方法有很好的理由，但超出了本教程的范围。</li>
+</ul>
+<pre class="lean"><code>instance : PartialOrder (Topology X) :=
+PartialOrder.lift (β := OrderDual $ Set (Set X)) Topology.isOpen (fun _ _ ↦ (Topology.ext_iff).2)
+</code></pre>
+<ul>
+<li><code>Topology X</code> 上的上确界函数。</li>
+</ul>
+<pre class="lean"><code>def SupTop (s : Set (Topology X)) : Topology X where
+  isOpen := fun V ↦ ∀ T ∈ s, T.isOpen V
+  isOpen_iUnion := by
+    intros ι t ht a ha
+    exact a.isOpen_iUnion fun i ↦ ht i a ha
+
+  isOpen_iInter := by
+    intros ι t ht hι a ha
+    exact a.isOpen_iInter (fun i ↦ ht i a ha) hι
+</code></pre>
+<p>由于上面的上确界函数来自 <code>OrderDual (Set (Set X))</code> 的上确界函数，它确实是一个上确界函数。我们可以陈述一个抽象引理说这一点，但这里直接证明同样简单并且很有趣。</p>
+<pre class="lean"><code>lemma isSup_SupTop : isSupFun (SupTop : Set (Topology X) → Topology X) :=
+fun _ _ ↦ ⟨fun hT _ hV _ hs ↦ hT hs hV, fun hT T' hT' _ hV ↦ hT hV T' hT'⟩
+</code></pre>
+<p>我们可以使用我们的抽象理论免费获得下确界函数，因此在 <code>Topology X</code> 上获得完备格结构。请注意，我们的抽象理论确实在做非平凡的工作：下确界函数不是来自 <code>OrderDual (Set (Set X))</code>。</p>
+<pre class="lean"><code>instance : CompleteLattice (Topology X) := CompleteLattice.mk_of_Sup isSup_SupTop
+</code></pre>
+<p>让我们在完备格记号中重新表述我们的 <code>Sup</code> 构造是什么。证明简单地说"这是定义上真实的"。</p>
+<pre class="lean"><code>lemma isOpen_Sup {s : Set (Topology X)} {V : Set X} : (Sup s).isOpen V ↔ ∀ T ∈ s, T.isOpen V :=
+  Iff.rfl
+</code></pre>
+<p>我们现在开始构建由任何映射 <code>f : X → Y</code> 诱导的 <code>Topology X</code> 和 <code>Topology Y</code> 之间的伴随。我们将手动构建左伴随，然后调用我们的伴随函子定理。</p>
+<pre class="lean"><code>def push (f : X → Y) (T : Topology X) : Topology Y where
+  isOpen := fun V ↦ T.isOpen (f ⁻¹' V)
+  isOpen_iUnion := by
+    -- sorry
+    intros ι s hs
+    rw [Set.preimage_iUnion]
+    exact T.isOpen_iUnion hs
+    -- sorry
+
+  isOpen_iInter := by
+    -- sorry
+    intros ι s hs hι
+    rw [Set.preimage_iInter]
+    exact T.isOpen_iInter hs hι
+    -- sorry
+
+postfix:1024 "⁎" =&gt; push -- type using `\_*`
+</code></pre>
+<ul>
+<li>对于拓扑 <code>T</code> 和 <code>T'</code>，映射 <code>f : X → Y</code> 是连续的，如果每个开集的逆像都是开集。</li>
+</ul>
+<pre class="lean"><code>def Continuous (T : Topology X) (T' : Topology Y) (f : X → Y) :=  f ⁎ T ≤ T'
+</code></pre>
+<p>让我们检查定义确实在说我们声称它说的话。</p>
+<pre class="lean"><code>example (T : Topology X) (T' : Topology Y) (f : X → Y) :
+  Continuous T T' f ↔ ∀ V, T'.isOpen V → T.isOpen (f ⁻¹' V) :=
+Iff.rfl
+</code></pre>
+<p>注意下面的证明如何使用 <code>ext</code> 策略，由于在 <code>Topology</code> 定义上的 <code>ext</code> 属性，它知道两个拓扑相等当且仅当它们有相同的开集。</p>
+<pre class="lean"><code>lemma push_push (f : X → Y) (g : Y →Z) (T : Topology X) :
+    g ⁎ (f ⁎ T) = (g ∘ f) ⁎ T := by
+  ext V
+  exact Iff.rfl
+</code></pre>
+<p>我们想要 <code>f ⁎</code> 的右伴随，所以我们需要检查它与 <code>Sup</code> 交换。你可能想使用 <code>Set.ball_image_iff : (∀ y ∈ f '' s, p y) ↔ ∀ x ∈ s, p (f x)</code> 其中 "ball" 代表 "bounded for all"，即 <code>∀ x ∈ ...</code>。</p>
+<pre class="lean"><code>lemma push_Sup (f : X → Y) {t : Set (Topology X)} : f ⁎ (Sup t) = Sup (f ⁎ '' t) := by
+  -- sorry
+  ext V
+  rw [isOpen_Sup, Set.forall_mem_image]
+  exact Iff.rfl
+  -- sorry
+
+def pull (f : X → Y) (T : Topology Y) : Topology X := mk_right (push f) T
+
+postfix:1024 "^*" =&gt; pull
+
+def ProductTopology {ι : Type} {X : ι → Type} (T : Π i, Topology (X i)) : Topology (Π i, X i) :=
+Inf (Set.range (fun i ↦ (fun x ↦ x i) ^* (T i)))
+
+lemma ContinuousProductTopIff {ι : Type} {X : ι → Type} (T : Π i, Topology (X i))
+  {Z : Type} (TZ : Topology Z) {f : Z → Π i, X i}:
+    Continuous TZ (ProductTopology T) f ↔ ∀ i,  Continuous TZ (T i) (fun z ↦ f z i) := by
+  -- sorry
+  calc
+    Continuous TZ (ProductTopology T) f
+    _ ↔ f ⁎ TZ ∈ lowerBounds (Set.range (fun i ↦ (fun x ↦ x i) ^* (T i))) := by
+          rw [CompleteLattice.I_isInf]
+          exact Iff.rfl
+
+    _ ↔ ∀ i, f ⁎ TZ ≤ (fun x ↦ x i) ^* (T i)        := by rw [lowerBounds_range]
+    _ ↔ ∀ i, (fun x ↦ x i) ⁎ (f ⁎ TZ) ≤ T i        := by
+          apply forall_congr'
+          intro i
+          rw [pull, ← adjunction_of_Sup (fun s ↦ push_Sup _), push_push]
+
+    _ ↔ ∀ i,  Continuous TZ (T i) (fun z ↦ f z i)  := Iff.rfl</code></pre>
+<p>unfold Continuous ProductTopology
+  rw [← CompleteLattice.I_isInf, lowerBounds_range]
+  apply forall_congr'
+  intro i
+  unfold pull
+  rw [← adjunction_of_Sup (fun s ↦ push_Sup _), push_push]
+rfl</p>
+<pre class="lean"><code>  -- sorry
+
+end Topology
+
+namespace Subgroups
+
+@[ext]
+structure Subgroup (G : Type) [Group G] where
+  carrier : Set G
+  one_mem : 1 ∈ carrier
+  mul_mem : ∀ ⦃x y : G⦄, x ∈ carrier → y ∈ carrier → x*y ∈ carrier
+  inv_mem : ∀ ⦃x : G⦄, x ∈ carrier → x⁻¹ ∈ carrier
+
+instance [Group G] : Membership G (Subgroup G) := ⟨fun H x ↦ x ∈ H.carrier⟩
+
+variable {G : Type} [Group G]
+
+instance : PartialOrder (Subgroup G) :=
+  PartialOrder.lift Subgroup.carrier (fun _ _ ↦ (Subgroup.ext_iff).2)
+</code></pre>
+<p>一个子群的交集是一个子群。</p>
+<pre class="lean"><code>def SubgroupInf (s : Set (Subgroup G)) : Subgroup G where
+  carrier := ⋂ H ∈ s, H.carrier
+  one_mem := by
+    -- sorry
+    rw [Set.mem_iInter₂]
+    intro H _
+    exact H.one_mem
+    -- sorry
+
+  mul_mem := by
+    -- sorry
+    intro x y hx hy
+    rw [Set.mem_iInter₂] at hx hy ⊢
+    intro H hH
+    exact H.mul_mem (hx H hH) (hy H hH)
+    -- sorry
+
+  inv_mem := by
+    -- sorry
+    intro x hx
+    rw [Set.mem_iInter₂] at hx ⊢
+    intro H hH
+    exact H.inv_mem (hx H hH)
+    -- sorry
+
+
+lemma SubgroupInf_carrier (s : Set (Subgroup G)) :
+  (SubgroupInf s).carrier = ⋂₀ (Subgroup.carrier '' s) :=
+by simp [SubgroupInf]
+-- omit
+
+lemma isInf.lift [PartialOrder X] {f : Y → X} (hf : Function.Injective f) {s : Set Y} {y : Y}
+  (hy : isInf (f '' s) (f y)) : @isInf Y (PartialOrder.lift f hf) s y := by
+  intro y'
+  erw [← hy (f y')]
+  constructor
+  · intro hy' x hx
+    rcases hx with ⟨y'', hy'', H⟩
+    rw [← H]
+    exact hy' hy''
+  · intro hy' y'' hy''
+    apply hy'
+    exact Set.mem_image_of_mem f hy''
+
+-- omit
+lemma SubgroupInf_is_Inf : isInfFun (SubgroupInf : Set (Subgroup G) → Subgroup G) := by
+  -- sorry
+  intro s H
+  apply isInf.lift (fun _ _ ↦ (Subgroup.ext_iff).2)
+  rw [SubgroupInf_carrier]
+  apply isInfInter
+  -- sorry
+
+instance : CompleteLattice (Subgroup G) := CompleteLattice.mk_of_Inf SubgroupInf_is_Inf
+
+lemma Inf_carrier (s : Set (Subgroup G)) : (Inf s).carrier = ⋂₀ (Subgroup.carrier '' s) :=
+  SubgroupInf_carrier s
+
+def forget (H : Subgroup G) : Set G := H.carrier
+
+def generate : Set G → Subgroup G := mk_left forget
+
+lemma generate_forget_adjunction : adjunction (generate : Set G → Subgroup G) forget := by
+  -- sorry
+  exact adjunction_of_Inf SubgroupInf_carrier
+  -- sorry
+
+variable {G' : Type} [Group G']
+
+def pull (f : G →* G') (H' : Subgroup G') : Subgroup G where
+  carrier := f ⁻¹' H'.carrier
+  one_mem := by
+    -- sorry
+    show f 1 ∈ H'
+    rw [f.map_one]
+    exact H'.one_mem
+    -- sorry
+
+  mul_mem := by
+    -- sorry
+    intro x y hx hy
+    show f (x*y) ∈ H'
+    rw [f.map_mul]
+    exact H'.mul_mem hx hy
+    -- sorry
+
+  inv_mem := by
+    -- sorry
+    intro x hx
+    show f x⁻¹ ∈ H'
+    rw [f.map_inv]
+    exact H'.inv_mem hx
+    -- sorry
+
+
+lemma pull_carrier (f : G →* G') (H' : Subgroup G') : (pull f H').carrier = f ⁻¹' H'.carrier :=
+  rfl
+</code></pre>
+<p>让我们真正懒惰，通过伴随定义子群推进。</p>
+<pre class="lean"><code>def push (f : G →* G') : Subgroup G → Subgroup G' := mk_left (pull f)
+
+lemma push_pull_adjunction (f : G →* G') : adjunction (push f) (pull f) := by
+  -- sorry
+  apply adjunction_of_Inf
+  intro S
+  ext x
+  simp [Inf_carrier, Set.image_image, pull, Set.preimage_iInter]
+  -- sorry
+
+end Subgroups
+
+section</code></pre>
+<p>我们的下一个具体目标是 <code>push_generate (f : G →* G') (S : Set G) : push f (generate S) = generate (f '' S)</code></p>
+<p>这将需要几个更抽象的引理。</p>
+<pre class="lean"><code>variable {X : Type} [PartialOrder X]
+         {Y : Type} [PartialOrder Y]
+
+lemma unique_left {l l' : X → Y} {r : Y → X} (h : adjunction l r) (h' : adjunction l' r) :
+    l = l' := by
+  -- sorry
+  ext x
+  apply le_antisymm
+  · rw [h, ← h']
+  · rw [h', ← h]
+  -- sorry
+
+lemma unique_right {l : X → Y} {r r' : Y → X} (h : adjunction l r) (h' : adjunction l r') :
+    r = r' := by
+  -- sorry
+  exact (unique_left h'.dual h.dual).symm
+  -- sorry
+
+variable {Z : Type} [PartialOrder Z]
+
+lemma adjunction.compose {l : X → Y} {r : Y → X} (h : adjunction l r)
+  {l' : Y → Z} {r' : Z → Y} (h' : adjunction l' r') : adjunction (l' ∘ l) (r ∘ r') := by
+  -- sorry
+  intro x z
+  rw [Function.comp_apply, h', h]
+  rfl
+  -- sorry
+
+-- omit
+lemma left_comm_of_right_comm {W : Type} [PartialOrder W] [CompleteLattice W]
+    {lYX : X → Y} {uXY : Y → X} (hXY : adjunction lYX uXY)
+    {lWZ : Z → W} {uZW : W → Z} (hZW : adjunction lWZ uZW)
+    {lWY : Y → W} {uYW : W → Y} (hWY : adjunction lWY uYW)
+    {lZX : X → Z} {uXZ : Z → X} (hXZ : adjunction lZX uXZ)
+    (h : uXZ ∘ uZW = uXY ∘ uYW) : lWZ ∘ lZX = lWY ∘ lYX := by
+  have A₁ := hXZ.compose hZW
+  rw [h] at A₁
+  exact unique_left A₁ (hXY.compose hWY)
+-- omit
+
+end
+
+namespace Subgroups
+variable {G : Type} [Group G] {G' : Type} [Group G']
+</code></pre>
+<p>作为最后的挑战，我们提出以下引理。</p>
+<ul>
+<li>群同态下某个集合 <code>S</code> 生成的子群的像是由 <code>S</code> 的像生成的。</li>
+</ul>
+<pre class="lean"><code>lemma push_generate (f : G →* G') : push f ∘ generate = generate ∘ (Set.image f) := by
+  -- sorry
+  apply left_comm_of_right_comm
+  apply image_preimage_adjunction
+  apply push_pull_adjunction
+  apply generate_forget_adjunction
+  apply generate_forget_adjunction
+  ext H
+  exact Iff.rfl
+  -- sorry
+
+end Subgroups
+end Tutorial
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/PatrickMassot/GlimpseOfLean" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.prune", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "content.action.view"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

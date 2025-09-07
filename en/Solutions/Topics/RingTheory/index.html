@@ -1,0 +1,1555 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lean 4 快速入门教程">
+      
+      
+        <meta name="author" content="GlimpseOfLean Community">
+      
+      
+        <link rel="canonical" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/RingTheory/">
+      
+      
+        <link rel="prev" href="../Probability/">
+      
+      
+        <link rel="next" href="../SequenceLimits/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Ring Theory - GlimpseOfLean 文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#commutative-rings-and-their-quotients" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../" title="GlimpseOfLean 文档" class="md-header__button md-logo" aria-label="GlimpseOfLean 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GlimpseOfLean 文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ring Theory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../../Solutions/Topics/RingTheory/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Lean-zh/GlimpseOfLean" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Exercises/01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  Exercises
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Library/Basic/" class="md-tabs__link">
+          
+  
+  
+  Library
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../" title="GlimpseOfLean 文档" class="md-nav__button md-logo" aria-label="GlimpseOfLean 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GlimpseOfLean 文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Lean-zh/GlimpseOfLean" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Exercises/01Rewriting/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Exercises
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Library/Basic/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Library
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Solutions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01Rewriting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rewriting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02Iff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03Forall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Forall
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04Exists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shorter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shorter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassicalPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Classical Propositional Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GaloisAdjunctions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Galois Adjunctions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IntuitionisticPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intuitionistic Propositional Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Ring Theory
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ring Theory
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#homomorphisms-and-isomorphisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Homomorphisms and isomorphisms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideals-and-ideal-quotients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ideals and ideal quotients
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-isomorphism-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      First isomorphism theorem
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arithmetic-on-ideals-and-the-chinese-remainder-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arithmetic on ideals and the Chinese remainder theorem
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SequenceLimits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sequence Limits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#homomorphisms-and-isomorphisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Homomorphisms and isomorphisms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ideals-and-ideal-quotients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ideals and ideal quotients
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#first-isomorphism-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      First isomorphism theorem
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arithmetic-on-ideals-and-the-chinese-remainder-theorem" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arithmetic on ideals and the Chinese remainder theorem
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/edit/master/docs/Solutions/Topics/RingTheory.en.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/raw/master/docs/Solutions/Topics/RingTheory.en.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<pre class="lean"><code>import GlimpseOfLean.Library.Ring
+
+setup
+open PiNotation BigOperators Function Classical
+noncomputable section
+
+namespace GlimpseOfLean
+</code></pre>
+<h1 id="commutative-rings-and-their-quotients">Commutative rings and their quotients</h1>
+<p>This files gives a tour through the objects needed to do ring theory: rings, ring homomorphisms and
+isomorphisms, ideals and quotients. The first part is completely elementary, using only the
+definition of commutative rings. The middle part introduces quotient of such rings by ideals and
+culminate with a proof of Nœther’s first isomorphism theorem. The last part uses the arithmetic of
+ideals and culminates with a proof of the Chinese remainder theorem.</p>
+<pre class="lean"><code>open RingHom Function
+</code></pre>
+<p>In order to say “Let <code>R</code> a an arbitrary commutative ring, we write
+<code>{R : Type*} [CommRing R]</code> to declare a type <code>R</code> and then assume it is equipped
+with a commutative ring structure.</p>
+<p>Now, given elements <code>x y z : R</code> we can apply the ring operators such as <code>+</code>, <code>-</code>, <code>*</code>, <code>0</code> and <code>1</code>
+to the elements of the ring and get new elements.
+The <code>ring</code> tactic can simplify the resulting expressions.</p>
+<p>(Here, <code>2</code> is an abbreviation for <code>1 + 1</code>, <code>3</code> is <code>1 + 1 + 1</code>, ...)</p>
+<pre class="lean"><code>example {R : Type*} [CommRing R] (x y z : R) :
+    x * (y + z) + y * (z + x) + z * (x + y) = 2 * x * y + 2 * y * z + 2 * x * z := by
+  ring
+</code></pre>
+<h2 id="homomorphisms-and-isomorphisms">Homomorphisms and isomorphisms</h2>
+<p>Given a ring <code>R</code> and a ring <code>S</code>, a ring homomorphism from <code>R</code> to <code>S</code> is written
+<code>f : R →+* S</code>.
+Like a function, we can apply a homomorphism <code>f</code> to an element <code>x : R</code>
+by writing <code>f x</code>.
+The <code>simp</code> tactic knows basic facts about ring homomorphisms.
+For example, that they preserve the operations <code>+</code>, <code>*</code>, <code>0</code>, and <code>1</code>.</p>
+<pre class="lean"><code>section homomorphisms
+variable {R S : Type*} [CommRing R] [CommRing S]
+
+
+example (f : R →+* S) (x y : R) :
+    f (1 + x * y) + f 0 = 1 + f x * f y := by
+  simp
+
+variable {T : Type*} [CommRing T]</code></pre>
+<p>Let's try defining the composition of two ring homomorphisms.
+We have to supply the definition of the map,
+and then prove that it respects the ring structure.
+Of course Mathlib already has this, but we are redoing it as an exercise.</p>
+<p>Try filling in the <code>sorry</code>s below using <code>intro</code> and <code>simp</code>.</p>
+<pre class="lean"><code>def RingHom.comp (g : S →+* T) (f : R →+* S) : R →+* T where
+  toFun x := g (f x)
+  map_one' := by
+    -- sorry
+    simp
+    -- sorry
+  map_mul' := by
+    -- sorry
+    intros
+    simp
+    -- sorry
+  map_zero' := by
+    -- sorry
+    simp
+    -- sorry
+  map_add' := by
+    -- sorry
+    intros
+    simp
+    -- sorry
+</code></pre>
+<p>A ring isomorphism between <code>R</code> and <code>S</code> is written <code>e : R ≃+* S</code>.
+We can apply <code>e</code> as a function from <code>R</code> to <code>S</code> by writing <code>e x</code>, where <code>x : R</code>.
+To apply <code>e</code> in the other direction, from <code>S</code> to <code>R</code>, we write <code>e.symm y</code>, where <code>y : S</code>.</p>
+<p>To define a ring isomorphism directly, we have to supply two maps: <code>toFun : R → S</code> and
+<code>invFun : S → R</code> and show that they are inverses to each other, in addition to showing that addition
+and multiplication are preserved. We will see below an example that does not explicitly provide
+the inverse morphism.
+Try showing the composition of two isomorphisms is again an isomorphism.</p>
+<p>Hint: <code>Function.LeftInverse</code> and <code>Function.RightInverse</code> are forall-statements.
+Try unfolding them or using <code>intro x</code> to make progress.</p>
+<pre class="lean"><code>def RingEquiv.comp (g : S ≃+* T) (f : R ≃+* S) : R ≃+* T where
+  toFun x := g (f x)
+  invFun x := f.symm (g.symm x)
+  left_inv := by
+    -- sorry
+    intro x
+    simp
+    -- sorry
+  right_inv := by
+    -- sorry
+    intro x
+    simp
+    -- sorry
+  map_add' := by
+    -- sorry
+    intros
+    simp
+    -- sorry
+  map_mul' := by
+    -- sorry
+    intros
+    simp
+    -- sorry
+
+end homomorphisms
+</code></pre>
+<h2 id="ideals-and-ideal-quotients">Ideals and ideal quotients</h2>
+<p>An ideal in the ring <code>R</code> is written in Mathlib as <code>I : Ideal R</code>.
+For an element <code>x : R</code> of our ring, we can assert <code>x</code> is in the ideal <code>I</code>
+by writing <code>x ∈ I</code>.</p>
+<p>Unfortunately, we cannot rely on <code>simp</code> to prove membership of an ideal.
+The tactic <code>aesop</code> does a powerful (but slower) search through many more facts.</p>
+<pre class="lean"><code>variable {R} [CommRing R]
+
+example (I : Ideal R) (x y : R) (hx : x ∈ I) : y * x + x * y - 0 ∈ I := by
+  aesop
+</code></pre>
+<p>An important ideal is the kernel of the ring homomorphism.
+We can write it as <code>ker f : Ideal R</code>, where <code>f : R →+* S</code>.
+The kernel is defined as containing all the elements mapped to <code>0</code> by <code>f</code>:</p>
+<pre class="lean"><code>example {S} [CommRing S] (f : R →+* S) (x : R) : x ∈ ker f ↔ f x = 0 := by
+  rw [mem_ker]
+</code></pre>
+<p>To define an ideal, we give a definition for the carrier set, and then prove it is closed
+under multiplication on the left (hence also on the right since our rings are commutative here).</p>
+<p>Try showing the intersection of two ideals is again an ideal (of course Mathlib already knows this,
+it is only an exercise).</p>
+<pre class="lean"><code>def Ideal.inter (I J : Ideal R) : Ideal R where
+  carrier := I ∩ J
+  add_mem' := by
+    -- sorry
+    aesop
+    -- sorry
+  zero_mem' := by
+    -- sorry
+    aesop
+    -- sorry
+  smul_mem' := by
+    -- sorry
+    aesop
+    -- sorry
+</code></pre>
+<p>Finally, let's look at ideal quotients. If <code>I</code> is an ideal of the ring <code>R</code>,
+then we write the quotient of <code>R</code> modulo <code>I</code> as <code>R ⧸ I</code>.
+(This is not the division symbol! Type <code>\/</code> to write the quotient symbol.)
+The quotient is again a ring and we can treat it just like <code>R</code>, <code>S</code>, <code>T</code> above,
+by taking elements of the quotient and adding and multiplying them together:</p>
+<pre class="lean"><code>example (I : Ideal R) (x y z : R ⧸ I) :
+    x * (y + z) + y * (z + x) + z * (x + y) = 2 * x * y + 2 * y * z + 2 * x * z := by
+  ring
+</code></pre>
+<p>There are two important homomorphisms involving quotients.
+First, the canonical map from <code>R</code> into the quotient ring <code>R ⧸ I</code>, which is called
+<code>Ideal.Quotient.mk I : R →+* R ⧸ I</code>.</p>
+<p>Two elements of <code>R</code> are mapped to the same element in the quotient when their difference is in the
+ideal:</p>
+<pre class="lean"><code>example (I : Ideal R) (x y : R) (h : x - y ∈ I) :
+    Ideal.Quotient.mk I x = Ideal.Quotient.mk I y := by
+  rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem]
+  exact h
+</code></pre>
+<p>We can say this more concisely: the kernel of <code>Ideal.Quotient.mk I</code> is exactly <code>I</code>.</p>
+<pre class="lean"><code>example (I : Ideal R) : ker (Ideal.Quotient.mk I) = I :=
+  Ideal.mk_ker
+</code></pre>
+<p>The quotient <code>R⧸I</code> and the homomorphism <code>Ideal.Quotient.mk I</code> form the “smallest” pair of
+a ring and a homomorphism from <code>R</code> vanishing on <code>I</code>: any other such homomorphism factors
+through it. This is the universal property of <code>R⧸I</code>. The factored homomorphism is
+<code>Ideal.Quotient.lift I f hfI : R ⧸ I →+* S</code>
+where <code>f : R →+* S</code> and <code>hfI : ∀ a ∈ I, f a = 0</code>.</p>
+<p>This gives us the final ingredient we need to start proving the First Isomorphism Theorem.
+First, we will show any homomorphism <code>f : R →+* S</code> is well-defined as a map <code>R ⧸ ker f →+* S</code>.</p>
+<p>Try filling in the missing proof using <code>intro</code>, <code>rw</code>, <code>apply</code> and/or <code>exact</code>.</p>
+<pre class="lean"><code>section universal_property
+variable {S} [CommRing S]
+
+def kerLift (f : R →+* S) : R ⧸ ker f →+* S :=
+  Ideal.Quotient.lift (ker f) f fun x ↦ by
+    -- sorry
+    simp
+    -- sorry
+</code></pre>
+<p>After a new definition, it is a good idea to make lemmas for its basic properties.</p>
+<pre class="lean"><code>theorem kerLift_mk (f : R →+* S) (x : R) : kerLift f (Ideal.Quotient.mk (ker f) x) = f x := by
+  -- sorry
+  unfold kerLift
+  simp
+  -- sorry
+</code></pre>
+<p>When we are given a quotient element <code>x : R ⧸ I</code>, it is often a useful proof step to
+choose a representative <code>x' : R</code> for this quotient element.
+The statement that <code>x' : R</code> is a representative for <code>x : R ⧸ I</code> is written <code>Ideal.Quotient.mk I x' = x</code>.
+The fact that each <code>x : R ⧸ I</code> has a representative can be written <code>∃ x', Ideal.Quotient.mk I x' = x</code>.
+Recalling the definition of <code>Function.Surjective</code> from <code>04Exists.lean</code>,
+we can see that <code>∃ x', Ideal.Quotient.mk I x' = x</code> is the same as
+<code>Function.Surjective (Ideal.Quotient.mk I)</code>, which is available as the theorem <code>Ideal.Quotient.mk_surjective</code>
+in Mathlib.</p>
+<p>To give an example, let's start a proof that <code>kerLift</code> is injective.
+We first use <code>Ideal.Quotient.mk_surjective</code> to choose a representative <code>x'</code> for <code>x</code>.
+Then we replace <code>x</code> with <code>Ideal.Quotient.mk I x'</code> everywhere.</p>
+<p>Try finishing the proof. Here are a few useful lemmas:
+<code>Ideal.Quotient.eq_zero_iff_mem</code>, <code>kerLift_mk</code>, <code>mem_ker</code>.</p>
+<pre class="lean"><code>theorem kerLift_injective' (f : R →+* S) (x : R ⧸ ker f) (hx : kerLift f x = 0) : x = 0 := by
+  rcases Ideal.Quotient.mk_surjective x with ⟨x', hx'⟩
+  rw [← hx']
+  rw [← hx'] at hx
+  -- sorry
+  rw [kerLift_mk] at hx
+  rw [Ideal.Quotient.eq_zero_iff_mem, mem_ker]
+  exact hx
+  -- sorry
+</code></pre>
+<p>Let's restate that result using <code>Function.Injective</code>.</p>
+<pre class="lean"><code>theorem kerLift_injective (f : R →+* S) : Injective (kerLift f) := by
+  rw [injective_iff_map_eq_zero]
+  exact kerLift_injective' f
+</code></pre>
+<h2 id="first-isomorphism-theorem">First isomorphism theorem</h2>
+<p>We have all the ingredients to prove a form of the first isomorphism theorem:
+if <code>f : R →+* S</code> is a surjective ring homomorphism, <code>R ⧸ ker f</code> is isomorphic to <code>S</code>,
+by the explicit isomorphism we will define below.
+To give the inverse function, we use the definition <code>surjInv</code> which gives an arbitrary
+right inverse to a surjective function <code>f</code> (if <code>hf</code> is the proof that <code>f</code> is surjective,
+the proof that <code>surjInv</code> is a right inverse, is called <code>rightInverse_surjInv hf</code>).</p>
+<pre class="lean"><code>def firstIsomorphismTheorem (f : R →+* S) (hf : Function.Surjective f) :
+    R ⧸ ker f ≃+* S :=
+  { toFun := kerLift f
+    invFun x := Ideal.Quotient.mk (ker f) (surjInv hf x)
+    right_inv := rightInverse_surjInv hf
+    map_mul' := by
+      -- sorry
+      intros
+      simp
+      -- sorry
+    map_add' := by
+      -- sorry
+      intros
+      simp
+      -- sorry
+    left_inv := by
+      -- This is where it all comes together.
+      -- Try following this proof sketch:
+      -- * Introduce a variable `x : R ⧸ ker f`.
+      -- * Choose a representative for `x`, like we did in `kerLift_injective'`.
+      -- * Apply our theorem `kerLift_injective`.
+      -- * Repeatedly rewrite `kerLift _ (Ideal.Quotient.mk _ _)` using `kerLift_mk`.
+      -- * Finish by rewriting with `rightInverse_surjInv`.
+      -- sorry
+      intro x
+      rcases Ideal.Quotient.mk_surjective x with ⟨x', hx'⟩
+      rw [← hx']
+      apply kerLift_injective
+      rw [kerLift_mk]
+      rw [kerLift_mk]
+      rw [rightInverse_surjInv hf]
+      -- sorry
+    }
+
+end universal_property
+end GlimpseOfLean
+</code></pre>
+<h2 id="arithmetic-on-ideals-and-the-chinese-remainder-theorem">Arithmetic on ideals and the Chinese remainder theorem</h2>
+<p>We now take a glimpse of more advanced theory with the Chinese remainder theorem for ideals in a
+commutative ring. This is a generalization of the well-known elementary version for integers.</p>
+<pre class="lean"><code>section chinese
+open RingHom
+
+namespace Ideal
+-- one effect of the above line it to allow writing `Quotient` instead of `Ideal.Quotient`
+
+section definition_and_injectivity
+-- `R` is our commutative ring.
+variable {R} [CommRing R]
+
+-- `I` is our family of ideals, parametrized by the type `ι`.
+variable {ι : Type} (I : ι → Ideal R)
+</code></pre>
+<p>We want to create a ring homomorphism from the quotient of <code>R</code> by the intersections of the <code>I i</code>’s
+to the product of the quotients <code>R⧸(I i)</code>.
+For every <code>i : ι</code> we have a homomorphism from <code>R</code> to <code>R⧸(I i)</code>, namely <code>Quotient.mk (I i)</code>.
+Gathering all those in a map from <code>R</code> to the products <code>Π i, (R ⧸ I i)</code> is a job for
+<code>Pi.ringHom</code>. We will need the lemma <code>ker_Pi_Quotient_mk</code> about this <code>Pi.ringHom</code>.
+And then we need <code>Ideal.lift</code> to factors this through the quotient of <code>R</code> by the intersection
+<code>⨅ i, I i</code>. Be careful that, depending on the font you are using, the intersection symbol <code>⨅</code> and the
+product <code>Π</code> could be tricky to distinguish.</p>
+<pre class="lean"><code>def chineseMap  : (R ⧸ ⨅ i, I i) →+* Π i, R ⧸ I i :=
+  Quotient.lift (⨅ i, I i) (Pi.ringHom fun i : ι ↦ Quotient.mk (I i))</code></pre>
+<pre class="lean"><code>    (by</code></pre>
+<p>inline sorry</p>
+<pre class="lean"><code>simp [← mem_ker, ker_Pi_Quotient_mk]/- inline sorry -/)
+</code></pre>
+<p>Let’s record two slighlty different spelling of how this map acts on elements, by definition.</p>
+<pre class="lean"><code>lemma chineseMap_mk (x : R) : chineseMap I (Quotient.mk _ x) = fun i : ι ↦ Quotient.mk (I i) x :=
+  rfl
+
+lemma chineseMap_mk' (x : R) (i : ι) : chineseMap I (Quotient.mk _ x) i = Quotient.mk (I i) x :=
+  rfl
+</code></pre>
+<p>This map is always injective, without any assumption on the ideal family. This is a variation
+on the injectivity from the previous section.</p>
+<pre class="lean"><code>lemma chineseMap_injective : Injective (chineseMap I) := by
+  -- sorry
+  rw [chineseMap, injective_lift_iff, ker_Pi_Quotient_mk]
+  -- sorry
+end definition_and_injectivity
+</code></pre>
+<p>Surjectivity by contrast needs some assumption.
+The elementary version deals with a finite family of pairwise coprime integers. In the general case
+we want to use a finite family of pairwise coprime ideals.</p>
+<p>There is a commutative semi-ring structure on <code>Ideal R</code>. This sounds like an exotic algebraic
+structure but it’s the same one you have on <code>ℕ</code>: it very much looks like a commutative ring except
+there is no subtraction operation. Two ideal <code>I</code> and <code>J</code> are coprime if <code>I + J = 1</code>
+where <code>1</code> is the unit of <code>Ideal R</code>, namely the ideal containing all elements of <code>R</code>.
+The fact that this condition applied to ideals <code>nℤ</code> and <code>mℤ</code> of <code>ℤ</code> being coprime is essentially
+Bézout’s identity.
+There is also an order relation on <code>Ideal R</code>, and <code>1</code> is the top element <code>⊤</code>.</p>
+<p>The key lemma in the proof of the Chinese remainder theorem is the following one which is proved by
+induction on the finite set <code>s</code>. There is an interesting point here. On paper you would probably say
+you prove it by induction on the cardinal of <code>s</code>. And you would put some order on <code>s</code> simply to be
+able to single out a “last” element. Typically <code>s</code> would be <code>{1, …, n}</code> for some natural number <code>n</code>.
+In Lean we simply say <code>s</code> is a finite set and apply the induction principle <code>Finset.induction</code>
+saying that, in order to prove something for all finite sets in some type <code>ι</code>, it suffices to prove
+it for the empty set and, assuming it for some set <code>s</code> proving it for <code>s ∪ {i}</code> for every <code>i</code> not in
+<code>s</code>. The structure of the proof is given below, so you don’t
+have to remember how to</p>
+<p>The union <code>s ∪ {i}</code> is spelled <code>insert i s</code>. The following lemmas about this operation will be useful:</p>
+<pre class="lean"><code>#check Finset.mem_insert_of_mem
+
+#check Finset.mem_insert_self
+
+variable {R : Type*} [CommRing R] {ι : Type}
+
+lemma coprime_iInf_of_coprime {I : Ideal R} {J : ι → Ideal R} {s : Finset ι} :
+    (∀ j ∈ s, I + J j = 1) → I + (⨅ j ∈ s, J j) = 1 := by
+  induction s using Finset.induction with
+  | empty =&gt;
+      -- sorry
+      simp
+      -- sorry
+  | @insert i s _ hs =&gt;
+      intro h
+      rw [Finset.iInf_insert, inf_comm, one_eq_top, eq_top_iff, ← one_eq_top]
+      set K := ⨅ j ∈ s, J j
+      -- sorry
+      calc
+        1 = I + K            := (hs fun j hj ↦ h j (Finset.mem_insert_of_mem hj)).symm
+        _ = I + K*(I + J i)  := by rw [h i (Finset.mem_insert_self i s), mul_one]
+        _ = (1+K)*I + K*J i  := by ring
+        _ ≤ I + K ⊓ J i      := add_le_add mul_le_left mul_le_inf
+      -- sorry
+</code></pre>
+<p>We are now ready to prove surjectivity in the Chinese remainder theorem. We will need to write a sum
+over the finite type <code>ι</code>. For any <code>f : ι → R</code>, the sum of values of <code>f</code> is <code>∑ i, f i</code>.
+Useful lemmas about this operation include <code>map_sum</code> which says that homomorphisms commute with such
+sums and <code>Finset.sum_univ_eq_single</code> which allows to rewrite this sum under the assumption that <code>f</code>
+is non-zero only for a single element of <code>ι</code>.</p>
+<pre class="lean"><code>lemma chineseMap_surjective [Fintype ι] {I : ι → Ideal R} (hI : ∀ i j, i ≠ j → I i + I j = 1) :
+    Surjective (chineseMap I) := by
+  intro g
+  -- The role of the `choose` tactic should be clear if you compare the tactic state before and
+  -- after calling it.
+  choose f hf using fun i ↦ Quotient.mk_surjective (g i)
+  have key : ∀ i, ∃ e : R, Quotient.mk (I i) e = 1 ∧ ∀ j, j ≠ i → Quotient.mk (I j) e = 0 := by
+    intro i
+    have hI' : ∀ j ∈ ({i} : Finset ι)ᶜ, I i + I j = 1 := by
+      -- sorry
+      intros j hj
+      apply hI
+      simpa [ne_comm] using hj
+      -- sorry
+    -- sorry
+    rcases Ideal.add_eq_one_iff.mp (coprime_iInf_of_coprime hI') with ⟨u, hu, e, he, hue⟩
+    refine ⟨e, ?_, ?_⟩
+    · simp [eq_sub_of_add_eq' hue, map_sub, Ideal.Quotient.eq_zero_iff_mem.mpr hu]
+    · intros j hj
+      apply Ideal.Quotient.eq_zero_iff_mem.mpr
+      simp at he
+      tauto
+    -- sorry
+  choose e he using key
+  -- sorry
+  use Quotient.mk _ (∑ i, f i*e i)
+  ext i
+  rw [chineseMap_mk', map_sum, Finset.sum_univ_eq_single i]
+  · simp [(he i).1, hf]
+  · intros j hj
+    simp [(he j).2 i hj.symm]
+  -- sorry
+</code></pre>
+<p>We can now put everything together to get the Chinese remainder isomorphism.</p>
+<pre class="lean"><code>noncomputable def chineseIso [Fintype ι] (I : ι → Ideal R) (hI : ∀ i j, i ≠ j → I i + I j = 1) :
+   (R ⧸ ⨅ i, I i) ≃+* Π i, R ⧸ I i :=
+{ Equiv.ofBijective _ ⟨chineseMap_injective I, chineseMap_surjective hI⟩, chineseMap I with }
+
+end Ideal
+end chinese
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/PatrickMassot/GlimpseOfLean" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.prune", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "content.action.view"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

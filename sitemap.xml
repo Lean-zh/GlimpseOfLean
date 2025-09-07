@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Introduction/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Introduction/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Introduction/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/01Rewriting/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/01Rewriting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/01Rewriting/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/02Iff/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/02Iff/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/02Iff/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/03Forall/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/03Forall/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/03Forall/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/04Exists/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/04Exists/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/04Exists/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/Shorter/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Shorter/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Shorter/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/Topics/ClassicalPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/ClassicalPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/ClassicalPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/Topics/GaloisAdjunctions/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/GaloisAdjunctions/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/GaloisAdjunctions/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/Topics/IntuitionisticPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/IntuitionisticPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/IntuitionisticPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/Topics/Probability/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/Probability/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/Probability/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/Topics/RingTheory/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/RingTheory/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/RingTheory/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Exercises/Topics/SequenceLimits/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/SequenceLimits/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/SequenceLimits/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Library/Basic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Basic/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Basic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Library/Probability/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Probability/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Probability/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Library/Ring/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Ring/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Ring/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Library/Short/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Short/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Short/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/01Rewriting/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/01Rewriting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/01Rewriting/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/02Iff/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/02Iff/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/02Iff/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/03Forall/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/03Forall/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/03Forall/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/04Exists/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/04Exists/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/04Exists/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/Shorter/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Shorter/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Shorter/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/Topics/ClassicalPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/ClassicalPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/ClassicalPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/Topics/GaloisAdjunctions/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/GaloisAdjunctions/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/GaloisAdjunctions/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/Topics/IntuitionisticPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/IntuitionisticPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/IntuitionisticPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/Topics/Probability/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/Probability/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/Probability/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/Topics/RingTheory/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/RingTheory/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/RingTheory/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/Solutions/Topics/SequenceLimits/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/SequenceLimits/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/SequenceLimits/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Introduction/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Introduction/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Introduction/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/01Rewriting/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/01Rewriting/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/01Rewriting/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/02Iff/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/02Iff/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/02Iff/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/03Forall/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/03Forall/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/03Forall/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/04Exists/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/04Exists/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/04Exists/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/Shorter/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Shorter/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Shorter/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/ClassicalPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/ClassicalPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/ClassicalPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/GaloisAdjunctions/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/GaloisAdjunctions/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/GaloisAdjunctions/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/IntuitionisticPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/IntuitionisticPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/IntuitionisticPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/Probability/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/Probability/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/Probability/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/RingTheory/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/RingTheory/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/RingTheory/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/SequenceLimits/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/SequenceLimits/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/SequenceLimits/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Library/Basic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Basic/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Basic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Library/Probability/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Probability/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Probability/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Library/Ring/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Ring/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Ring/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Library/Short/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Library/Short/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Library/Short/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/01Rewriting/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/01Rewriting/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/01Rewriting/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/02Iff/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/02Iff/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/02Iff/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/03Forall/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/03Forall/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/03Forall/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/04Exists/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/04Exists/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/04Exists/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/Shorter/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Shorter/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Shorter/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/ClassicalPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/ClassicalPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/ClassicalPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/GaloisAdjunctions/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/GaloisAdjunctions/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/GaloisAdjunctions/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/IntuitionisticPropositionalLogic/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/IntuitionisticPropositionalLogic/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/IntuitionisticPropositionalLogic/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/Probability/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/Probability/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/Probability/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/RingTheory/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/RingTheory/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/RingTheory/"/>
+    </url>
+    <url>
+        <loc>https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/SequenceLimits/</loc>
+        <lastmod>2025-09-07</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://leanprover.cn/GlimpseOfLean/en/Solutions/Topics/SequenceLimits/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://leanprover.cn/GlimpseOfLean/Solutions/Topics/SequenceLimits/"/>
+    </url>
+</urlset>

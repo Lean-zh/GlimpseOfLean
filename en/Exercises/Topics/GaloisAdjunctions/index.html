@@ -1,0 +1,1530 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lean 4 快速入门教程">
+      
+      
+        <meta name="author" content="GlimpseOfLean Community">
+      
+      
+        <link rel="canonical" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Topics/GaloisAdjunctions/">
+      
+      
+        <link rel="prev" href="../ClassicalPropositionalLogic/">
+      
+      
+        <link rel="next" href="../IntuitionisticPropositionalLogic/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Galois Adjunctions - GlimpseOfLean 文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#abstract-non-sense-101-galois-adjunctions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../" title="GlimpseOfLean 文档" class="md-header__button md-logo" aria-label="GlimpseOfLean 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GlimpseOfLean 文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Galois Adjunctions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../../Exercises/Topics/GaloisAdjunctions/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Lean-zh/GlimpseOfLean" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  Exercises
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Library/Basic/" class="md-tabs__link">
+          
+  
+  
+  Library
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Solutions/01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../" title="GlimpseOfLean 文档" class="md-nav__button md-logo" aria-label="GlimpseOfLean 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GlimpseOfLean 文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Lean-zh/GlimpseOfLean" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exercises
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Exercises
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01Rewriting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rewriting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02Iff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03Forall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Forall
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04Exists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shorter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shorter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassicalPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Classical Propositional Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Galois Adjunctions
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IntuitionisticPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intuitionistic Propositional Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RingTheory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ring Theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SequenceLimits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sequence Limits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Library/Basic/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Library
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Solutions/01Rewriting/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/edit/master/docs/Exercises/Topics/GaloisAdjunctions.en.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/raw/master/docs/Exercises/Topics/GaloisAdjunctions.en.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<pre class="lean"><code>import GlimpseOfLean.Library.Basic
+
+open PiNotation
+</code></pre>
+<h1 id="abstract-non-sense-101-galois-adjunctions">Abstract non-sense 101: Galois adjunctions</h1>
+<p>In this file we will play with the simplest examples of adjunctions: Galois connections between
+complete lattices. There is a lot about this topic in Mathlib, the mathematical library of Lean, but
+here we will roll our own version for practice. This file builds the fundamental theory of these
+objects and each lemma you prove in this file is named and can be reused to prove the next lemmas.</p>
+<pre class="lean"><code>namespace Tutorial
+
+section InfSup
+variable [PartialOrder X]
+</code></pre>
+<p>In this section, <code>X</code> is a type equipped with a partial order relation. So you have access
+to lemmas:
+* <code>le_rfl {a : X} : a ≤ a</code>
+* <code>le_trans {a b c : X} (h : a ≤ b) (h' : b ≤ c) : a ≤ c</code>
+* <code>le_antisymm {a b : X} (h : a ≤ b) (h' : b ≤ a) : a = b</code></p>
+<p>Curly braces around arguments mean these arguments are implicit, so Lean will never
+require them, because they can certainly be inferred from context; in particular, when
+applying a lemma that contains variables in curly braces, you should <em>not</em>
+provide the corresponding values.</p>
+<p>We will also use the definition of the set of lower bounds of a set <code>s</code></p>
+<p><code>lowerBounds s = {x  | ∀ a ∈ s, x ≤ a}</code></p>
+<p>and similarly</p>
+<p><code>upperBounds s = {x  | ∀ a ∈ s, a ≤ x}</code></p>
+<ul>
+<li>An element <code>x₀</code> is an infimum of a set <code>s</code> in <code>X</code> if every element
+of <code>X</code> is a lower bound of <code>s</code> if and only if it is below <code>x₀</code>.</li>
+</ul>
+<pre class="lean"><code>def isInf (s : Set X) (x₀ : X) :=
+  ∀ x, x ∈ lowerBounds s ↔ x ≤ x₀
+
+lemma isInf.lowerBound {s : Set X} {x₀ : X} (h : isInf s x₀) : x₀ ∈ lowerBounds s := by
+  sorry
+</code></pre>
+<ul>
+<li>A set has at most one infimum.</li>
+</ul>
+<pre class="lean"><code>def isInf.eq {s : Set X} {x₀ x₁ : X} (hx₀ : isInf s x₀) (hx₁ : isInf s x₁) : x₀ = x₁ := by
+  sorry
+</code></pre>
+<ul>
+<li>An element <code>x₀</code> is a supremum of a set <code>s</code> in <code>X</code> if every element
+of <code>X</code> is a lower bound of <code>s</code> if and only if it below <code>x₀</code>.</li>
+</ul>
+<pre class="lean"><code>def isSup (s : Set X) (x₀ : X) :=
+  ∀ x, x ∈ upperBounds s ↔ x₀ ≤ x
+</code></pre>
+<p>The next lemma is proven by applying <code>isInf.lowerBound</code> to <code>X</code> equipped with
+the opposite order relation. You don't need to understand precisely how this is
+achieved since all proofs using this trick will be offered.</p>
+<pre class="lean"><code>lemma isSup.upperBound {s : Set X} {x₀ : X} (h : isSup s x₀) : x₀ ∈ upperBounds s :=
+  isInf.lowerBound (X := OrderDual X) h
+</code></pre>
+<ul>
+<li>A set has at most one supremum.</li>
+</ul>
+<pre class="lean"><code>lemma isSup.eq {s : Set X} {x₀ x₁ : X} (hx₀ : isSup s x₀) (hx₁ : isSup s x₁) : x₀ = x₁ :=
+  isInf.eq (X := OrderDual X) hx₀ hx₁
+</code></pre>
+<ul>
+<li>A function from <code>Set X</code> to <code>X</code> is an infimum function if it sends every set
+to an infimum of this set.</li>
+</ul>
+<pre class="lean"><code>def isInfFun (I : Set X → X) :=
+  ∀ s : Set X, isInf s (I s)
+</code></pre>
+<ul>
+<li>A function from <code>Set X</code> to <code>X</code> is an supremum function if it sends every set
+to a supremum of this set.</li>
+</ul>
+<pre class="lean"><code>def isSupFun (S : Set X → X) :=
+  ∀ s : Set X, isSup s (S s)
+</code></pre>
+<p>The next lemma is the first crucial result in this file. If <code>X</code> admits an
+infimum function then it automatically admits a supremum function.</p>
+<pre class="lean"><code>lemma isSup_of_isInf {I : Set X → X} (h : isInfFun I) : isSupFun (fun s ↦ I (upperBounds s)) := by
+  sorry
+</code></pre>
+<p>Of course we also have the dual result constructing an infimum function from
+a supremum one.</p>
+<pre class="lean"><code>lemma isInf_of_isSup {S : Set X → X} (h : isSupFun S) : isInfFun (fun s ↦ S (lowerBounds s)) :=
+  isSup_of_isInf (X := OrderDual X) h
+</code></pre>
+<p>We are now ready for the first main definition of this file: complete lattices.</p>
+<ul>
+<li>A complete lattice is a type equipped with a partial order, an infimum function and
+a supremum function. For instance <code>X = Set Y</code> equipped with the inclusion order,
+the intersection function and the union function is a complete lattice. I particular, the word
+“lattice” here has nothing to do with lattices as discrete subgroups in Euclidean spaces.</li>
+</ul>
+<pre class="lean"><code>class CompleteLattice (X : Type) [PartialOrder X] where
+  I : Set X → X
+  I_isInf : isInfFun I
+  S : Set X → X
+  S_isSup : isSupFun S
+</code></pre>
+<ul>
+<li>Turning a complete lattice <code>X</code> into the dual one. Lean will automatically pickup this
+construction when using the <code>OrderDual</code> trick as above.</li>
+</ul>
+<pre class="lean"><code>instance (X : Type) [PartialOrder X] [CompleteLattice X] : CompleteLattice (OrderDual X) where
+  I := CompleteLattice.S (X := X)
+  I_isInf := CompleteLattice.S_isSup (X := X)
+  S := CompleteLattice.I (X := X)
+  S_isSup := CompleteLattice.I_isInf (X := X)
+</code></pre>
+<p>We can now use the first main result above to build a complete lattice from
+either an infimum or a supremum function on a partially ordered type.</p>
+<ul>
+<li>Building a complete lattice structure from an infimum function on a partially ordered type.</li>
+</ul>
+<pre class="lean"><code>def CompleteLattice.mk_of_Inf {I : Set X → X} (h : isInfFun I) : CompleteLattice X where
+ I := I
+ I_isInf := h
+ S := fun s ↦ I (upperBounds s)
+ S_isSup := isSup_of_isInf h
+</code></pre>
+<ul>
+<li>Building a complete lattice structure from a supremum function on a partially ordered type.</li>
+</ul>
+<pre class="lean"><code>def CompleteLattice.mk_of_Sup {S : Set X → X} (h : isSupFun S) : CompleteLattice X where
+ I := fun s ↦ S (lowerBounds s)
+ I_isInf := isInf_of_isSup h
+ S := S
+ S_isSup := h
+</code></pre>
+<p>Until the end of this section, <code>X</code> will be a complete lattice.</p>
+<pre class="lean"><code>variable [CompleteLattice X]
+</code></pre>
+<ul>
+<li>The infimum function on a complete lattice.</li>
+</ul>
+<pre class="lean"><code>notation "Inf" =&gt; CompleteLattice.I
+</code></pre>
+<ul>
+<li>The supremum function on a complete lattice.</li>
+</ul>
+<pre class="lean"><code>notation "Sup" =&gt; CompleteLattice.S
+</code></pre>
+<p>We now restate a couple of lemmas proven above in terms of complete lattices.</p>
+<pre class="lean"><code>lemma lowerBound_Inf (s : Set X) : Inf s ∈ lowerBounds s :=
+  (CompleteLattice.I_isInf _).lowerBound
+
+lemma upperBound_Sup (s : Set X) : Sup s ∈ upperBounds s :=
+  (CompleteLattice.S_isSup _).upperBound
+</code></pre>
+<p>We now prove a series of lemmas asserting that <code>Inf</code> (and then <code>Sup</code> by duality)
+behave according to your intuition. You should feel free to skip those and jump to
+the adjunction section if you think you would be able to prove them and you want to
+see more interesting things.</p>
+<p>In the first lemma below, you will probably want to use
+<code>lowerBounds_mono_set ⦃s t : Set α⦄ (hst : s ⊆ t) : lowerBounds t ⊆ lowerBounds s</code>
+or reprove it as part of your proof.</p>
+<pre class="lean"><code>lemma Inf_pair {x x' : X} : x ≤ x' ↔ Inf {x, x'} = x := by
+  sorry
+
+lemma Sup_pair {x x' : X} : x ≤ x' ↔ Sup {x, x'} = x' := by
+  rw [Set.pair_comm x x']
+  exact Inf_pair (X := OrderDual X)
+</code></pre>
+<p>Let us prove that <code>Set</code> forms a complete lattice.</p>
+<pre class="lean"><code>lemma isInfInter {Y : Type} (S : Set (Set Y)) : isInf S (⋂₀ S) := by
+  sorry
+
+lemma isSupUnion {Y : Type} (S : Set (Set Y)) : isSup S (⋃₀ S) := by
+  sorry
+
+instance {Y : Type} : CompleteLattice (Set Y) where
+  I := Set.sInter
+  I_isInf := fun S ↦ isInfInter S
+  S := Set.sUnion
+  S_isSup := fun S ↦ isSupUnion S
+
+end InfSup
+
+section Adjunction</code></pre>
+<p>We are now ready for the second central definition of this file: adjunctions between
+ordered types.</p>
+<ul>
+<li>A pair of functions <code>l</code> and <code>r</code> between ordered types are adjoint if
+<code>∀ x y, l x ≤ y ↔ x ≤ r y</code>. One also says they form a Galois connection.
+Here <code>l</code> stands for "left" and <code>r</code> stands for "right".</li>
+</ul>
+<pre class="lean"><code>def adjunction [PartialOrder X] [PartialOrder Y] (l : X → Y) (r : Y → X) :=
+  ∀ x y, l x ≤ y ↔ x ≤ r y
+</code></pre>
+<p>The example you need to keep in mind is the adjunction between direct image
+and inverse image. Given <code>f : α → β</code>, we have:
+* <code>Set.image f : Set α → Set β</code> with notation <code>f ''</code>
+* <code>Set.preimage f : Set β → Set α</code> with notation <code>f ⁻¹'</code></p>
+<pre class="lean"><code>lemma image_preimage_adjunction {α β : Type} (f : α → β) :
+    adjunction (Set.image f) (Set.preimage f) := by
+  intros s t
+  exact Set.image_subset_iff
+
+lemma adjunction.dual [PartialOrder X] [PartialOrder Y] {l : X → Y} {r : Y → X}
+    (h : adjunction l r) :
+    adjunction (X := OrderDual Y) (Y := OrderDual X) r l := by
+  sorry
+</code></pre>
+<p>In the remaining of the section, <code>X</code> and <code>Y</code> are complete lattices.</p>
+<pre class="lean"><code>variable [PartialOrder X] [CompleteLattice X] [PartialOrder Y] [CompleteLattice Y]
+</code></pre>
+<p>We now come to the second main theorem of this file: the adjoint functor theorem for
+complete lattices. This theorem says that a function between complete lattices is
+a left adjoint (resp. right adjoint) if and only if it commutes with <code>Sup</code> (resp. with <code>Inf</code>).</p>
+<p>We first define the candidate right adjoint (without making any assumption on the original
+map).</p>
+<ul>
+<li>Constructs a candidate right adjoint for a map between complete lattices.
+This is an actual adjoint if the map commutes with <code>Sup</code>, see <code>adjunction_of_Sup</code>.</li>
+</ul>
+<pre class="lean"><code>def mk_right (l : X → Y) : Y → X := fun y ↦ Sup {x | l x ≤ y}
+</code></pre>
+<p>The proof of the theorem below isn't long but it isn't completely obvious either.
+First you need to understand the notations in the statement. <code>l '' s</code> is the direct image
+of <code>s</code> under <code>l</code>. This <code>''</code> is notation for <code>Set.image</code>. Putting your cursor on this
+notation and using the contextual menu to "jump to definition" will bring you to the file
+defining <code>Set.image</code> and containing lots of lemmas about it. The ones that are used in
+the reference solutions are</p>
+<ul>
+<li><code>Set.image_pair : (f : α → β) (a b : α) : f '' {a, b} = {f a, f b}</code></li>
+<li><code>Set.image_preimage_subset (f : α → β) (s : Set β) : f '' (f ⁻¹' s) ⊆ s</code></li>
+</ul>
+<p>Proof hint: one direction is easy and doesn't use the crucial assumption. For
+the other direction, you should probably first prove that <code>Monotone l</code>, ie
+<code>∀ ⦃a b⦄, a ≤ b → l a ≤ l b</code>, and then prove that, for every <code>y</code>,
+<code>Sup (l '' { x | l x ≤ y }) ≤ y</code>.</p>
+<pre class="lean"><code>theorem adjunction_of_Sup {l : X → Y} (h : ∀ s : Set X, l (Sup s) = Sup (l '' s)) :
+    adjunction l (mk_right l) := by
+  sorry
+</code></pre>
+<p>Of course we can play the same game to construct left adjoints.</p>
+<ul>
+<li>Constructs a candidate left adjoint for a map between complete lattices.
+This is an actual adjoint if the map commutes with <code>Inf</code>, see <code>adjunction_of_Inf</code>.</li>
+</ul>
+<pre class="lean"><code>def mk_left (r : Y → X) : X → Y := fun x ↦ Inf {y | x ≤ r y}
+
+theorem adjunction_of_Inf {r : Y → X} (h : ∀ s : Set Y, r (Inf s) = Inf (r '' s)) :
+    adjunction (mk_left r) r :=
+  fun x y ↦ (adjunction_of_Sup (X := OrderDual Y) (Y := OrderDual X) h y x).symm
+
+end Adjunction
+
+section Topology</code></pre>
+<p>In this section we apply the theory developed above to point-set topology.
+Our first goal is to endow the type <code>Topology X</code> of topologies on a given type
+with a complete lattice structure. We then turn any map <code>f : X → Y</code> into an
+adjunction <code>(f⁎, f ^*)</code> between <code>Topology X</code> and <code>Topology Y</code> and use it
+to build the product topology. Of course mathlib knows all this, but we'll
+continue to build our own theory.</p>
+<pre class="lean"><code>@[ext]
+structure Topology (X : Type) where
+  isOpen : Set X → Prop
+  isOpen_iUnion : ∀ {ι : Type}, ∀ {s : ι → Set X}, (∀ i, isOpen (s i)) → isOpen (⋃ i, s i)
+  isOpen_iInter : ∀ {ι : Type}, ∀ {s : ι → Set X}, (∀ i, isOpen (s i)) → Finite ι → isOpen (⋂ i, s i)
+</code></pre>
+<p>Let's run two quick sanity checks on our definition since so many textbooks include redundant
+conditions it the definition of topological spaces.</p>
+<pre class="lean"><code>lemma isOpen_empty (T : Topology X) : T.isOpen ∅ := by
+  have : (∅ : Set X) = ⋃ i : Empty, i.rec := by
+    rw [Set.iUnion_of_empty]
+  rw [this]
+  exact T.isOpen_iUnion Empty.rec
+
+lemma isOpen_univ (T : Topology X) : T.isOpen Set.univ := by
+  have : (Set.univ : Set X) = ⋂ i : Empty, i.rec := by
+    rw [Set.iInter_of_empty]
+  rw [this]
+  exact T.isOpen_iInter  Empty.rec (Finite.of_fintype Empty)
+</code></pre>
+<p>The <code>ext</code> attribute on the definition of <code>Topology</code> tells Lean to automatically build the following
+extensionality lemma:
+<code>Topology.ext_iff (T T' : Topology X), T = T' ↔ x.isOpen = y.isOpen</code>
+and it also registers this lemma for use by the <code>ext</code> tactic (we will come back to this below).</p>
+<ul>
+<li>We order <code>Topology X</code> using the order dual to the order induced by
+<code>Set (Set X)</code>. There are good reasons for this choice but they are beyond the scope of this
+tutorial.</li>
+</ul>
+<pre class="lean"><code>instance : PartialOrder (Topology X) :=
+PartialOrder.lift (β := OrderDual $ Set (Set X)) Topology.isOpen (fun _ _ ↦ (Topology.ext_iff).2)
+</code></pre>
+<ul>
+<li>The supremum function on <code>Topology X</code>.</li>
+</ul>
+<pre class="lean"><code>def SupTop (s : Set (Topology X)) : Topology X where
+  isOpen := fun V ↦ ∀ T ∈ s, T.isOpen V
+  isOpen_iUnion := by
+    intros ι t ht a ha
+    exact a.isOpen_iUnion fun i ↦ ht i a ha
+
+  isOpen_iInter := by
+    intros ι t ht hι a ha
+    exact a.isOpen_iInter (fun i ↦ ht i a ha) hι
+</code></pre>
+<p>Because the supremum function above comes from the supremum function of <code>OrderDual (Set (Set X))</code>,
+it is indeed a supremum function. We could state an abstract lemma saying that, but here a direct
+proof is just as easy and a lot of fun.</p>
+<pre class="lean"><code>lemma isSup_SupTop : isSupFun (SupTop : Set (Topology X) → Topology X) :=
+fun _ _ ↦ ⟨fun hT _ hV _ hs ↦ hT hs hV, fun hT T' hT' _ hV ↦ hT hV T' hT'⟩
+</code></pre>
+<p>We can use our abstract theory to get an infimum function for free, hence a complete lattice
+structure on <code>Topology X</code>.
+Note that our abstract theory is indeed doing non-trivial work: the infimum function does <em>not</em>
+come from <code>OrderDual (Set (Set X))</code>.</p>
+<pre class="lean"><code>instance : CompleteLattice (Topology X) := CompleteLattice.mk_of_Sup isSup_SupTop
+</code></pre>
+<p>Let us restate in complete lattice notation what our construction of <code>Sup</code> was. The proof
+is simply saying "this is true by definition".</p>
+<pre class="lean"><code>lemma isOpen_Sup {s : Set (Topology X)} {V : Set X} : (Sup s).isOpen V ↔ ∀ T ∈ s, T.isOpen V :=
+  Iff.rfl
+</code></pre>
+<p>We now start building our adjunction between <code>Topology X</code> and <code>Topology Y</code> induced by any
+map <code>f : X → Y</code>. We will build the left adjoint by hand and then invoke our adjoint functor
+theorem.</p>
+<pre class="lean"><code>def push (f : X → Y) (T : Topology X) : Topology Y where
+  isOpen := fun V ↦ T.isOpen (f ⁻¹' V)
+  isOpen_iUnion := by
+    sorry
+
+  isOpen_iInter := by
+    sorry
+
+postfix:1024 "⁎" =&gt; push -- type using `\_*`
+</code></pre>
+<ul>
+<li>A map <code>f : X → Y</code> is continuous with respect to topologies <code>T</code> and <code>T'</code> if the preimage of
+every open set is open.</li>
+</ul>
+<pre class="lean"><code>def Continuous (T : Topology X) (T' : Topology Y) (f : X → Y) :=  f ⁎ T ≤ T'
+</code></pre>
+<p>Let us check the definition is indeed saying what we claimed it says.</p>
+<pre class="lean"><code>example (T : Topology X) (T' : Topology Y) (f : X → Y) :
+  Continuous T T' f ↔ ∀ V, T'.isOpen V → T.isOpen (f ⁻¹' V) :=
+Iff.rfl
+</code></pre>
+<p>Note how the following proof uses the <code>ext</code> tactic which knows that two topologies are
+equal iff they have the same open sets thanks to the <code>ext</code> attribute on the definition
+of <code>Topology</code>.</p>
+<pre class="lean"><code>lemma push_push (f : X → Y) (g : Y →Z) (T : Topology X) :
+    g ⁎ (f ⁎ T) = (g ∘ f) ⁎ T := by
+  ext V
+  exact Iff.rfl
+</code></pre>
+<p>We want a right adjoint for <code>f ⁎</code> so we need to check it commutes with <code>Sup</code>.
+You may want to use
+<code>Set.ball_image_iff : (∀ y ∈ f '' s, p y) ↔ ∀ x ∈ s, p (f x)</code>
+where "ball" stands for "bounded for all", ie <code>∀ x ∈ ...</code>.</p>
+<pre class="lean"><code>lemma push_Sup (f : X → Y) {t : Set (Topology X)} : f ⁎ (Sup t) = Sup (f ⁎ '' t) := by
+  sorry
+
+def pull (f : X → Y) (T : Topology Y) : Topology X := mk_right (push f) T
+
+postfix:1024 "^*" =&gt; pull
+
+def ProductTopology {ι : Type} {X : ι → Type} (T : Π i, Topology (X i)) : Topology (Π i, X i) :=
+Inf (Set.range (fun i ↦ (fun x ↦ x i) ^* (T i)))
+
+lemma ContinuousProductTopIff {ι : Type} {X : ι → Type} (T : Π i, Topology (X i))
+  {Z : Type} (TZ : Topology Z) {f : Z → Π i, X i}:
+    Continuous TZ (ProductTopology T) f ↔ ∀ i,  Continuous TZ (T i) (fun z ↦ f z i) := by
+  sorry
+
+end Topology
+
+namespace Subgroups
+
+@[ext]
+structure Subgroup (G : Type) [Group G] where
+  carrier : Set G
+  one_mem : 1 ∈ carrier
+  mul_mem : ∀ ⦃x y : G⦄, x ∈ carrier → y ∈ carrier → x*y ∈ carrier
+  inv_mem : ∀ ⦃x : G⦄, x ∈ carrier → x⁻¹ ∈ carrier
+
+instance [Group G] : Membership G (Subgroup G) := ⟨fun H x ↦ x ∈ H.carrier⟩
+
+variable {G : Type} [Group G]
+
+instance : PartialOrder (Subgroup G) :=
+  PartialOrder.lift Subgroup.carrier (fun _ _ ↦ (Subgroup.ext_iff).2)
+</code></pre>
+<p>An intersection of subgroups is a subgroup.</p>
+<pre class="lean"><code>def SubgroupInf (s : Set (Subgroup G)) : Subgroup G where
+  carrier := ⋂ H ∈ s, H.carrier
+  one_mem := by
+    sorry
+
+  mul_mem := by
+    sorry
+
+  inv_mem := by
+    sorry
+
+
+lemma SubgroupInf_carrier (s : Set (Subgroup G)) :
+  (SubgroupInf s).carrier = ⋂₀ (Subgroup.carrier '' s) :=
+by simp [SubgroupInf]
+
+lemma SubgroupInf_is_Inf : isInfFun (SubgroupInf : Set (Subgroup G) → Subgroup G) := by
+  sorry
+
+instance : CompleteLattice (Subgroup G) := CompleteLattice.mk_of_Inf SubgroupInf_is_Inf
+
+lemma Inf_carrier (s : Set (Subgroup G)) : (Inf s).carrier = ⋂₀ (Subgroup.carrier '' s) :=
+  SubgroupInf_carrier s
+
+def forget (H : Subgroup G) : Set G := H.carrier
+
+def generate : Set G → Subgroup G := mk_left forget
+
+lemma generate_forget_adjunction : adjunction (generate : Set G → Subgroup G) forget := by
+  sorry
+
+variable {G' : Type} [Group G']
+
+def pull (f : G →* G') (H' : Subgroup G') : Subgroup G where
+  carrier := f ⁻¹' H'.carrier
+  one_mem := by
+    sorry
+
+  mul_mem := by
+    sorry
+
+  inv_mem := by
+    sorry
+
+
+lemma pull_carrier (f : G →* G') (H' : Subgroup G') : (pull f H').carrier = f ⁻¹' H'.carrier :=
+  rfl
+</code></pre>
+<p>Let's be really lazy and define subgroup push-forward by adjunction.</p>
+<pre class="lean"><code>def push (f : G →* G') : Subgroup G → Subgroup G' := mk_left (pull f)
+
+lemma push_pull_adjunction (f : G →* G') : adjunction (push f) (pull f) := by
+  sorry
+
+end Subgroups
+
+section</code></pre>
+<p>Our next concrete target is
+<code>push_generate (f : G →* G') (S : Set G) : push f (generate S) = generate (f '' S)</code></p>
+<p>which will require a couple more abstract lemmas.</p>
+<pre class="lean"><code>variable {X : Type} [PartialOrder X]
+         {Y : Type} [PartialOrder Y]
+
+lemma unique_left {l l' : X → Y} {r : Y → X} (h : adjunction l r) (h' : adjunction l' r) :
+    l = l' := by
+  sorry
+
+lemma unique_right {l : X → Y} {r r' : Y → X} (h : adjunction l r) (h' : adjunction l r') :
+    r = r' := by
+  sorry
+
+variable {Z : Type} [PartialOrder Z]
+
+lemma adjunction.compose {l : X → Y} {r : Y → X} (h : adjunction l r)
+  {l' : Y → Z} {r' : Z → Y} (h' : adjunction l' r') : adjunction (l' ∘ l) (r ∘ r') := by
+  sorry
+
+
+
+end
+
+namespace Subgroups
+variable {G : Type} [Group G] {G' : Type} [Group G']
+</code></pre>
+<p>As a last challenge, we propose the following lemma.</p>
+<ul>
+<li>The image under a group morphism of the subgroup generated by some set <code>S</code>
+is generated by the image of <code>S</code>.</li>
+</ul>
+<pre class="lean"><code>lemma push_generate (f : G →* G') : push f ∘ generate = generate ∘ (Set.image f) := by
+  sorry
+
+end Subgroups
+end Tutorial
+
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/PatrickMassot/GlimpseOfLean" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.prune", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "content.action.view"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

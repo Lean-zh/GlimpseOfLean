@@ -1,0 +1,1606 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lean 4 快速入门教程">
+      
+      
+        <meta name="author" content="GlimpseOfLean Community">
+      
+      
+        <link rel="canonical" href="https://leanprover.cn/GlimpseOfLean/en/Exercises/Shorter/">
+      
+      
+        <link rel="prev" href="../04Exists/">
+      
+      
+        <link rel="next" href="../Topics/ClassicalPropositionalLogic/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Shorter - GlimpseOfLean 文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#a-shorter-glimpse-of-lean" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../" title="GlimpseOfLean 文档" class="md-header__button md-logo" aria-label="GlimpseOfLean 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GlimpseOfLean 文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Shorter
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Select language">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../Exercises/Shorter/" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Lean-zh/GlimpseOfLean" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Introduction
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  Exercises
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Library/Basic/" class="md-tabs__link">
+          
+  
+  
+  Library
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Solutions/01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  Solutions
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../" title="GlimpseOfLean 文档" class="md-nav__button md-logo" aria-label="GlimpseOfLean 文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GlimpseOfLean 文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Lean-zh/GlimpseOfLean" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exercises
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Exercises
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01Rewriting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Rewriting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02Iff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03Forall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Forall
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04Exists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exists
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Shorter
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shorter
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#computing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Computing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#universal-quantifiers-and-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Universal quantifiers and implications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Topics
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Topics
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Topics/ClassicalPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Classical Propositional Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Topics/GaloisAdjunctions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Galois Adjunctions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Topics/IntuitionisticPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Intuitionistic Propositional Logic
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Topics/Probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Probability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Topics/RingTheory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ring Theory
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Topics/SequenceLimits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sequence Limits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Library/Basic/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Library
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Solutions/01Rewriting/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#computing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Computing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#universal-quantifiers-and-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Universal quantifiers and implications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/edit/master/docs/Exercises/Shorter.en.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/raw/master/docs/Exercises/Shorter.en.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<pre class="lean"><code>import GlimpseOfLean.Library.Short
+</code></pre>
+<h1 id="a-shorter-glimpse-of-lean">A shorter Glimpse of Lean</h1>
+<p>This file is the short track of the Glimpse of Lean project. It is meant for people
+who want to spend two hours discovering Lean. The hope is that two hours are
+enough to reach at least the first exercises about limits of sequences of real numbers.
+If you go faster or have a bit more time, you can try to do all those exercises.</p>
+<p>Of course the proofs are not always the most idiomatic ones since we aim to keep
+the amount of things to explain very low, while still giving a glimpse of how Lean
+sees mathematical proofs.</p>
+<p>Every command that is typed to make progress in the proof is called a “tactic”.
+We will learn about a dozen of them. For each tactic, we will see a couple of
+examples and then you will have exercises to do. The goal of each exercise is
+to replace the word <code>sorry</code> by a sequence of tactics that bring Lean to report
+there are no remaining goal, without reporting any error along the way.</p>
+<h2 id="computing">Computing</h2>
+<p>We start with basic computations using real numbers. We could play the micro-management
+game invoking properties like commutatitivity and associativity of addition.
+But we can also ask Lean to take care of any proof that only uses those properties
+using the <code>ring</code> tactic.
+By “only those properties” we mean in particular it won’t use any assumption
+specific to the proof at hand.</p>
+<p>The word <code>ring</code> refers to the abstract mathematical definition that encapsulates the
+basic properties of addition, subtraction and multiplication. Knowing about this
+abstract algebra is not required here.</p>
+<pre class="lean"><code>example (a b : ℝ) : (a+b)^2 = a^2 + 2*a*b + b^2 := by
+  ring
+</code></pre>
+<p>Now it’s your turn: replace the word sorry with the relevant tactic to
+finish the exercise.</p>
+<pre class="lean"><code>example (a b : ℝ) : (a+b)*(a-b) = a^2 - b^2 := by
+  sorry
+</code></pre>
+<p>Our next tactic is the <code>congr</code> tactic (<code>congr</code> stands for “congruence”).
+It tries to prove equalities by comparing both sides and creating new goals each time it
+sees some mismatch.</p>
+<pre class="lean"><code>example (a b : ℝ) (f : ℝ → ℝ) : f ((a+b)^2) = f (a^2 + 2*a*b + b^2) := by
+  congr
+  -- `congr` recognized the pattern `f _ = f _` and created a new goal
+  -- about the mismatching part, namely the arguments supplied to `f`.
+  ring
+</code></pre>
+<p>Try it on the next example.</p>
+<pre class="lean"><code>example (a b : ℝ) (f : ℝ → ℝ) : f ((a+b)^2 - 2*a*b) = f (a^2 + b^2) := by
+  sorry
+</code></pre>
+<p>When there are several mismatches, <code>congr</code> creates several goals.
+Sometimes it gets over-enthusastic and matches “too much”. For instance, if the goal
+is <code>f (a+b) = f (b+a)</code> then <code>congr</code> will recognize the common pattern
+<code>f (_ + _) = f (_ + _)</code> and create two goals: <code>a = b</code> and <code>b = a</code>.
+This can be controlled in various ways. The most basic one is enough for us: we can limit
+the number of function application layers by putting a number after <code>congr</code>.
+In the example the two functions that are applied are <code>f</code> and addition, and we want to
+go only through the application of <code>f</code>.</p>
+<pre class="lean"><code>example (a b : ℝ) (f : ℝ → ℝ) : f (a + b) = f (b + a) := by
+  congr 1 -- try removing that 1 or increasing it to see the issue.
+  ring
+</code></pre>
+<p>Actually <code>congr</code> does more than finding mismatches, it also try to resolve them
+using assumptions. In the next example, <code>congr</code> creates the goal <code>a + b = c</code> by
+matching, and then immediately proves it by noticing and using assumption <code>h</code>.</p>
+<pre class="lean"><code>example (a b c : ℝ) (h : a + b = c) (f : ℝ → ℝ) : f (a + b) = f c := by
+  congr
+</code></pre>
+<p>The tactics <code>ring</code> and <code>congr</code> are the basic tools we will use to compute.
+But sometimes we need to chain several computation steps.
+This is the job of the <code>calc</code> tactic.</p>
+<p>In the following example, it helps to carefully consider the tactic state
+displayed after each <code>by</code> after the <code>calc</code> line.</p>
+<pre class="lean"><code>example (a b c d : ℝ) (h : c = b*a - d) (h' : d = a*b) : c = 0 := by
+  calc
+    c = b*a - d   := by congr
+    _ = b*a - a*b := by congr
+    _ = 0         := by ring
+</code></pre>
+<p>Note that each <code>_</code> stands for the right-hand side of the previous line.
+So we are really proving a sequence of equalities, and then the <code>calc</code> tactic
+takes care of applying transitivity of equality (or equalities and inequalities
+when proving inequalities). Each proof in this sequence is introduced by <code>:= by</code>.</p>
+<p>The indentation rules for <code>calc</code> are a bit subtle, especially when there
+are other tactics after <code>calc</code>. Be careful to always align the <code>_</code>.
+Aligning the equality signs and the <code>:=</code> signs looks nice but is not mandatory.</p>
+<p>Laying out those calculation steps and copy-pasting the common pieces can be a
+bit tedious on larger examples, but we get help from the calc widget, as can be
+seen on the video at</p>
+<p>https://www.imo.universite-paris-saclay.fr/~patrick.massot/calc_widget.webm</p>
+<p>As you can see there, the <code>calc?</code> tactic propose to create a one-line compution,
+and then putting the cursor after <code>:= by</code> allows to select subterms to replace in
+a new calculation step.</p>
+<p>Note that subterm selection is done using Shift-click.
+There is no “click and move the cursor and then stop clicking”.
+This is different from regular selection of text in your editor or browser.</p>
+<pre class="lean"><code>example (a b c : ℝ) (h : a = -b) (h' : b + c = 0) : b*(a - c) = 0 := by
+  sorry
+</code></pre>
+<p>We can also handle inequalities using <code>gcongr</code> (which stands for “generalized congruence”)
+instead of <code>congr</code>.</p>
+<pre class="lean"><code>example (a b : ℝ) (h : a ≤ 2*b) : a + b ≤ 3*b := by
+  calc
+    a + b ≤ 2*b + b := by gcongr
+    _     = 3*b     := by ring
+
+example (a b : ℝ) (h : b ≤ a) : a + b ≤ 2*a := by
+  sorry
+</code></pre>
+<p>The last tactic you will use in computation is the simplifier <code>simp</code>. It will
+repeatedly apply a number of lemmas that are marked as simplification lemmas.
+For instance the proof below simplifies <code>x - x</code> to <code>0</code> and then <code>|0|</code> to <code>0</code>.</p>
+<pre class="lean"><code>example (x : ℝ) : |x - x| = 0 := by
+  simp
+
+</code></pre>
+<h2 id="universal-quantifiers-and-implications">Universal quantifiers and implications</h2>
+<p>Now let’s learn about the <code>∀</code> quantifier.</p>
+<p>Let <code>P</code> be a predicate on a type <code>X</code>. This means for every mathematical
+object <code>x</code> with type <code>X</code>, we get a mathematical statement <code>P x</code>.</p>
+<p>Lean sees a proof <code>h</code> of <code>∀ x, P x</code> as a function sending any <code>x : X</code> to
+a proof <code>h x</code> of <code>P x</code>.
+This already explains the main way to use an assumption or lemma which
+starts with a <code>∀</code>: we can simply feed it an element of the relevant <code>X</code>.</p>
+<p>Note we don't need to spell out <code>X</code> in the expression <code>∀ x, P x</code>
+as long as the type of <code>P</code> is clear to Lean, which can then infer the type of <code>x</code>.</p>
+<p>Let's define a predicate to play with <code>∀</code>. In that example we have a function
+<code>f : ℝ → ℝ</code> at hand, and <code>X = ℝ</code> (this value of <code>X</code> is inferred from the fact
+that we feed <code>x</code> to <code>f</code> which goes from <code>ℝ</code> to <code>ℝ</code>).</p>
+<pre class="lean"><code>def even_fun (f : ℝ → ℝ) := ∀ x, f (-x) = f x
+</code></pre>
+<p>In the above definition, note how there is no parentheses in <code>f x</code>.
+This is how Lean denotes function application. In <code>f (-x)</code> there are parentheses
+to prevent Lean from seeing a subtraction of <code>f</code> and <code>x</code> (which would make no sense).
+Also be careful the space between <code>f</code> and <code>(-x)</code> is mandatory.</p>
+<p>The <code>apply</code> tactic can be used to specialize universally quantified statements.</p>
+<pre class="lean"><code>example (f : ℝ → ℝ) (hf : even_fun f) : f (-3) = f 3 := by
+  apply hf 3
+</code></pre>
+<p>Fortunately, Lean is willing to work for us, so we can leave out the <code>3</code> and
+let the <code>apply</code> tactic compare the goal with the assumption
+and decide to specialize it to <code>x = 3</code>.</p>
+<pre class="lean"><code>example (f : ℝ → ℝ) (hf : even_fun f) : f (-3) = f 3 := by
+  apply hf
+</code></pre>
+<p>In the following exercise, you get to choose whether you want help from Lean
+or do all the work.</p>
+<pre class="lean"><code>example (f : ℝ → ℝ) (hf : even_fun f) : f (-5) = f 5 := by
+  sorry
+</code></pre>
+<p>This was about using a <code>∀</code>. Let us now see how to prove a <code>∀</code>.</p>
+<p>In order to prove <code>∀ x, P x</code>, we use <code>intro x₀</code> to fix an arbitrary object
+with type <code>X</code>, and call it <code>x₀</code> (<code>intro</code> stands for “introduce”).
+Note we don’t have to use the letter <code>x₀</code>, any name will work.</p>
+<p>We will prove that the real cosine function is even. After introducing some <code>x₀</code>,
+the simplifier tactic can finish the proof. Remember to carefully inspect the goal
+at the beginning of each line.</p>
+<pre class="lean"><code>open Real in -- this line insists that we mean real cos, not the complex numbers one.
+example : even_fun cos := by
+  intro x₀
+  simp
+</code></pre>
+<p>In order to get slightly more interesting examples, we will both use and prove
+some universally quantified statements.</p>
+<p>In the next proof, we also take the opportunity to introduce the
+<code>unfold</code> tactic, which simply unfolds definitions. Here this is purely
+for didactic reason, Lean doesn't need those <code>unfold</code> invocations.</p>
+<pre class="lean"><code>example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by
+  -- Our assumption on that f is even means ∀ x, f (-x) = f x
+  unfold even_fun at hf -- note how `hf` changes after this line
+  -- and the same for g
+  unfold even_fun at hg
+  -- We need to prove ∀ x, (f+g)(-x) = (f+g)(x)
+  unfold even_fun
+  -- Let x₀ be any real number
+  intro x₀
+  -- and let's compute
+  calc
+    (f + g) (-x₀) = f (-x₀) + g (-x₀)  := by simp
+    _             = f x₀ + g (-x₀)     := by congr 1; apply hf
+  -- put you cursor between `;` and `apply` in the previous line to see the intermediate goal
+    _             = f x₀ + g x₀        := by congr 1; apply hg
+    _             = (f + g) x₀         := by simp
+
+</code></pre>
+<p>Tactics like <code>congr</code> and <code>ring</code> will not unfold definitions that appear in the goal.
+This is why the first computation line is necessary, although it only unfolds a definition.
+The last line is not necessary however, since it only proves
+something that is true by definition, and is not followed by any other tactic.</p>
+<p>Also note that <code>congr</code> can generate several goals so we don’t have to call it twice.</p>
+<p>Hence we can compress the above proof to:</p>
+<pre class="lean"><code>example (f g : ℝ → ℝ)  (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by
+  intro x₀
+  calc
+    (f + g) (-x₀) = f (-x₀) + g (-x₀)  := by simp
+    _             = f x₀ + g x₀        := by congr 1; apply hf; apply hg
+</code></pre>
+<p>If you would rather uncompress the proof, you can use the <code>specialize</code> tactic to
+specialize a universally quantified assumption before using it.</p>
+<pre class="lean"><code>example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by
+  -- Let x₀ be any real number
+  intro x₀
+  specialize hf x₀ -- hf is now only about the x₀ we just introduced
+  specialize hg x₀ -- hg is now only about the x₀ we just introduced
+  -- and let's compute
+  -- (note how `congr` now finds assumptions finishing those steps)
+  calc
+    (f + g) (-x₀) = f (-x₀) + g (-x₀)  := by simp
+    _             = f x₀ + g (-x₀)     := by congr
+    _             = f x₀ + g x₀        := by congr
+    _             = (f + g) x₀         := by simp
+</code></pre>
+<p>Now let's practice. If you need to learn how to type a unicode symbol, you can
+put your mouse cursor above the symbol and wait for one second.
+Recall you can set a depth limit in <code>congr</code> by giving it a number as in <code>congr 1</code>.</p>
+<p>Note also that you can call your arbitrary real number <code>x</code> instead of <code>x₀</code> if
+you want to save some typing. We called it <code>x₀</code> only to emphasize it doesn’t
+need to be the same notation as in the statement.</p>
+<pre class="lean"><code>example (f g : ℝ → ℝ) (hf : even_fun f) : even_fun (g ∘ f) := by
+  sorry
+</code></pre>
+<p>Let's now combine the universal quantifier with implication.</p>
+<p>In the next definitions, note how <code>∀ x₁, ∀ x₂, ...</code> is abbreviated to <code>∀ x₁ x₂, ...</code>.</p>
+<pre class="lean"><code>def non_decreasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ ≤ f x₂
+
+def non_increasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ ≥ f x₂
+</code></pre>
+<p>Note how Lean uses a single arrow <code>→</code> to denote implication. This is the same arrow
+as in <code>f : ℝ → ℝ</code>. Indeed Lean sees a proof of the implication <code>P → Q</code> as a
+function from proofs of <code>P</code> to proofs of <code>Q</code>.</p>
+<p>So an assumption <code>hf : non_decreasing f</code> is a function that takes as input two numbers
+and a inequality between them and outputs an inequality between their images under <code>f</code>.</p>
+<pre class="lean"><code>example (f : ℝ → ℝ) (hf : non_decreasing f) (x₁ x₂ : ℝ) (hx : x₁ ≤ x₂) : f x₁ ≤ f x₂ := by
+  apply hf x₁ x₂ hx
+</code></pre>
+<p>We can ask Lean to work more for us, as in the following example:</p>
+<pre class="lean"><code>example (f : ℝ → ℝ) (hf : non_decreasing f) (x₁ x₂ : ℝ) (hx : x₁ ≤ x₂) : f x₁ ≤ f x₂ := by
+  apply hf -- Lean compares the goal with the assumption `hf`. It recognizes that `hf`
+           -- needs to be specialized to the numbers `x₁` and `x₂` that are given, to get
+           -- the implication `x₁ ≤ x₂ → f x₁ ≤ f x₂` and then asks for a proof of the
+           -- premise `x₁ ≤ x₂`
+  apply hx -- Our assumption hx is such a proof
+</code></pre>
+<p>Note that the tactic <code>apply</code> does not mean anything vague like “make something
+of that expression somehow”. It asks for an input that is either a full proof
+as in the first example, or a proof of statement involving universal
+quantifiers and implications in front of some statement that can be specialized
+to the current goal (as in the previous example).</p>
+<p>In this very simple example, we did not gain much. Now compare the following
+two proofs of the same statement.</p>
+<pre class="lean"><code>example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
+    non_decreasing (g ∘ f) := by
+  intro x₁ x₂ hx -- Note how `intro` is also introducing the assumption `h : x₁ ≤ x₂`
+  apply hg (f x₁) (f x₂) (hf x₁ x₂ hx)
+
+example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
+    non_decreasing (g ∘ f) := by
+  intro x₁ x₂ hx
+  apply hg
+  apply hf
+  apply hx
+</code></pre>
+<p>Take some time to understand how, in the second proof, Lean saves us the
+trouble of finding the relevant pairs of numbers and also nicely cuts the proof
+into pieces. You can choose your way in the following variation.</p>
+<pre class="lean"><code>example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_increasing g) :
+    non_increasing (g ∘ f) := by
+  sorry
+</code></pre>
+<p>At this stage you should feel that such a proof actually doesn’t require any
+thinking at all. And indeed Lean can easily handle the full proof in one tactic
+(but we won’t need this here).</p>
+<p>We can also use the <code>specialize</code> tactic to feed arguments to an assumption
+before using it, as we saw with the example of even functions.</p>
+<pre class="lean"><code>example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
+    non_decreasing (g + f) := by
+  intro x₁ x₂ h
+  specialize hf x₁ x₂ h
+  specialize hg x₁ x₂ h
+  calc
+    (g + f) x₁ = g x₁ + f x₁ := by simp
+    _          ≤ g x₂ + f x₂ := by gcongr
+    _          = (g + f) x₂  := by simp
+
+</code></pre>
+<h1 id="finding-lemmas">Finding lemmas</h1>
+<p>Lean’s mathematical library contains many useful facts, and remembering all of
+them by name is infeasible. We already saw the simplifier tactic <code>simp</code> which
+applies many lemmas without using their names.</p>
+<p>Use <code>simp</code> to prove the following. Note that <code>X : Set ℝ</code> means that <code>X</code> is a
+set containing (only) real numbers.</p>
+<pre class="lean"><code>example (x : ℝ) (X Y : Set ℝ) (hx : x ∈ X) : x ∈ (X ∩ Y) ∪ (X \ Y) := by
+  sorry
+</code></pre>
+<p>The <code>apply?</code> tactic will find lemmas from the library and tell you their names.
+It creates a suggestion below the goal display. You can click on this suggestion
+to edit your code.
+Use <code>apply?</code> to find the lemma that every continuous function with compact support
+has a global minimum.</p>
+<pre class="lean"><code>example (f : ℝ → ℝ) (hf : Continuous f) (h2f : HasCompactSupport f) : ∃ x, ∀ y, f x ≤ f y := by
+  sorry
+</code></pre>
+<h2 id="existential-quantifiers">Existential quantifiers</h2>
+<p>In order to prove <code>∃ x, P x</code>, we give some <code>x₀</code> that works with <code>use x₀</code> and
+then prove <code>P x₀</code>. This <code>x₀</code> can be an object from the local context
+or a more complicated expression. In the example below, the property
+to check after <code>use</code> is true by definition so the proof is over.</p>
+<pre class="lean"><code>example : ∃ n : ℕ, 8 = 2*n := by
+  use 4
+</code></pre>
+<p>In order to use <code>h : ∃ x, P x</code>, we use the <code>rcases</code> tactic to fix
+one <code>x₀</code> that works.</p>
+<p>Again <code>h</code> can come straight from the local context or can be a more
+complicated expression.</p>
+<p>The examples will use divisibility in <code>ℤ</code> (beware the <code>∣</code> symbol which is
+not ASCII but a unicode symbol). The angle brackets appearing after the
+word <code>with</code> are also unicode symbols.
+If your keyboard is not configured to directly type those symbols, you can
+put your mouse cursor above the symbol and wait for one second to see how
+to type them in this editor.</p>
+<pre class="lean"><code>example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : b ∣ c) : a ∣ c := by
+  rcases h₁ with ⟨k, hk⟩ -- we fix some `k` such that `b = a * k`
+  rcases h₂ with ⟨l, hl⟩ -- we fix some `l` such that `c = b * l`
+  -- Since `a ∣ c` means `∃ k, c = a*k`, we need the `use` tactic.
+  use k*l
+  calc
+    c = b*l     := by congr
+    _ = (a*k)*l := by congr
+    _ = a*(k*l) := by ring
+
+example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : a ∣ c) : a ∣ b + c := by
+  sorry
+</code></pre>
+<h2 id="conjunctions">Conjunctions</h2>
+<p>We now explain how to handle one more logical gadget: conjunction.</p>
+<p>Given two statements <code>P</code> and <code>Q</code>, the conjunction <code>P ∧ Q</code> is the statement that
+<code>P</code> and <code>Q</code> are both true (<code>∧</code> is sometimes called the “logical and”).</p>
+<p>In order to prove <code>P ∧ Q</code> we use the <code>constructor</code> tactic that splits the goal
+into proving <code>P</code> and then proving <code>Q</code>.</p>
+<p>In order to use a proof <code>h</code> of <code>P ∧ Q</code>, we use <code>h.1</code> to get a proof of <code>P</code>
+and <code>h.2</code> to get a proof of <code>Q</code>. We can also use <code>rcases h with ⟨hP, hQ⟩</code> to
+get <code>hP : P</code> and <code>hQ : Q</code>.</p>
+<p>Let us see both in action in a very basic logic proof: let us deduce <code>Q ∧ P</code>
+from <code>P ∧ Q</code>.</p>
+<pre class="lean"><code>example (P Q : Prop) (h : P ∧ Q) : Q ∧ P := by
+  constructor
+  apply h.2
+  apply h.1
+</code></pre>
+<h2 id="limits">Limits</h2>
+<p>We learned enough tactics to manipulate a definition involving both kinds of quantifiers:
+limits of sequences of real numbers.</p>
+<ul>
+<li>A sequence <code>u</code> converges to a limit <code>l</code> if the following holds.</li>
+</ul>
+<pre class="lean"><code>def seq_limit (u : ℕ → ℝ) (l : ℝ) := ∀ ε &gt; 0, ∃ N, ∀ n ≥ N, |u n - l| ≤ ε
+</code></pre>
+<p>Let’s see an example manipulating this definition and using a lot of the tactics
+we’ve seen above: if <code>u</code> is constant with value <code>l</code> then <code>u</code> tends to <code>l</code>.</p>
+<p>Remember <code>apply?</code> can find lemmas whose name you don’t want to remember, such as
+the lemma saying that positive implies non-negative.</p>
+<pre class="lean"><code>example (h : ∀ n, u n = l) : seq_limit u l := by
+  intro ε ε_pos
+  use 0
+  intro n hn
+  calc |u n - l| = |l - l| := by congr; apply h
+    _            = 0       := by simp
+    _            ≤ ε       := by apply?
+</code></pre>
+<p>When dealing with absolute values, we'll use the lemma:</p>
+<p><code>abs_le {x y : ℝ} : |x| ≤ y ↔ -y ≤ x ∧ x ≤ y</code></p>
+<p>When dealing with max, we’ll use</p>
+<p><code>ge_max_iff (p q r) : r ≥ max p q ↔ r ≥ p ∧ r ≥ q</code></p>
+<p>The way we will use those lemmas is with the rewriting command
+<code>rw</code>. Let's see an example.
+In that example, we kept <code>apply?</code> instead of accepting its suggestions in order to emphasize
+there is no need to remember those lemma names.
+Note also how we can use <code>by</code> anywhere to start proving something using tactics. In the example
+below, we use it to prove <code>ε/2 &gt; 0</code> from our assumption <code>ε &gt; 0</code>.</p>
+<pre class="lean"><code>-- If `u` tends to `l` and `v` tends `l'` then `u+v` tends to `l+l'`
+example (hu : seq_limit u l) (hv : seq_limit v l') :
+    seq_limit (u + v) (l + l') := by
+  intro ε ε_pos
+  rcases hu (ε/2) (by apply?) with ⟨N₁, hN₁⟩
+  rcases hv (ε/2) (by apply?) with ⟨N₂, hN₂⟩
+  use max N₁ N₂
+  intro n hn
+  rw [ge_max_iff] at hn -- Note how hn changes from `n ≥ max N₁ N₂` to `n ≥ N₁ ∧ n ≥ N₂`
+  specialize hN₁ n hn.1
+  specialize hN₂ n hn.2
+  calc
+    |(u + v) n - (l + l')| = |u n + v n - (l + l')|   := by simp
+    _ = |(u n - l) + (v n - l')|                      := by congr; ring
+    _ ≤ |u n - l| + |v n - l'|                        := by apply?
+    _ ≤ ε/2 + ε/2                                     := by gcongr
+    _ = ε                                             := by simp
+
+</code></pre>
+<p>Let's do something similar: the squeezing theorem using both <code>ge_max_iff</code> and <code>abs_le</code>.
+You will probably want to rewrite using <code>abs_le</code> in several assumptions as well as in the
+goal. You can use <code>rw [abs_le] at *</code> for this.</p>
+<pre class="lean"><code>example (hu : seq_limit u l) (hw : seq_limit w l) (h : ∀ n, u n ≤ v n) (h' : ∀ n, v n ≤ w n) :
+    seq_limit v l := by
+  sorry
+
+</code></pre>
+<p>In the next exercise, we'll use</p>
+<p><code>eq_of_abs_sub_le_all (x y : ℝ) : (∀ ε &gt; 0, |x - y| ≤ ε) → x = y</code></p>
+<p>as the first step.</p>
+<pre class="lean"><code>-- A sequence admits at most one limit. You will be able to use that lemma in the following
+-- exercises.
+lemma uniq_limit (hl : seq_limit u l) (hl' : seq_limit u l') : l = l' := by
+  apply eq_of_abs_sub_le_all
+  sorry
+</code></pre>
+<h2 id="subsequences">Subsequences</h2>
+<p>We will now play with subsequences.</p>
+<p>The new definition we will use is that <code>φ : ℕ → ℕ</code> is an extraction
+if it is (strictly) increasing.</p>
+<pre class="lean"><code>def extraction (φ : ℕ → ℕ) := ∀ n m, n &lt; m → φ n &lt; φ m
+</code></pre>
+<p>In the following, <code>φ</code> will always denote a function from <code>ℕ</code> to <code>ℕ</code>.</p>
+<p>The next lemma is proved by an easy induction, but we haven't seen induction
+in this tutorial. If you did the natural number game then you can delete
+the proof below and try to reconstruct it. Otherwise you can simply take a quick look
+at how proofs by induction look like (but we won’t need any other one here).</p>
+<ul>
+<li>An extraction is greater than id</li>
+</ul>
+<pre class="lean"><code>lemma id_le_extraction' : extraction φ → ∀ n, n ≤ φ n := by
+  intro hyp n
+  induction n with
+  | zero =&gt;  apply?
+  | succ n ih =&gt; exact Nat.succ_le_of_lt (by
+      calc n ≤ φ n := ih
+        _    &lt; φ (n + 1) := by apply hyp; apply?)
+</code></pre>
+<p>In the exercise, we use <code>∃ n ≥ N, ...</code> which is the abbreviation of
+<code>∃ n, n ≥ N ∧ ...</code>.</p>
+<p>Don’t forget to move the cursor around to see what each <code>apply?</code> is proving.</p>
+<ul>
+<li>Extractions take arbitrarily large values for arbitrarily large
+inputs.</li>
+</ul>
+<pre class="lean"><code>lemma extraction_ge : extraction φ → ∀ N N', ∃ n ≥ N', φ n ≥ N := by
+  sorry
+</code></pre>
+<ul>
+<li>A real number <code>a</code> is a cluster point of a sequence <code>u</code>
+if <code>u</code> has a subsequence converging to <code>a</code>.</li>
+</ul>
+<pre class="lean"><code>def cluster_point (u : ℕ → ℝ) (a : ℝ) := ∃ φ, extraction φ ∧ seq_limit (u ∘ φ) a
+</code></pre>
+<ul>
+<li>If <code>a</code> is a cluster point of <code>u</code> then there are values of
+<code>u</code> arbitrarily close to <code>a</code> for arbitrarily large input.</li>
+</ul>
+<pre class="lean"><code>lemma near_cluster :
+  cluster_point u a → ∀ ε &gt; 0, ∀ N, ∃ n ≥ N, |u n - a| ≤ ε := by
+  sorry
+
+</code></pre>
+<ul>
+<li>If <code>u</code> tends to <code>l</code> then its subsequences tend to <code>l</code>.</li>
+</ul>
+<pre class="lean"><code>lemma subseq_tendsto_of_tendsto' (h : seq_limit u l) (hφ : extraction φ) :
+  seq_limit (u ∘ φ) l := by
+  sorry
+</code></pre>
+<ul>
+<li>If <code>u</code> tends to <code>l</code> all its cluster points are equal to <code>l</code>.</li>
+</ul>
+<pre class="lean"><code>lemma cluster_limit (hl : seq_limit u l) (ha : cluster_point u a) : a = l := by
+  sorry
+</code></pre>
+<ul>
+<li><code>u</code> is a Cauchy sequence if its values get arbitrarily close for large
+enough inputs.</li>
+</ul>
+<pre class="lean"><code>def CauchySequence (u : ℕ → ℝ) :=
+  ∀ ε &gt; 0, ∃ N, ∀ p q, p ≥ N → q ≥ N → |u p - u q| ≤ ε
+
+example : (∃ l, seq_limit u l) → CauchySequence u := by
+  sorry
+
+
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/PatrickMassot/GlimpseOfLean" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.prune", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "content.action.view"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

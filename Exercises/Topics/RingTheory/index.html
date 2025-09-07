@@ -1,0 +1,1387 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lean 4 快速入门教程">
+      
+      
+        <meta name="author" content="GlimpseOfLean Community">
+      
+      
+        <link rel="canonical" href="https://leanprover.cn/GlimpseOfLean/Exercises/Topics/RingTheory/">
+      
+      
+        <link rel="prev" href="../Probability/">
+      
+      
+        <link rel="next" href="../SequenceLimits/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>环论 - GlimpseOfLean Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="GlimpseOfLean Documentation" class="md-header__button md-logo" aria-label="GlimpseOfLean Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GlimpseOfLean Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              环论
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="选择当前语言">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="zh" class="md-select__link">
+              中文
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="../../../en/Exercises/Topics/RingTheory/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Lean-zh/GlimpseOfLean" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../Introduction/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  介绍
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  练习
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Library/Basic/" class="md-tabs__link">
+          
+  
+  
+  库
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../Solutions/01Rewriting/" class="md-tabs__link">
+          
+  
+  
+  解答
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="GlimpseOfLean Documentation" class="md-nav__button md-logo" aria-label="GlimpseOfLean Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GlimpseOfLean Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Lean-zh/GlimpseOfLean" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Lean-zh/GlimpseOfLean
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    介绍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    练习
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            练习
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01Rewriting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    重写
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02Iff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    当且仅当
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03Forall/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    全称量词
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04Exists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    存在量词
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Shorter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    简化版
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    主题
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            主题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ClassicalPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    经典命题逻辑
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GaloisAdjunctions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    伽罗瓦伴随
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../IntuitionisticPropositionalLogic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    直觉主义命题逻辑
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Probability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    概率论
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    环论
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    环论
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      同态和同构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      理想和理想商环
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      第一同构定理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      理想的算术和中国剩余定理
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SequenceLimits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    序列极限
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Library/Basic/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    库
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../Solutions/01Rewriting/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    解答
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      同态和同构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      理想和理想商环
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      第一同构定理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      理想的算术和中国剩余定理
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/edit/master/docs/Exercises/Topics/RingTheory.zh.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Lean-zh/GlimpseOfLean/raw/master/docs/Exercises/Topics/RingTheory.zh.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<pre class="lean"><code>import GlimpseOfLean.Library.Ring
+
+setup
+open PiNotation BigOperators Function Classical
+noncomputable section
+
+namespace GlimpseOfLean
+</code></pre>
+<h1 id="_1">交换环及其商环</h1>
+<p>这个文件是环论所需对象的一次巡礼：环、环同态和同构、理想和商环。第一部分完全是基础的，仅使用交换环的定义。中间部分介绍了环对理想的商环，并以诺特第一同构定理的证明为高潮。最后部分使用理想的算术，并以中国剩余定理的证明为高潮。</p>
+<pre class="lean"><code>open RingHom Function
+</code></pre>
+<p>要说"设 <code>R</code> 为任意交换环"，我们写 <code>{R : Type*} [CommRing R]</code> 来声明一个类型 <code>R</code>，然后假设它装备了交换环结构。</p>
+<p>现在，给定元素 <code>x y z : R</code>，我们可以对环的元素应用环运算符，如 <code>+</code>、<code>-</code>、<code>*</code>、<code>0</code> 和 <code>1</code> 来获得新元素。<code>ring</code> 策略可以化简得到的表达式。</p>
+<p>（这里，<code>2</code> 是 <code>1 + 1</code> 的缩写，<code>3</code> 是 <code>1 + 1 + 1</code>，...）</p>
+<pre class="lean"><code>example {R : Type*} [CommRing R] (x y z : R) :
+    x * (y + z) + y * (z + x) + z * (x + y) = 2 * x * y + 2 * y * z + 2 * x * z := by
+  ring
+</code></pre>
+<h2 id="_2">同态和同构</h2>
+<p>给定环 <code>R</code> 和环 <code>S</code>，从 <code>R</code> 到 <code>S</code> 的环同态写作 <code>f : R →+* S</code>。像函数一样，我们可以通过写 <code>f x</code> 将同态 <code>f</code> 应用到元素 <code>x : R</code> 上。<code>simp</code> 策略知道关于环同态的基本事实。例如，它们保持运算 <code>+</code>、<code>*</code>、<code>0</code> 和 <code>1</code>。</p>
+<pre class="lean"><code>section homomorphisms
+variable {R S : Type*} [CommRing R] [CommRing S]
+
+
+example (f : R →+* S) (x y : R) :
+    f (1 + x * y) + f 0 = 1 + f x * f y := by
+  simp
+
+variable {T : Type*} [CommRing T]</code></pre>
+<p>让我们试着定义两个环同态的复合。我们必须提供映射的定义，然后证明它尊重环结构。当然 Mathlib 已经有了这个，但我们重新做这个练习。</p>
+<p>尝试使用 <code>intro</code> 和 <code>simp</code> 填入下面的 <code>sorry</code>。</p>
+<pre class="lean"><code>def RingHom.comp (g : S →+* T) (f : R →+* S) : R →+* T where
+  toFun x := g (f x)
+  map_one' := by
+    sorry
+  map_mul' := by
+    sorry
+  map_zero' := by
+    sorry
+  map_add' := by
+    sorry
+</code></pre>
+<p><code>R</code> 和 <code>S</code> 之间的环同构写作 <code>e : R ≃+* S</code>。我们可以通过写 <code>e x</code> 将 <code>e</code> 作为从 <code>R</code> 到 <code>S</code> 的函数，其中 <code>x : R</code>。要在另一个方向上应用 <code>e</code>，从 <code>S</code> 到 <code>R</code>，我们写 <code>e.symm y</code>，其中 <code>y : S</code>。</p>
+<p>要直接定义环同构，我们必须提供两个映射：<code>toFun : R → S</code> 和 <code>invFun : S → R</code>，并证明它们互为逆映射，此外还要证明加法和乘法被保持。我们将在下面看到一个不显式提供逆态射的例子。尝试证明两个同构的复合仍然是同构。</p>
+<p>提示：<code>Function.LeftInverse</code> 和 <code>Function.RightInverse</code> 是全称量词陈述。尝试展开它们或使用 <code>intro x</code> 来推进。</p>
+<pre class="lean"><code>def RingEquiv.comp (g : S ≃+* T) (f : R ≃+* S) : R ≃+* T where
+  toFun x := g (f x)
+  invFun x := f.symm (g.symm x)
+  left_inv := by
+    sorry
+  right_inv := by
+    sorry
+  map_add' := by
+    sorry
+  map_mul' := by
+    sorry
+
+end homomorphisms
+</code></pre>
+<h2 id="_3">理想和理想商环</h2>
+<p>环 <code>R</code> 中的理想在 Mathlib 中写作 <code>I : Ideal R</code>。对于环的元素 <code>x : R</code>，我们可以通过写 <code>x ∈ I</code> 来断言 <code>x</code> 在理想 <code>I</code> 中。</p>
+<p>不幸的是，我们不能依赖 <code>simp</code> 来证明理想的成员关系。策略 <code>aesop</code> 进行强大的（但较慢的）搜索，通过更多的事实。</p>
+<pre class="lean"><code>variable {R} [CommRing R]
+
+example (I : Ideal R) (x y : R) (hx : x ∈ I) : y * x + x * y - 0 ∈ I := by
+  aesop
+</code></pre>
+<p>一个重要的理想是环同态的核。我们可以写作 <code>ker f : Ideal R</code>，其中 <code>f : R →+* S</code>。核定义为包含所有被 <code>f</code> 映射到 <code>0</code> 的元素：</p>
+<pre class="lean"><code>example {S} [CommRing S] (f : R →+* S) (x : R) : x ∈ ker f ↔ f x = 0 := by
+  rw [mem_ker]
+</code></pre>
+<p>要定义理想，我们给出载体集合的定义，然后证明它在左乘下封闭（因此也在右乘下封闭，因为我们这里的环是交换的）。</p>
+<p>尝试证明两个理想的交集仍然是理想（当然 Mathlib 已经知道这个，这只是一个练习）。</p>
+<pre class="lean"><code>def Ideal.inter (I J : Ideal R) : Ideal R where
+  carrier := I ∩ J
+  add_mem' := by
+    sorry
+  zero_mem' := by
+    sorry
+  smul_mem' := by
+    sorry
+</code></pre>
+<p>最后，让我们看看理想商环。如果 <code>I</code> 是环 <code>R</code> 的理想，那么我们将 <code>R</code> 模 <code>I</code> 的商环写作 <code>R ⧸ I</code>。（这不是除法符号！输入 <code>\/</code> 来写商环符号。）商环又是一个环，我们可以像上面的 <code>R</code>、<code>S</code>、<code>T</code> 一样处理它，通过取商环的元素并将它们相加和相乘：</p>
+<pre class="lean"><code>example (I : Ideal R) (x y z : R ⧸ I) :
+    x * (y + z) + y * (z + x) + z * (x + y) = 2 * x * y + 2 * y * z + 2 * x * z := by
+  ring
+</code></pre>
+<p>涉及商环有两个重要的同态。首先，从 <code>R</code> 到商环 <code>R ⧸ I</code> 的标准映射，称为 <code>Ideal.Quotient.mk I : R →+* R ⧸ I</code>。</p>
+<p>当两个 <code>R</code> 的元素的差在理想中时，它们被映射到商环中的同一个元素：</p>
+<pre class="lean"><code>example (I : Ideal R) (x y : R) (h : x - y ∈ I) :
+    Ideal.Quotient.mk I x = Ideal.Quotient.mk I y := by
+  rw [Ideal.Quotient.mk_eq_mk_iff_sub_mem]
+  exact h
+</code></pre>
+<p>我们可以更简洁地说：<code>Ideal.Quotient.mk I</code> 的核恰好是 <code>I</code>。</p>
+<pre class="lean"><code>example (I : Ideal R) : ker (Ideal.Quotient.mk I) = I :=
+  Ideal.mk_ker
+</code></pre>
+<p>商环 <code>R⧸I</code> 和同态 <code>Ideal.Quotient.mk I</code> 构成了"最小"的环和从 <code>R</code> 在 <code>I</code> 上消失的同态对：任何其他这样的同态都通过它分解。这是 <code>R⧸I</code> 的泛性质。分解的同态是 <code>Ideal.Quotient.lift I f hfI : R ⧸ I →+* S</code> 其中 <code>f : R →+* S</code> 且 <code>hfI : ∀ a ∈ I, f a = 0</code>。</p>
+<p>这给了我们开始证明第一同构定理所需的最后成分。首先，我们将证明任何同态 <code>f : R →+* S</code> 作为映射 <code>R ⧸ ker f →+* S</code> 是良定义的。</p>
+<p>尝试使用 <code>intro</code>、<code>rw</code>、<code>apply</code> 和/或 <code>exact</code> 填入缺失的证明。</p>
+<pre class="lean"><code>section universal_property
+variable {S} [CommRing S]
+
+def kerLift (f : R →+* S) : R ⧸ ker f →+* S :=
+  Ideal.Quotient.lift (ker f) f fun x ↦ by
+    sorry
+</code></pre>
+<p>在新定义之后，为其基本性质制作引理是个好主意。</p>
+<pre class="lean"><code>theorem kerLift_mk (f : R →+* S) (x : R) : kerLift f (Ideal.Quotient.mk (ker f) x) = f x := by
+  sorry
+</code></pre>
+<p>当我们给定商环元素 <code>x : R ⧸ I</code> 时，为这个商环元素选择代表元 <code>x' : R</code> 通常是有用的证明步骤。<code>x' : R</code> 是 <code>x : R ⧸ I</code> 的代表元的陈述写作 <code>Ideal.Quotient.mk I x' = x</code>。每个 <code>x : R ⧸ I</code> 都有代表元的事实可以写作 <code>∃ x', Ideal.Quotient.mk I x' = x</code>。回忆 <code>04Exists.lean</code> 中 <code>Function.Surjective</code> 的定义，我们可以看到 <code>∃ x', Ideal.Quotient.mk I x' = x</code> 与 <code>Function.Surjective (Ideal.Quotient.mk I)</code> 相同，它在 Mathlib 中作为定理 <code>Ideal.Quotient.mk_surjective</code> 可用。</p>
+<p>举个例子，让我们开始证明 <code>kerLift</code> 是单射的。我们首先使用 <code>Ideal.Quotient.mk_surjective</code> 为 <code>x</code> 选择代表元 <code>x'</code>。然后我们处处用 <code>Ideal.Quotient.mk I x'</code> 替换 <code>x</code>。</p>
+<p>尝试完成证明。这里有一些有用的引理：<code>Ideal.Quotient.eq_zero_iff_mem</code>、<code>kerLift_mk</code>、<code>mem_ker</code>。</p>
+<pre class="lean"><code>theorem kerLift_injective' (f : R →+* S) (x : R ⧸ ker f) (hx : kerLift f x = 0) : x = 0 := by
+  rcases Ideal.Quotient.mk_surjective x with ⟨x', hx'⟩
+  rw [← hx']
+  rw [← hx'] at hx
+  sorry
+</code></pre>
+<p>让我们使用 <code>Function.Injective</code> 重新陈述这个结果。</p>
+<pre class="lean"><code>theorem kerLift_injective (f : R →+* S) : Injective (kerLift f) := by
+  rw [injective_iff_map_eq_zero]
+  exact kerLift_injective' f
+</code></pre>
+<h2 id="_4">第一同构定理</h2>
+<p>我们有了证明第一同构定理形式的所有成分：如果 <code>f : R →+* S</code> 是满射环同态，<code>R ⧸ ker f</code> 与 <code>S</code> 同构，通过我们将在下面定义的显式同构。要给出逆函数，我们使用定义 <code>surjInv</code>，它给出满射函数 <code>f</code> 的任意右逆（如果 <code>hf</code> 是 <code>f</code> 满射的证明，<code>surjInv</code> 是右逆的证明叫做 <code>rightInverse_surjInv hf</code>）。</p>
+<pre class="lean"><code>def firstIsomorphismTheorem (f : R →+* S) (hf : Function.Surjective f) :
+    R ⧸ ker f ≃+* S :=
+  { toFun := kerLift f
+    invFun x := Ideal.Quotient.mk (ker f) (surjInv hf x)
+    right_inv := rightInverse_surjInv hf
+    map_mul' := by
+      sorry
+    map_add' := by
+      sorry
+    left_inv := by
+      -- 这里是所有内容汇聚的地方。
+      -- 尝试遵循这个证明草图：
+      -- * 引入变量 `x : R ⧸ ker f`。
+      -- * 为 `x` 选择代表元，就像我们在 `kerLift_injective'` 中做的那样。
+      -- * 应用我们的定理 `kerLift_injective`。
+      -- * 使用 `kerLift_mk` 反复重写 `kerLift _ (Ideal.Quotient.mk _ _)`。
+      -- * 通过用 `rightInverse_surjInv` 重写来完成。
+      sorry
+    }
+
+end universal_property
+end GlimpseOfLean
+</code></pre>
+<h2 id="_5">理想的算术和中国剩余定理</h2>
+<p>我们现在将一窥更高级的理论，即交换环中理想的中国剩余定理。这是众所周知的整数基本版本的推广。</p>
+<pre class="lean"><code>section chinese
+open RingHom
+
+namespace Ideal
+-- 上面一行的一个效果是允许写 `Quotient` 而不是 `Ideal.Quotient`
+
+section definition_and_injectivity
+-- `R` 是我们的交换环。
+variable {R} [CommRing R]
+
+-- `I` 是我们的理想族，由类型 `ι` 参数化。
+variable {ι : Type} (I : ι → Ideal R)
+</code></pre>
+<p>我们想创建一个从 <code>R</code> 对 <code>I i</code> 的交集的商环到商环 <code>R⧸(I i)</code> 的积的环同态。对每个 <code>i : ι</code>，我们有从 <code>R</code> 到 <code>R⧸(I i)</code> 的同态，即 <code>Quotient.mk (I i)</code>。将所有这些收集到从 <code>R</code> 到积 <code>Π i, (R ⧸ I i)</code> 的映射中是 <code>Pi.ringHom</code> 的工作。我们将需要关于这个 <code>Pi.ringHom</code> 的引理 <code>ker_Pi_Quotient_mk</code>。然后我们需要 <code>Ideal.lift</code> 通过 <code>R</code> 对交集 <code>⨅ i, I i</code> 的商环来分解这个。注意，根据你使用的字体，交集符号 <code>⨅</code> 和积 <code>Π</code> 可能很难区分。</p>
+<pre class="lean"><code>def chineseMap  : (R ⧸ ⨅ i, I i) →+* Π i, R ⧸ I i :=
+  Quotient.lift (⨅ i, I i) (Pi.ringHom fun i : ι ↦ Quotient.mk (I i))
+    (by sorry)
+</code></pre>
+<p>让我们记录这个映射在元素上作用的两种稍微不同的拼写，按定义。</p>
+<pre class="lean"><code>lemma chineseMap_mk (x : R) : chineseMap I (Quotient.mk _ x) = fun i : ι ↦ Quotient.mk (I i) x :=
+  rfl
+
+lemma chineseMap_mk' (x : R) (i : ι) : chineseMap I (Quotient.mk _ x) i = Quotient.mk (I i) x :=
+  rfl
+</code></pre>
+<p>这个映射总是单射的，对理想族没有任何假设。这是前一节单射性的变化。</p>
+<pre class="lean"><code>lemma chineseMap_injective : Injective (chineseMap I) := by
+  sorry
+end definition_and_injectivity
+</code></pre>
+<p>相比之下，满射性需要一些假设。基本版本处理有限的成对互质整数族。在一般情况下，我们想使用有限的成对互质理想族。</p>
+<p>在 <code>Ideal R</code> 上有交换半环结构。这听起来像奇异的代数结构，但它与你在 <code>ℕ</code> 上有的相同：它很像交换环，除了没有减法运算。两个理想 <code>I</code> 和 <code>J</code> 是互质的，如果 <code>I + J = 1</code> 其中 <code>1</code> 是 <code>Ideal R</code> 的单位，即包含 <code>R</code> 所有元素的理想。这个条件应用于 <code>ℤ</code> 的理想 <code>nℤ</code> 和 <code>mℤ</code> 互质的事实本质上是贝祖等式。在 <code>Ideal R</code> 上还有序关系，<code>1</code> 是顶元素 <code>⊤</code>。</p>
+<p>中国剩余定理证明中的关键引理是下面这个，它通过对有限集合 <code>s</code> 的归纳来证明。这里有个有趣的点。在纸上你可能会说你通过对 <code>s</code> 的基数的归纳来证明它。你会在 <code>s</code> 上放某种顺序，仅仅是为了能够挑出"最后"一个元素。通常 <code>s</code> 会是 <code>{1, …, n}</code>，对某个自然数 <code>n</code>。在 Lean 中，我们简单地说 <code>s</code> 是有限集合，并应用归纳原理 <code>Finset.induction</code> 说，为了证明某个类型 <code>ι</code> 中所有有限集合的某个性质，足以证明空集的性质，并且假设某个集合 <code>s</code> 有这个性质，证明 <code>s ∪ {i}</code> 也有这个性质，对每个不在 <code>s</code> 中的 <code>i</code>。证明的结构在下面给出，所以你不必记住如何</p>
+<p>并集 <code>s ∪ {i}</code> 拼写为 <code>insert i s</code>。关于这个运算的以下引理会有用：</p>
+<pre class="lean"><code>#check Finset.mem_insert_of_mem
+
+#check Finset.mem_insert_self
+
+variable {R : Type*} [CommRing R] {ι : Type}
+
+lemma coprime_iInf_of_coprime {I : Ideal R} {J : ι → Ideal R} {s : Finset ι} :
+    (∀ j ∈ s, I + J j = 1) → I + (⨅ j ∈ s, J j) = 1 := by
+  induction s using Finset.induction with
+  | empty =&gt;
+      sorry
+  | @insert i s _ hs =&gt;
+      intro h
+      rw [Finset.iInf_insert, inf_comm, one_eq_top, eq_top_iff, ← one_eq_top]
+      set K := ⨅ j ∈ s, J j
+      sorry
+</code></pre>
+<p>我们现在准备证明中国剩余定理中的满射性。我们需要在有限类型 <code>ι</code> 上写和。对任何 <code>f : ι → R</code>，<code>f</code> 的值的和是 <code>∑ i, f i</code>。关于这个运算的有用引理包括 <code>map_sum</code>，它说同态与这种和交换，以及 <code>Finset.sum_univ_eq_single</code>，它允许在假设 <code>f</code> 仅对 <code>ι</code> 的单个元素非零的情况下重写这个和。</p>
+<pre class="lean"><code>lemma chineseMap_surjective [Fintype ι] {I : ι → Ideal R} (hI : ∀ i j, i ≠ j → I i + I j = 1) :
+    Surjective (chineseMap I) := by
+  intro g
+  -- 如果你比较调用前后的策略状态，`choose` 策略的作用应该很清楚。
+  choose f hf using fun i ↦ Quotient.mk_surjective (g i)
+  have key : ∀ i, ∃ e : R, Quotient.mk (I i) e = 1 ∧ ∀ j, j ≠ i → Quotient.mk (I j) e = 0 := by
+    intro i
+    have hI' : ∀ j ∈ ({i} : Finset ι)ᶜ, I i + I j = 1 := by
+      sorry
+    sorry
+  choose e he using key
+  sorry
+</code></pre>
+<p>我们现在可以将所有内容放在一起得到中国剩余同构。</p>
+<pre class="lean"><code>noncomputable def chineseIso [Fintype ι] (I : ι → Ideal R) (hI : ∀ i j, i ≠ j → I i + I j = 1) :
+   (R ⧸ ⨅ i, I i) ≃+* Π i, R ⧸ I i :=
+{ Equiv.ofBijective _ ⟨chineseMap_injective I, chineseMap_surjective hI⟩, chineseMap I with }
+
+end Ideal
+end chinese
+
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/PatrickMassot/GlimpseOfLean" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.prune", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.action.edit", "content.action.view"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
