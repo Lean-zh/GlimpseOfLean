@@ -3,15 +3,15 @@ open Set
 
 namespace ClassicalPropositionalLogic
 
-/- Let's try to implement a language of classical propositional logic.
+/- 让我们尝试实现一种经典命题逻辑语言。
 
-Note that there is also version of this file for intuitionistic logic:
+注意这里还有用于直觉主义逻辑的版本：
 `IntuitionisticPropositionalLogic.lean`
 -/
 
 def Variable : Type := ℕ
 
-/- We define propositional formula, and some notation for them. -/
+/- 我们定义命题公式和一些符号。 -/
 
 inductive Formula : Type where
   | var : Variable → Formula
@@ -34,7 +34,7 @@ local notation (priority := high) "⊤" => top
 def equiv (A B : Formula) : Formula := (A ⇒ B) && (B ⇒ A)
 local infix:29 (priority := high) " ⇔ " => equiv
 
-/- Let's define truth w.r.t. a valuation, i.e. classical validity -/
+/- 让我们定义相对于赋值的真值，即经典有效性 -/
 
 @[simp]
 def IsTrue (φ : Variable → Prop) : Formula → Prop
@@ -49,10 +49,10 @@ def Models (Γ : Set Formula) (A : Formula) : Prop := ∀ {φ}, Satisfies φ Γ 
 local infix:27 (priority := high) " ⊨ " => Models
 def Valid (A : Formula) : Prop := ∅ ⊨ A
 
-/- Here are some basic properties of validity.
+/- 以下是有效性的一些基本性质。
 
-  The tactic `simp` will automatically simplify definitions tagged with `@[simp]` and rewrite
-  using theorems tagged with `@[simp]`. -/
+  策略 `simp` 会自动简化用 `@[simp]` 标记的定义，并使用
+  用 `@[simp]` 标记的定理进行重写。 -/
 
 variable {φ : Variable → Prop} {A B : Formula}
 @[simp] lemma isTrue_neg : IsTrue φ ~A ↔ ¬ IsTrue φ A := by simp [neg]
@@ -68,8 +68,8 @@ variable {φ : Variable → Prop} {A B : Formula}
   tauto
   -- sorry
 
-/- As an exercise, let's prove (using classical logic) the double negation elimination principle.
-  `by_contra h` might be useful to prove something by contradiction. -/
+/- 作为练习，让我们使用（经典逻辑）证明双重否定消除原理。
+  `by_contra h` 可能对反证法证明有用。 -/
 
 example : Valid (~~A ⇔ A) := by
   -- sorry
@@ -77,19 +77,19 @@ example : Valid (~~A ⇔ A) := by
   simp
   -- sorry
 
-/- We will frequently need to add an element to a set. This is done using
-the `insert` function: `insert A Γ` means `Γ ∪ {A}`. -/
+/- 我们经常需要向集合中添加元素。这通过 `insert` 函数完成：
+`insert A Γ` 表示 `Γ ∪ {A}`。 -/
 
 @[simp] lemma satisfies_insert_iff : Satisfies φ (insert A Γ) ↔ IsTrue φ A ∧ Satisfies φ Γ := by
   simp [Satisfies]
 
-/- Let's define provability w.r.t. classical logic. -/
+/- 让我们定义相对于经典逻辑的可证性。 -/
 section
-set_option hygiene false -- this is a hacky way to allow forward reference in notation
+set_option hygiene false -- 这是允许记号中前向引用的技巧性方法
 local infix:27 " ⊢ " => ProvableFrom
 
-/- `Γ ⊢ A` is the predicate that there is a proof tree with conclusion `A` with assumptions from
-  `Γ`. This is a typical list of rules for natural deduction with classical logic. -/
+/- `Γ ⊢ A` 是存在一个结论为 `A` 且假设来自 `Γ` 的证明树的谓词。
+  这是经典逻辑自然演绎的典型规则列表。 -/
 inductive ProvableFrom : Set Formula → Formula → Prop
   | ax    : ∀ {Γ A},   A ∈ Γ   → Γ ⊢ A
   | impI  : ∀ {Γ A B},  insert A Γ ⊢ B                → Γ ⊢ A ⇒ B
@@ -106,13 +106,13 @@ end
 
 local infix:27 (priority := high) " ⊢ " => ProvableFrom
 
-/- A formula is provable if it is provable from an empty set of assumption. -/
+/- 如果公式可以从空假设集合中证明，则称该公式是可证的。 -/
 def Provable (A : Formula) := ∅ ⊢ A
 
 export ProvableFrom (ax impI impE botC andI andE1 andE2 orI1 orI2 orE)
 variable {Γ Δ : Set Formula}
 
-/- We define a simple tactic `apply_ax` to prove something using the `ax` rule. -/
+/- 我们定义一个简单的策略 `apply_ax` 来使用 `ax` 规则证明某些东西。 -/
 syntax "solve_mem" : tactic
 syntax "apply_ax" : tactic
 macro_rules
@@ -122,10 +122,9 @@ macro_rules
                     | fail "tactic \'apply_ax\' failed")
   | `(tactic| apply_ax)  => `(tactic| { apply ax; solve_mem })
 
-/- To practice with the proof system, let's prove the following.
-  You can either use the `apply_ax` tactic defined on the previous lines, which proves a goal that
-  is provable using the `ax` rule.
-  Or you can do it manually, using the following lemmas about insert.
+/- 要熟悉证明系统，让我们证明以下内容。
+  你可以使用前几行定义的 `apply_ax` 策略，它证明使用 `ax` 规则可证的目标。
+  或者你可以手动完成，使用以下关于 insert 的引理。
 ```
   mem_singleton x : x ∈ {x}
   mem_insert x s : x ∈ insert x s
@@ -139,7 +138,7 @@ example : {A, B} ⊢ A && B := by
   apply_ax
   apply_ax
 
--- And the same one done by hand in one go.
+-- 同样的内容，一次性手动完成。
 example : {A, B} ⊢ A && B := by
   exact andI (ax (mem_insert _ _)) (ax (mem_insert_of_mem _ (mem_singleton _)))
 
@@ -157,7 +156,7 @@ example : Provable (~~A ⇔ A) := by
     apply_ax
   -- sorry
 
-/- Optional exercise: prove the law of excluded middle. -/
+/- 可选练习：证明排中律。 -/
 example : Provable (A || ~A) := by
   -- sorry
   apply botC
@@ -168,9 +167,9 @@ example : Provable (A || ~A) := by
   apply orI1 (by apply_ax)
   -- sorry
 
-/- Optional exercise: prove one of the de-Morgan laws.
-  If you want to say that the argument called `A` of the axiom `impE` should be `X && Y`,
-  you can do this using `impE (A := X && Y)` -/
+/- 可选练习：证明德摩根定律之一。
+  如果你想说公理 `impE` 的参数 `A` 应该是 `X && Y`，
+  你可以使用 `impE (A := X && Y)` 来做到这一点 -/
 example : Provable (~(A && B) ⇔ ~A || ~B) := by
   -- sorry
   apply andI
@@ -193,14 +192,8 @@ example : Provable (~(A && B) ⇔ ~A || ~B) := by
       apply andE2 (by apply_ax)
   -- sorry
 
-/- You can prove the following using `induction` on `h`. You will want to tell Lean that you want
-  to prove it for all `Δ` simultaneously using `induction h generalizing Δ`.
-  Lean will mark created assumptions as inaccessible (marked with †)
-  if you don't explicitly name them.
-  You can name the last inaccessible variables using for example `rename_i ih` or
-  `rename_i A B h ih`. Or you can prove a particular case using `case impI ih => <proof>`.
-  You will probably need to use the lemma
-  `insert_subset_insert : s ⊆ t → insert x s ⊆ insert x t`. -/
+/- 你可以使用对 `h` 的 `induction` 来证明以下内容。你需要告诉 Lean 你想使用 `induction h generalizing Δ` 同时对所有 `Δ` 证明它。Lean 会将创建的假设标记为不可访问的（用 † 标记），如果你没有明确地命名它们。
+  你可以使用例如 `rename_i ih` 或 `rename_i A B h ih` 来命名最后的不可访问变量。或者你可以使用 `case impI ih => <proof>` 证明特定情况。你可能需要使用引理 `insert_subset_insert : s ⊆ t → insert x s ⊆ insert x t`。 -/
 lemma weakening (h : Γ ⊢ A) (h2 : Γ ⊆ Δ) : Δ ⊢ A := by
   -- sorry
   induction h generalizing Δ
@@ -216,17 +209,16 @@ lemma weakening (h : Γ ⊢ A) (h2 : Γ ⊆ Δ) : Δ ⊢ A := by
   case botC ih => apply botC; solve_by_elim [insert_subset_insert]
   -- sorry
 
-/- Use the `apply?` tactic to find the lemma that states `Γ ⊆ insert x Γ`.
-  You can click the blue suggestion in the right panel to automatically apply the suggestion. -/
+/- 使用 `apply?` 策略找到陈述 `Γ ⊆ insert x Γ` 的引理。你可以点击右侧面板中的蓝色建议来自动应用建议。 -/
 
 lemma ProvableFrom.insert (h : Γ ⊢ A) : insert B Γ ⊢ A := by
   -- sorry
   apply weakening h
-  -- use `apply?` here
+  -- 在这里使用 `apply?`
   exact subset_insert B Γ
   -- sorry
 
-/- Proving the deduction theorem is now easy. -/
+/- 现在证明演绎定理很容易。 -/
 lemma deduction_theorem (h : Γ ⊢ A) : insert (A ⇒ B) Γ ⊢ B := by
   -- sorry
   apply impE (ax $ mem_insert _ _)
@@ -241,8 +233,8 @@ lemma Provable.mp (h1 : Provable (A ⇒ B)) (h2 : Γ ⊢ A) : Γ ⊢ B := by
   exact empty_subset Γ
   -- sorry
 
-/-- You will want to use the tactics `left` and `right` to prove a disjunction, and the
-  tactic `cases h` if `h` is a disjunction to do a case distinction. -/
+/-- 你需要使用策略 `left` 和 `right` 来证明析取，并且使用
+  策略 `cases h`（如果 `h` 是析取）来进行情况区分。 -/
 theorem soundness_theorem (h : Γ ⊢ A) : Γ ⊨ A := by
   -- sorry
   induction h <;> intros φ hφ
@@ -264,20 +256,20 @@ theorem valid_of_provable (h : Provable A) : Valid A := by
   -- sorry
 
 /-
-  If you want, you can now try some these longer projects.
+  如果你愿意，你现在可以尝试一些这些较长的项目。
 
-  1. Prove completeness: if a formula is valid, then it is provable
-  Here is one possible strategy for this proof:
-  * If a formula is valid, then so is its negation normal form (NNF);
-  * If a formula in NNF is valid, then so is its conjunctive normal form (CNF);
-  * If a formula in CNF is valid then it is syntactically valid:
-      all its clauses contain both `A` and `¬ A` in it for some `A` (or contain `⊤`);
-  * If a formula in CNF is syntactically valid, then its provable;
-  * If the CNF of a formula in NNF is provable, then so is the formula itself.
-  * If the NNF of a formula is provable, then so is the formula itself.
+  1. 证明完备性：如果一个公式是有效的，那么它是可证的
+  以下是此证明的一种可能策略：
+  * 如果一个公式是有效的，那么它的否定范式 (NNF) 也是有效的；
+  * 如果 NNF 中的公式是有效的，那么它的合取范式 (CNF) 也是有效的；
+  * 如果 CNF 中的公式是有效的，那么它在语法上是有效的：
+      它的所有子句都包含某个 `A` 的 `A` 和 `¬ A`（或包含 `⊤`）；
+  * 如果 CNF 中的公式在语法上是有效的，那么它是可证的；
+  * 如果 NNF 中公式的 CNF 是可证的，那么公式本身也是可证的。
+  * 如果公式的 NNF 是可证的，那么公式本身也是可证的。
 
-  2. Define Gentzen's sequent calculus for propositional logic, and prove that this gives rise
-  to the same provability.
+  2. 为命题逻辑定义 Gentzen 的序列演算，并证明这产生了
+  相同的可证性。
 -/
 
 end ClassicalPropositionalLogic

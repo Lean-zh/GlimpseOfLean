@@ -1,130 +1,103 @@
 import GlimpseOfLean.Library.Basic
 
-/- # Implications
+/- # 蕴含关系
 
-## Using implications
+## 使用蕴含关系
 
-Lean denotes implication by the symbol `→` instead of `⇒` because it sees a proof
-of `P → Q` as a function sending any proof of `P` to a proof of `Q`
-(increase font size if you can't see the difference between → and ⇒).
+Lean 使用符号 `→` 而不是 `⇒` 来表示蕴含关系，因为它将 `P → Q` 的证明视为一个函数，将 `P` 的任何证明发送到 `Q` 的证明（如果看不清 → 和 ⇒ 的区别，请增大字体大小）。
 
-For instance, given a real number `a`, the lemma `sq_pos_of_pos` claims `0 < a → 0 < a^2`
-so the proof belows apply the "function" `sq_pos_of_pos` to the assumption `ha`.
+例如，给定一个实数 `a`，引理 `sq_pos_of_pos` 声明 `0 < a → 0 < a^2` 所以下面的证明将"函数" `sq_pos_of_pos` 应用到假设 `ha` 上。
 
-Remember that whenever you see in a Lean file a symbol that you don't see on
-your keyboard, such as →, you can put your mouse cursor above it and learn from
-a tooltip how to type it. In the case of →, you can type it by typing "\to ", so
-backslash-t-o-space.
+请记住，当你在 Lean 文件中看到键盘上没有的符号时，比如 →，你可以将鼠标光标放在它上面，从工具提示中了解如何输入它。对于 →，你可以通过输入 "\to " 来输入它，即反斜杠-t-o-空格。
 -/
 
 example (a : ℝ) (ha : 0 < a) : 0 < a^2 := by
   exact sq_pos_of_pos ha
 
 /-
-The above proof is a direct proof: we already know `0 < a` and we feed this fact into the
-implication.
-We can also use backward reasoning using the `apply` tactic.
+上面的证明是直接证明：我们已经知道 `0 < a`，并将这个事实输入到蕴含关系中。我们也可以使用 `apply` 策略进行反向推理。
 -/
 
 example (a : ℝ) (ha : 0 < a) : 0 < (a^2)^2 := by
-  apply sq_pos_of_pos -- Thanks to `sq_pos_of_pos`, it suffices to prove `0 < a^2`
-  apply sq_pos_of_pos -- Thanks to `sq_pos_of_pos`, it suffices to prove `0 < a`
-  exact ha -- this is exactly our assumption `ha`.
+  apply sq_pos_of_pos -- 通过 `sq_pos_of_pos`，只需证明 `0 < a^2`
+  apply sq_pos_of_pos -- 通过 `sq_pos_of_pos`，只需证明 `0 < a`
+  exact ha -- 这正好是我们的假设 `ha`。
 
 /-
-Try to do the next exercise using the lemma `add_pos : 0 < x → 0 < y → 0 < x + y`.
-Note that after you `apply add_pos` you will have two goals, that you will have to
-prove one-by-one.
+尝试使用引理 `add_pos : 0 < x → 0 < y → 0 < x + y` 来完成下一个练习。注意，在你 `apply add_pos` 之后你将有两个目标，需要一个一个地证明。
 -/
 
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 0 < a^2 + b^2 := by
   sorry
 
 /-
-You can also give a proof with forward reasoning, using the `have` tactic.
-In order to announce an intermediate statement we use:
+你也可以使用 `have` 策略进行前向推理来给出证明。为了宣布一个中间陈述，我们使用：
 
   `have my_name : my_statement := by`
 
-and then increase the indentation level.
-This triggers the apparition of a new goal: proving the statement.
-After the proof is done, the statement becomes available under the name `my_name`.
-If the proof is a single `exact` tactic then you can get rid
-of `by` and `exact` and directly put the argument of `exact` after the `:=`.
+然后增加缩进级别。这会触发一个新目标的出现：证明这个陈述。证明完成后，该陈述将在名称 `my_name` 下可用。如果证明是单个 `exact` 策略，那么你可以去掉 `by` 和 `exact`，直接将 `exact` 的参数放在 `:=` 之后。
 -/
 
 example (a : ℝ) (ha : 0 < a) : 0 < (a^2)^2 := by
-  have h2 : 0 < a^2 := by     -- we declare `0 < a^2` as a subgoal
-    apply sq_pos_of_pos  -- we start proving the subgoal
-    exact ha             -- this line is indented, so part of the proof of the subgoal
-  exact sq_pos_of_pos h2 -- we finished the subgoal, and now we prove the main goal using it.
+  have h2 : 0 < a^2 := by     -- 我们声明 `0 < a^2` 作为一个子目标
+    apply sq_pos_of_pos  -- 我们开始证明子目标
+    exact ha             -- 这行是缩进的，所以是子目标证明的一部分
+  exact sq_pos_of_pos h2 -- 我们完成了子目标，现在使用它来证明主目标。
 
-/- Now prove the same lemma as before using forwards reasoning. -/
+/- 现在使用前向推理证明与之前相同的引理。 -/
 
 example (a b : ℝ) (ha : 0 < a) (hb : 0 < b) : 0 < a^2 + b^2 := by
   sorry
 
 
-/- ## Proving implications
+/- ## 证明蕴含关系
 
-In order to prove an implication, we need to assume the premise and prove the conclusion.
-This is done using the `intro` tactic. Secretly the exercise above was proving the
-implication `a > 0 → (a^2)^2 > 0` but the premise was already introduced for us.
+为了证明一个蕴含关系，我们需要假设前提并证明结论。这通过使用 `intro` 策略来完成。实际上上面的练习是在证明蕴含关系 `a > 0 → (a^2)^2 > 0`，但前提已经为我们引入了。
 -/
 
 example (a b : ℝ) : a > 0 → b > 0 → a + b > 0 := by
-  intro ha hb -- You can choose any names here
+  intro ha hb -- 你可以在这里选择任意名称
   exact add_pos ha hb
 
-/- Now prove the following simple statement in propositional logic.
-Note that `p → q → r` means `p → (q → r)`. -/
+/- 现在证明命题逻辑中的以下简单陈述。注意 `p → q → r` 意味着 `p → (q → r)`。 -/
 example (p q r : Prop) : (p → q) → (p → q → r) → p → r := by
   sorry
 
 /-
-Note that, when using `intro`, you need to give a name to the assumption.
-Lean will let you use a name that was already used. In that case the new
-assumption will shadow the existing one which becomes inaccessible. So the safe
-thing to do by default is to use a new name.
+注意，当使用 `intro` 时，你需要为假设给一个名称。Lean 允许你使用已经使用过的名称。在这种情况下，新的假设会隐藏现有的那个，使其变得不可访问。所以默认情况下安全的做法是使用新名称。
 -/
 
-/- # Equivalences
+/- # 等价关系
 
-## Using equivalences to rewrite statements
+## 使用等价关系重写陈述
 
-In the previous file, we saw how to rewrite using equalities.
-The analogue operation with mathematical statements is rewriting using
-equivalences. This is also done using the `rw` tactic.
-Lean uses `↔` to denote equivalence instead of `⇔`
-(increase font size if you can't see the difference).
+在上一个文件中，我们看到了如何使用等式进行重写。对于数学陈述的类比操作是使用等价关系进行重写。这也是通过 `rw` 策略完成的。Lean 使用 `↔` 来表示等价关系，而不是 `⇔`（如果看不清区别，请增大字体大小）。
 
-In the following exercises we will use the lemma:
+在以下练习中，我们将使用引理：
 
   `sub_nonneg : 0 ≤ y - x ↔ x ≤ y`
 -/
 
 example {a b c : ℝ} : c + a ≤ c + b ↔ a ≤ b := by
-  rw [← sub_nonneg] -- This `rw` uses an equivalence
+  rw [← sub_nonneg] -- 这个 `rw` 使用了一个等价关系
   have key : (c + b) - (c + a) = b - a := by
     ring
-  rw [key] -- This `rw` uses an equality result, not an equivalence
-  rw [sub_nonneg] -- and we switch back to reach the tautology a ≤ b ↔ a ≤ b
+  rw [key] -- 这个 `rw` 使用了一个等式结果，不是等价关系
+  rw [sub_nonneg] -- 然后我们切换回去以达到重言式 a ≤ b ↔ a ≤ b
 
 /-
-Let's prove a variation
+让我们证明一个变化
 -/
 
 example {a b : ℝ} (c : ℝ) : a + c ≤ b + c ↔ a ≤ b := by
   sorry
 
 /-
-The above lemma is already in the mathematical library, under the name `add_le_add_iff_right`:
+上面的引理已经在数学库中，名称为 `add_le_add_iff_right`：
 
 `add_le_add_iff_right (c : ℝ) : a + c ≤ b + c ↔ a ≤ b`
 
-This can be read as: "`add_le_add_iff_right` is a function that will take as input a real
-number `c` and will output a proof of `a + c ≤ b + c ↔ a ≤ b`". Here is an example where this lemma
-is used.
+这可以理解为："`add_le_add_iff_right` 是一个函数，它将一个实数 `c` 作为输入并输出 `a + c ≤ b + c ↔ a ≤ b` 的证明"。以下是使用此引理的示例。
 -/
 
 example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by
@@ -133,12 +106,9 @@ example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by
     _ ≤ a + b := by rw [add_le_add_iff_right b] ; exact ha
 
 /-
-## Using equivalences as pairs of implications
+## 将等价关系用作蕴含关系对
 
-The second line in the above proof is a bit silly: we use statement rewriting to reduce
-the goal to our assumption `ha`, but it would be more natural to see the equivalence as a
-double implication. We can access the two implications of an equivalence `h : P ↔ Q` as
-`h.1 : P → Q` and `h.2 : Q → P`. This allows us to rewrite the above proof as:
+上面证明中的第二行有点愚蠢：我们使用陈述重写将目标简化为我们的假设 `ha`，但更自然的做法是将等价关系视为双向蕴含关系。我们可以通过 `h.1 : P → Q` 和 `h.2 : Q → P` 访问等价关系 `h : P ↔ Q` 的两个蕴含关系。这允许我们将上面的证明重写为：
 -/
 
 example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by
@@ -147,28 +117,20 @@ example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by
     _ ≤ a + b := by exact (add_le_add_iff_right b).2 ha
 
 
-/- Let's do a variant using `add_le_add_iff_left a : a + b ≤ a + c ↔ b ≤ c` instead. -/
+/- 让我们使用 `add_le_add_iff_left a : a + b ≤ a + c ↔ b ≤ c` 来做一个变化。 -/
 
 example (a b : ℝ) (hb : 0 ≤ b) : a ≤ a + b := by
   sorry
 
 /-
-Important note: in the previous exercises, we used lemmas like `add_le_add_iff_left` as
-elementary examples to manipulate equivalences. But invoking those lemmas by hand when
-working on interesting mathematics would be awfully tedious. There are tactics
-whose job is to do these things automatically, but this is not the topic of this file.
+重要提示：在前面的练习中，我们使用了像 `add_le_add_iff_left` 这样的引理作为操作等价关系的基本示例。但是在研究有趣的数学时手动调用这些引理会非常繁琐。有一些策略的工作就是自动完成这些事情，但这不是本文件的主题。
 
 
-## Proving equivalences
+## 证明等价关系
 
-In order to prove an equivalence one can use `rw` until the
-goal is the tautology `P ↔ P`, just as one can do with equalities.
+为了证明一个等价关系，可以使用 `rw` 直到目标是重言式 `P ↔ P`，就像对等式所做的那样。
 
-One can also separately prove the two implications using the `constructor` tactic.
-Below is an example.
-If you put your cursor after `constructor`, you will see two goals, one for each direction.
-Lean will keep track of the goals for you, making sure you solve all of them.
-The "focussing dot" `·` keeps the proof for each goal separate.
+也可以使用 `constructor` 策略分别证明两个蕴含关系。下面是一个示例。如果你将光标放在 `constructor` 之后，你将看到两个目标，每个方向一个。Lean 会为你跟踪目标，确保你解决所有这些目标。"聚焦点" `·` 保持每个目标的证明分离。
 -/
 
 example (a b : ℝ) : (a-b)*(a+b) = 0 ↔ a^2 = b^2 := by
@@ -185,14 +147,13 @@ example (a b : ℝ) : (a-b)*(a+b) = 0 ↔ a^2 = b^2 := by
                 _ = 0          := by ring
 
 
-/- You can try it yourself in this exercise. -/
+/- 你可以在这个练习中自己尝试。 -/
 
 example (a b : ℝ) : a = b ↔ b - a = 0 := by
   sorry
 
 /-
-This is the end of this file where you learned how to handle implications and
-equivalences. You learned about tactics:
+这是本文件的结尾，在这里你学会了如何处理蕴含关系和等价关系。你学到了以下策略：
 * `intro`
 * `apply`
 * `have`

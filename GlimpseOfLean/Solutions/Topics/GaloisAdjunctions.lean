@@ -2,12 +2,9 @@ import GlimpseOfLean.Library.Basic
 
 open PiNotation
 
-/- # Abstract non-sense 101: Galois adjunctions
+/- # 抽象废话101：Galois 伴随
 
-In this file we will play with the simplest examples of adjunctions: Galois connections between
-complete lattices. There is a lot about this topic in Mathlib, the mathematical library of Lean, but
-here we will roll our own version for practice. This file builds the fundamental theory of these
-objects and each lemma you prove in this file is named and can be reused to prove the next lemmas.
+在这个文件中，我们将使用最简单的伴随例子：完备格之间的 Galois 连接。Lean 的数学库 Mathlib 中有很多关于这个主题的内容，但在这里我们将为了练习而构建我们自己的版本。这个文件构建了这些对象的基本理论，你在这个文件中证明的每个引理都被命名了，可以重复使用来证明后续的引理。
 -/
 
 namespace Tutorial
@@ -16,29 +13,23 @@ section InfSup
 variable [PartialOrder X]
 
 /-
-In this section, `X` is a type equipped with a partial order relation. So you have access
-to lemmas:
+在这一节中，`X` 是一个配备了偏序关系的类型。所以你可以使用以下引理：
 * `le_rfl {a : X} : a ≤ a`
 * `le_trans {a b c : X} (h : a ≤ b) (h' : b ≤ c) : a ≤ c`
 * `le_antisymm {a b : X} (h : a ≤ b) (h' : b ≤ a) : a = b`
 
+参数周围的花括号表示这些参数是隐式的，所以 Lean 永远不会要求它们，因为它们肯定可以从上下文中推断出来；特别是，当应用包含花括号中变量的引理时，你应该*不*提供相应的值。
 
-Curly braces around arguments mean these arguments are implicit, so Lean will never
-require them, because they can certainly be inferred from context; in particular, when
-applying a lemma that contains variables in curly braces, you should *not*
-provide the corresponding values.
-
-We will also use the definition of the set of lower bounds of a set `s`
+我们还将使用集合 `s` 的下界集的定义：
 
 `lowerBounds s = {x  | ∀ a ∈ s, x ≤ a}`
 
-and similarly
+以及类似地
 
 `upperBounds s = {x  | ∀ a ∈ s, a ≤ x}`
 -/
 
-/-- An element `x₀` is an infimum of a set `s` in `X` if every element
-of `X` is a lower bound of `s` if and only if it is below `x₀`.  -/
+/-- 如果 `X` 中的每个元素是集合 `s` 的下界当且仅当它在 `x₀` 下方，则元素 `x₀` 是 `X` 中集合 `s` 的下确界。  -/
 def isInf (s : Set X) (x₀ : X) :=
   ∀ x, x ∈ lowerBounds s ↔ x ≤ x₀
 
@@ -51,7 +42,7 @@ lemma isInf.lowerBound {s : Set X} {x₀ : X} (h : isInf s x₀) : x₀ ∈ lowe
   -- apply le_rfl
   -- sorry
 
-/-- A set has at most one infimum. -/
+/-- 一个集合最多有一个下确界。 -/
 def isInf.eq {s : Set X} {x₀ x₁ : X} (hx₀ : isInf s x₀) (hx₁ : isInf s x₁) : x₀ = x₁ := by
   -- sorry
   apply le_antisymm
@@ -62,36 +53,30 @@ def isInf.eq {s : Set X} {x₀ x₁ : X} (hx₀ : isInf s x₀) (hx₁ : isInf s
   · exact (hx₀ x₁).1 (isInf.lowerBound hx₁)
   -- sorry
 
-/-- An element `x₀` is a supremum of a set `s` in `X` if every element
-of `X` is a lower bound of `s` if and only if it below `x₀`.  -/
+/-- 如果 `X` 中的每个元素是集合 `s` 的上界当且仅当 `x₀` 在它下方，则元素 `x₀` 是 `X` 中集合 `s` 的上确界。  -/
 def isSup (s : Set X) (x₀ : X) :=
   ∀ x, x ∈ upperBounds s ↔ x₀ ≤ x
 
 /-
-The next lemma is proven by applying `isInf.lowerBound` to `X` equipped with
-the opposite order relation. You don't need to understand precisely how this is
-achieved since all proofs using this trick will be offered.
+下一个引理通过将 `isInf.lowerBound` 应用到配备相反序关系的 `X` 来证明。你不需要准确理解这是如何实现的，因为会提供所有使用这个技巧的证明。
 -/
 
 lemma isSup.upperBound {s : Set X} {x₀ : X} (h : isSup s x₀) : x₀ ∈ upperBounds s :=
   isInf.lowerBound (X := OrderDual X) h
 
-/-- A set has at most one supremum. -/
+/-- 一个集合最多有一个上确界。 -/
 lemma isSup.eq {s : Set X} {x₀ x₁ : X} (hx₀ : isSup s x₀) (hx₁ : isSup s x₁) : x₀ = x₁ :=
   isInf.eq (X := OrderDual X) hx₀ hx₁
 
-/-- A function from `Set X` to `X` is an infimum function if it sends every set
-to an infimum of this set. -/
+/-- 如果一个从 `Set X` 到 `X` 的函数将每个集合发送到该集合的下确界，则它是一个下确界函数。 -/
 def isInfFun (I : Set X → X) :=
   ∀ s : Set X, isInf s (I s)
 
-/-- A function from `Set X` to `X` is an supremum function if it sends every set
-to a supremum of this set. -/
+/-- 如果一个从 `Set X` 到 `X` 的函数将每个集合发送到该集合的上确界，则它是一个上确界函数。 -/
 def isSupFun (S : Set X → X) :=
   ∀ s : Set X, isSup s (S s)
 
-/- The next lemma is the first crucial result in this file. If `X` admits an
-infimum function then it automatically admits a supremum function. -/
+/- 下一个引理是这个文件中的第一个关键结果。如果 `X` 承认一个下确界函数，那么它自动承认一个上确界函数。 -/
 
 lemma isSup_of_isInf {I : Set X → X} (h : isInfFun I) : isSupFun (fun s ↦ I (upperBounds s)) := by
   -- sorry
@@ -105,59 +90,53 @@ lemma isSup_of_isInf {I : Set X → X} (h : isInfFun I) : isSupFun (fun s ↦ I 
       _ ≤ x                 := hx
   -- sorry
 
-/- Of course we also have the dual result constructing an infimum function from
-a supremum one. -/
+/- 当然，我们也有从上确界函数构造下确界函数的对偶结果。 -/
 
 lemma isInf_of_isSup {S : Set X → X} (h : isSupFun S) : isInfFun (fun s ↦ S (lowerBounds s)) :=
   isSup_of_isInf (X := OrderDual X) h
 
-/- We are now ready for the first main definition of this file: complete lattices. -/
+/- 我们现在准备好了这个文件的第一个主要定义：完备格。 -/
 
-/-- A complete lattice is a type equipped with a partial order, an infimum function and
-a supremum function. For instance `X = Set Y` equipped with the inclusion order,
-the intersection function and the union function is a complete lattice. I particular, the word
-“lattice” here has nothing to do with lattices as discrete subgroups in Euclidean spaces.-/
+/-- 一个完备格是一个配备了偏序、下确界函数和上确界函数的类型。例如，`X = Set Y` 配备包含序、交集函数和并集函数是一个完备格。特别是，这里的 "lattice" here has nothing to do with lattices as discrete subgroups in Euclidean spaces.-/
 class CompleteLattice (X : Type) [PartialOrder X] where
   I : Set X → X
   I_isInf : isInfFun I
   S : Set X → X
   S_isSup : isSupFun S
 
-/-- Turning a complete lattice `X` into the dual one. Lean will automatically pickup this
-construction when using the `OrderDual` trick as above. -/
+/-- 将一个完备格 `X` 转换为对偶格。当使用上面的 `OrderDual` 技巧时，Lean 将自动选取这个构造。 -/
 instance (X : Type) [PartialOrder X] [CompleteLattice X] : CompleteLattice (OrderDual X) where
   I := CompleteLattice.S (X := X)
   I_isInf := CompleteLattice.S_isSup (X := X)
   S := CompleteLattice.I (X := X)
   S_isSup := CompleteLattice.I_isInf (X := X)
 
-/- We can now use the first main result above to build a complete lattice from
-either an infimum or a supremum function on a partially ordered type. -/
+/- 我们现在可以使用上面的第一个主要结果来从偏序类型上的下确界或上确界函数构建一个完备格。 -/
 
-/-- Building a complete lattice structure from an infimum function on a partially ordered type. -/
+/-- 从偏序类型上的下确界函数构建完备格结构。 -/
 def CompleteLattice.mk_of_Inf {I : Set X → X} (h : isInfFun I) : CompleteLattice X where
  I := I
  I_isInf := h
  S := fun s ↦ I (upperBounds s)
  S_isSup := isSup_of_isInf h
 
-/-- Building a complete lattice structure from a supremum function on a partially ordered type. -/
+/-- 从偏序类型上的上确界函数构建完备格结构。 -/
 def CompleteLattice.mk_of_Sup {S : Set X → X} (h : isSupFun S) : CompleteLattice X where
  I := fun s ↦ S (lowerBounds s)
  I_isInf := isInf_of_isSup h
  S := S
  S_isSup := h
 
-/- Until the end of this section, `X` will be a complete lattice. -/
+/- 直到本节的结尾，`X` 都将是一个完备格。 -/
 variable [CompleteLattice X]
 
-/-- The infimum function on a complete lattice. -/
+/-- 完备格上的下确界函数。 -/
 notation "Inf" => CompleteLattice.I
 
-/-- The supremum function on a complete lattice. -/
+/-- 完备格上的上确界函数。 -/
 notation "Sup" => CompleteLattice.S
 
-/- We now restate a couple of lemmas proven above in terms of complete lattices. -/
+/- 我们现在以完备格的形式重新表述上面证明的几个引理。 -/
 
 lemma lowerBound_Inf (s : Set X) : Inf s ∈ lowerBounds s :=
   (CompleteLattice.I_isInf _).lowerBound
@@ -165,14 +144,9 @@ lemma lowerBound_Inf (s : Set X) : Inf s ∈ lowerBounds s :=
 lemma upperBound_Sup (s : Set X) : Sup s ∈ upperBounds s :=
   (CompleteLattice.S_isSup _).upperBound
 
-/- We now prove a series of lemmas asserting that `Inf` (and then `Sup` by duality)
-behave according to your intuition. You should feel free to skip those and jump to
-the adjunction section if you think you would be able to prove them and you want to
-see more interesting things.
+/- 我们现在证明一系列引理，断言 `Inf`（然后由对偶性 `Sup`）按照你的直觉行为。如果你认为你能够证明它们并且想看更有趣的东西，你可以自由地跳过它们转到伴随节。
 
-In the first lemma below, you will probably want to use
-`lowerBounds_mono_set ⦃s t : Set α⦄ (hst : s ⊆ t) : lowerBounds t ⊆ lowerBounds s`
-or reprove it as part of your proof.
+在下面的第一个引理中，你可能想使用 `lowerBounds_mono_set ⦃s t : Set α⦄ (hst : s ⊆ t) : lowerBounds t ⊆ lowerBounds s` 或者作为你证明的一部分重新证明它。
 -/
 
 lemma Inf_pair {x x' : X} : x ≤ x' ↔ Inf {x, x'} = x := by
@@ -201,7 +175,7 @@ lemma Sup_pair {x x' : X} : x ≤ x' ↔ Sup {x, x'} = x' := by
   rw [Set.pair_comm x x']
   exact Inf_pair (X := OrderDual X)
 
-/- Let us prove that `Set` forms a complete lattice. -/
+/- 让我们证明 `Set` 形成一个完备格。 -/
 
 lemma isInfInter {Y : Type} (S : Set (Set Y)) : isInf S (⋂₀ S) := by
   -- sorry
@@ -234,19 +208,15 @@ instance {Y : Type} : CompleteLattice (Set Y) where
 end InfSup
 
 section Adjunction
-/- We are now ready for the second central definition of this file: adjunctions between
-ordered types. -/
+/- 我们现在准备好了这个文件的第二个中心定义：有序类型之间的伴随。 -/
 
-/-- A pair of functions `l` and `r` between ordered types are adjoint if
-`∀ x y, l x ≤ y ↔ x ≤ r y`. One also says they form a Galois connection.
-Here `l` stands for "left" and `r` stands for "right". -/
+/-- 有序类型之间的一对函数 `l` 和 `r` 是伴随的，如果 `∀ x y, l x ≤ y ↔ x ≤ r y`。人们也说它们形成一个 Galois 连接。这里 `l` 代表"左"，`r` 代表"右"。 -/
 def adjunction [PartialOrder X] [PartialOrder Y] (l : X → Y) (r : Y → X) :=
   ∀ x y, l x ≤ y ↔ x ≤ r y
 
-/- The example you need to keep in mind is the adjunction between direct image
-and inverse image. Given `f : α → β`, we have:
-* `Set.image f : Set α → Set β` with notation `f ''`
-* `Set.preimage f : Set β → Set α` with notation `f ⁻¹'`
+/- 你需要记住的例子是直接像和逆像之间的伴随。给定 `f : α → β`，我们有：
+* `Set.image f : Set α → Set β` 记作 `f ''`
+* `Set.preimage f : Set β → Set α` 记作 `f ⁻¹'`
  -/
 
 lemma image_preimage_adjunction {α β : Type} (f : α → β) :
@@ -264,35 +234,23 @@ lemma adjunction.dual [PartialOrder X] [PartialOrder Y] {l : X → Y} {r : Y →
   exact (h x y).1
   -- sorry
 
-/- In the remaining of the section, `X` and `Y` are complete lattices. -/
+/- 在这一节的剩余部分，`X` 和 `Y` 是完备格。 -/
 variable [PartialOrder X] [CompleteLattice X] [PartialOrder Y] [CompleteLattice Y]
 
-/- We now come to the second main theorem of this file: the adjoint functor theorem for
-complete lattices. This theorem says that a function between complete lattices is
-a left adjoint (resp. right adjoint) if and only if it commutes with `Sup` (resp. with `Inf`).
+/- 我们现在迎来这个文件的第二个主要定理：完备格的伴随函子定理。这个定理说完备格之间的函数是左伴随（或右伴随）当且仅当它与 `Sup`（或与 `Inf`）交换。
 
-We first define the candidate right adjoint (without making any assumption on the original
-map).
+我们首先定义候选的右伴随（不对原始映射做任何假设）。
   -/
 
-/-- Constructs a candidate right adjoint for a map between complete lattices.
-This is an actual adjoint if the map commutes with `Sup`, see `adjunction_of_Sup`. -/
+/-- 为完备格之间的映射构造一个候选的右伴随。如果映射与 `Sup` 交换，这是一个真正的伴随，参见 `adjunction_of_Sup`。 -/
 def mk_right (l : X → Y) : Y → X := fun y ↦ Sup {x | l x ≤ y}
 
-/- The proof of the theorem below isn't long but it isn't completely obvious either.
-First you need to understand the notations in the statement. `l '' s` is the direct image
-of `s` under `l`. This `''` is notation for `Set.image`. Putting your cursor on this
-notation and using the contextual menu to "jump to definition" will bring you to the file
-defining `Set.image` and containing lots of lemmas about it. The ones that are used in
-the reference solutions are
+/- 下面定理的证明不长，但也不是完全显而易见的。首先你需要理解陈述中的记号。`l '' s` 是 `s` 在 `l` 下的直接像。这个 `''` 是 `Set.image` 的记号。将你的光标放在这个记号上并使用上下文菜单"跳转到定义"将带你到定义 `Set.image` 并包含关于它的大量引理的文件。在参考解决方案中使用的那些是：
 
 * `Set.image_pair : (f : α → β) (a b : α) : f '' {a, b} = {f a, f b}`
 * `Set.image_preimage_subset (f : α → β) (s : Set β) : f '' (f ⁻¹' s) ⊆ s`
 
-Proof hint: one direction is easy and doesn't use the crucial assumption. For
-the other direction, you should probably first prove that `Monotone l`, ie
-`∀ ⦃a b⦄, a ≤ b → l a ≤ l b`, and then prove that, for every `y`,
-`Sup (l '' { x | l x ≤ y }) ≤ y`.
+证明提示：一个方向很容易，不使用关键假设。对于另一个方向，你可能应该首先证明 `Monotone l`，即 `∀ ⦃a b⦄, a ≤ b → l a ≤ l b`，然后证明对于每个 `y`，`Sup (l '' { x | l x ≤ y }) ≤ y`。
 -/
 
 theorem adjunction_of_Sup {l : X → Y} (h : ∀ s : Set X, l (Sup s) = Sup (l '' s)) :
@@ -320,10 +278,9 @@ theorem adjunction_of_Sup {l : X → Y} (h : ∀ s : Set X, l (Sup s) = Sup (l '
       _   ≤ y := Sup_le_y
   -- sorry
 
-/- Of course we can play the same game to construct left adjoints. -/
+/- 当然，我们也可以玩同样的游戏来构造左伴随。 -/
 
-/-- Constructs a candidate left adjoint for a map between complete lattices.
-This is an actual adjoint if the map commutes with `Inf`, see `adjunction_of_Inf`. -/
+/-- 为完备格之间的映射构造一个候选的左伴随。如果映射与 `Inf` 交换，这是一个真正的伴随，参见 `adjunction_of_Inf`。 -/
 def mk_left (r : Y → X) : X → Y := fun x ↦ Inf {y | x ≤ r y}
 
 theorem adjunction_of_Inf {r : Y → X} (h : ∀ s : Set Y, r (Inf s) = Inf (r '' s)) :
@@ -333,12 +290,7 @@ theorem adjunction_of_Inf {r : Y → X} (h : ∀ s : Set Y, r (Inf s) = Inf (r '
 end Adjunction
 
 section Topology
-/- In this section we apply the theory developed above to point-set topology.
-Our first goal is to endow the type `Topology X` of topologies on a given type
-with a complete lattice structure. We then turn any map `f : X → Y` into an
-adjunction `(f⁎, f ^*)` between `Topology X` and `Topology Y` and use it
-to build the product topology. Of course mathlib knows all this, but we'll
-continue to build our own theory.
+/- 在这一节中，我们将上面开发的理论应用到点集拓扑。我们的第一个目标是为给定类型上的拓扑类型 `Topology X` 配备完备格结构。然后我们将任何映射 `f : X → Y` 转换为 `Topology X` 和 `Topology Y` 之间的伴随 `(f⁎, f ^*)` 并用它来构建乘积拓扑。当然 mathlib 知道这一切，但我们将继续构建我们自己的理论。
 -/
 
 @[ext]
@@ -347,8 +299,7 @@ structure Topology (X : Type) where
   isOpen_iUnion : ∀ {ι : Type}, ∀ {s : ι → Set X}, (∀ i, isOpen (s i)) → isOpen (⋃ i, s i)
   isOpen_iInter : ∀ {ι : Type}, ∀ {s : ι → Set X}, (∀ i, isOpen (s i)) → Finite ι → isOpen (⋂ i, s i)
 
-/- Let's run two quick sanity checks on our definition since so many textbooks include redundant
-conditions it the definition of topological spaces. -/
+/- 让我们对我们的定义进行两个快速的合理性检查，因为许多教科书在拓扑空间的定义中包含冗余条件。 -/
 
 lemma isOpen_empty (T : Topology X) : T.isOpen ∅ := by
   have : (∅ : Set X) = ⋃ i : Empty, i.rec := by
@@ -362,19 +313,14 @@ lemma isOpen_univ (T : Topology X) : T.isOpen Set.univ := by
   rw [this]
   exact T.isOpen_iInter  Empty.rec (Finite.of_fintype Empty)
 
-/- The `ext` attribute on the definition of `Topology` tells Lean to automatically build the following
-extensionality lemma:
-`Topology.ext_iff (T T' : Topology X), T = T' ↔ x.isOpen = y.isOpen`
-and it also registers this lemma for use by the `ext` tactic (we will come back to this below).
+/- 定义 `Topology` 上的 `ext` 属性告诉 Lean 自动构建以下扩展性引理：`Topology.ext_iff (T T' : Topology X), T = T' ↔ x.isOpen = y.isOpen` 它还为 `ext` 策略注册这个引理使用（我们将在下面回到这个）。
 -/
 
-/-- We order `Topology X` using the order dual to the order induced by
-`Set (Set X)`. There are good reasons for this choice but they are beyond the scope of this
-tutorial. -/
+/-- 我们使用对偶于 `Set (Set X)` 诱导的序的序来排序 `Topology X`。选择这种方法有很好的理由，但超出了本教程的范围。 -/
 instance : PartialOrder (Topology X) :=
 PartialOrder.lift (β := OrderDual $ Set (Set X)) Topology.isOpen (fun _ _ ↦ (Topology.ext_iff).2)
 
-/-- The supremum function on `Topology X`. -/
+/-- `Topology X` 上的上确界函数。 -/
 def SupTop (s : Set (Topology X)) : Topology X where
   isOpen := fun V ↦ ∀ T ∈ s, T.isOpen V
   isOpen_iUnion := by
@@ -386,30 +332,22 @@ def SupTop (s : Set (Topology X)) : Topology X where
     exact a.isOpen_iInter (fun i ↦ ht i a ha) hι
 
 /-
-Because the supremum function above comes from the supremum function of `OrderDual (Set (Set X))`,
-it is indeed a supremum function. We could state an abstract lemma saying that, but here a direct
-proof is just as easy and a lot of fun.
+由于上面的上确界函数来自 `OrderDual (Set (Set X))` 的上确界函数，它确实是一个上确界函数。我们可以陈述一个抽象引理说这一点，但这里直接证明同样简单并且很有趣。
 -/
 lemma isSup_SupTop : isSupFun (SupTop : Set (Topology X) → Topology X) :=
 fun _ _ ↦ ⟨fun hT _ hV _ hs ↦ hT hs hV, fun hT T' hT' _ hV ↦ hT hV T' hT'⟩
 
-/- We can use our abstract theory to get an infimum function for free, hence a complete lattice
-structure on `Topology X`.
-Note that our abstract theory is indeed doing non-trivial work: the infimum function does *not*
-come from `OrderDual (Set (Set X))`.
+/- 我们可以使用我们的抽象理论免费获得下确界函数，因此在 `Topology X` 上获得完备格结构。请注意，我们的抽象理论确实在做非平凡的工作：下确界函数不是来自 `OrderDual (Set (Set X))`。
 -/
 
 instance : CompleteLattice (Topology X) := CompleteLattice.mk_of_Sup isSup_SupTop
 
-/- Let us restate in complete lattice notation what our construction of `Sup` was. The proof
-is simply saying "this is true by definition". -/
+/- 让我们在完备格记号中重新表述我们的 `Sup` 构造是什么。证明简单地说"这是定义上真实的"。 -/
 
 lemma isOpen_Sup {s : Set (Topology X)} {V : Set X} : (Sup s).isOpen V ↔ ∀ T ∈ s, T.isOpen V :=
   Iff.rfl
 
-/- We now start building our adjunction between `Topology X` and `Topology Y` induced by any
-map `f : X → Y`. We will build the left adjoint by hand and then invoke our adjoint functor
-theorem.
+/- 我们现在开始构建由任何映射 `f : X → Y` 诱导的 `Topology X` 和 `Topology Y` 之间的伴随。我们将手动构建左伴随，然后调用我们的伴随函子定理。
 -/
 
 def push (f : X → Y) (T : Topology X) : Topology Y where
@@ -430,28 +368,22 @@ def push (f : X → Y) (T : Topology X) : Topology Y where
 
 postfix:1024 "⁎" => push -- type using `\_*`
 
-/-- A map `f : X → Y` is continuous with respect to topologies `T` and `T'` if the preimage of
-every open set is open.-/
+/-- 对于拓扑 `T` 和 `T'`，映射 `f : X → Y` 是连续的，如果每个开集的逆像都是开集。-/
 def Continuous (T : Topology X) (T' : Topology Y) (f : X → Y) :=  f ⁎ T ≤ T'
 
-/- Let us check the definition is indeed saying what we claimed it says. -/
+/- 让我们检查定义确实在说我们声称它说的话。 -/
 example (T : Topology X) (T' : Topology Y) (f : X → Y) :
   Continuous T T' f ↔ ∀ V, T'.isOpen V → T.isOpen (f ⁻¹' V) :=
 Iff.rfl
 
-/- Note how the following proof uses the `ext` tactic which knows that two topologies are
-equal iff they have the same open sets thanks to the `ext` attribute on the definition
-of `Topology`. -/
+/- 注意下面的证明如何使用 `ext` 策略，由于在 `Topology` 定义上的 `ext` 属性，它知道两个拓扑相等当且仅当它们有相同的开集。 -/
 
 lemma push_push (f : X → Y) (g : Y →Z) (T : Topology X) :
     g ⁎ (f ⁎ T) = (g ∘ f) ⁎ T := by
   ext V
   exact Iff.rfl
 
-/- We want a right adjoint for `f ⁎` so we need to check it commutes with `Sup`.
-You may want to use
-`Set.ball_image_iff : (∀ y ∈ f '' s, p y) ↔ ∀ x ∈ s, p (f x)`
-where "ball" stands for "bounded for all", ie `∀ x ∈ ...`.
+/- 我们想要 `f ⁎` 的右伴随，所以我们需要检查它与 `Sup` 交换。你可能想使用 `Set.ball_image_iff : (∀ y ∈ f '' s, p y) ↔ ∀ x ∈ s, p (f x)` 其中 "ball" 代表 "bounded for all"，即 `∀ x ∈ ...`。
 -/
 
 lemma push_Sup (f : X → Y) {t : Set (Topology X)} : f ⁎ (Sup t) = Sup (f ⁎ '' t) := by
@@ -512,7 +444,7 @@ variable {G : Type} [Group G]
 instance : PartialOrder (Subgroup G) :=
   PartialOrder.lift Subgroup.carrier (fun _ _ ↦ (Subgroup.ext_iff).2)
 
-/- An intersection of subgroups is a subgroup. -/
+/- 一个子群的交集是一个子群。 -/
 
 def SubgroupInf (s : Set (Subgroup G)) : Subgroup G where
   carrier := ⋂ H ∈ s, H.carrier
@@ -612,7 +544,7 @@ def pull (f : G →* G') (H' : Subgroup G') : Subgroup G where
 lemma pull_carrier (f : G →* G') (H' : Subgroup G') : (pull f H').carrier = f ⁻¹' H'.carrier :=
   rfl
 
-/- Let's be really lazy and define subgroup push-forward by adjunction. -/
+/- 让我们真正懒惰，通过伴随定义子群推进。 -/
 
 def push (f : G →* G') : Subgroup G → Subgroup G' := mk_left (pull f)
 
@@ -627,10 +559,9 @@ lemma push_pull_adjunction (f : G →* G') : adjunction (push f) (pull f) := by
 end Subgroups
 
 section
-/- Our next concrete target is
-`push_generate (f : G →* G') (S : Set G) : push f (generate S) = generate (f '' S)`
+/- 我们的下一个具体目标是 `push_generate (f : G →* G') (S : Set G) : push f (generate S) = generate (f '' S)`
 
-which will require a couple more abstract lemmas. -/
+这将需要几个更抽象的引理。 -/
 
 variable {X : Type} [PartialOrder X]
          {Y : Type} [PartialOrder Y]
@@ -677,10 +608,9 @@ end
 namespace Subgroups
 variable {G : Type} [Group G] {G' : Type} [Group G']
 
-/- As a last challenge, we propose the following lemma. -/
+/- 作为最后的挑战，我们提出以下引理。 -/
 
-/-- The image under a group morphism of the subgroup generated by some set `S`
-is generated by the image of `S`. -/
+/-- 群同态下某个集合 `S` 生成的子群的像是由 `S` 的像生成的。 -/
 lemma push_generate (f : G →* G') : push f ∘ generate = generate ∘ (Set.image f) := by
   -- sorry
   apply left_comm_of_right_comm

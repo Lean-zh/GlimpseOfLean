@@ -8,98 +8,76 @@ noncomputable section
 open scoped ENNReal
 /-
 
-# Probability measures, independent sets
+# 概率测度，独立集合
 
-We introduce a probability space and events (measurable sets) on that space. We then define
-independence of events and conditional probability, and prove results relating those two notions.
+我们引入一个概率空间和该空间上的事件（可测集合）。然后我们定义事件的独立性和条件概率，并证明与这两个概念相关的结果。
 
-Mathlib has a (different) definition for independence of sets and also has a conditional measure
-given a set. Here we practice instead on simple new definitions to apply the tactics introduced in
-the previous files.
+Mathlib 有一个（不同的）集合独立性定义，也有给定集合的条件测度。在这里，我们改为练习简单的新定义，以应用前面文件中介绍的策略。
 -/
 
-/- We open namespaces. The effect is that after that command, we can call lemmas in those namespaces
-without their namespace prefix: for example, we can write `inter_comm` instead of `Set.inter_comm`.
-Hover over `open` if you want to learn more. -/
+/- 我们打开命名空间。这样做的效果是，在该命令之后，我们可以调用这些命名空间中的引理而不需要它们的命名空间前缀：例如，我们可以写 `inter_comm` 而不是 `Set.inter_comm`。将鼠标悬停在 `open` 上以了解更多信息。 -/
 open MeasureTheory ProbabilityTheory Set
 
-/- We define a measure space `Ω`: the `MeasureSpace Ω` variable states that `Ω` is a measurable
-space on which there is a canonical measure `volume`, with notation `ℙ`.
-We then state that `ℙ` is a probability measure. That is, `ℙ univ = 1`, where `univ : Set Ω` is the
-universal set in `Ω` (the set that contains all `x : Ω`). -/
+/- 我们定义一个测度空间 `Ω`：`MeasureSpace Ω` 变量声明 `Ω` 是一个可测空间，其上有一个规范测度 `volume`，记号为 `ℙ`。然后我们声明 `ℙ` 是一个概率测度。也就是说，`ℙ univ = 1`，其中 `univ : Set Ω` 是 `Ω` 中的全集（包含所有 `x : Ω` 的集合）。 -/
 variable {Ω : Type} [MeasureSpace Ω] [IsProbabilityMeasure (ℙ : Measure Ω)]
 
--- `A, B` will denote sets in `Ω`.
+-- `A, B` 将表示 `Ω` 中的集合。
 variable {A B : Set Ω}
 
-/- One can take the measure of a set `A`: `ℙ A : ℝ≥0∞`.
-`ℝ≥0∞`, or `ENNReal`, is the type of extended non-negative real numbers, which contain `∞`.
-Measures can in general take infinite values, but since our `ℙ` is a probability measure,
-it actually takes only values up to 1.
-`simp` knows that a probability measure is finite and will use the lemmas `measure_ne_top`
-or `measure_lt_top` to prove that `ℙ A ≠ ∞` or `ℙ A < ∞`.
+/- 我们可以取集合 `A` 的测度：`ℙ A : ℝ≥0∞`。`ℝ≥0∞`，或者 `ENNReal`，是扩展非负实数的类型，它包含 `∞`。测度通常可以取无穷值，但由于我们的 `ℙ` 是概率测度，它实际上只取到 1 的值。`simp` 知道概率测度是有限的，会使用引理 `measure_ne_top` 或 `measure_lt_top` 来证明 `ℙ A ≠ ∞` 或 `ℙ A < ∞`。
 
-Hint: use `#check measure_ne_top` to see what that lemma does.
+提示：使用 `#check measure_ne_top` 查看该引理的作用。
 
-The operations on `ENNReal` are not as nicely behaved as on `ℝ`: `ENNReal` is not a ring and
-subtraction truncates to zero for example. If you find that lemma `lemma_name` used to transform
-an equation does not apply to `ENNReal`, try to find a lemma named something like
-`ENNReal.lemma_name_of_something` and use that instead. -/
+`ENNReal` 上的运算不如 `ℝ` 上的运算表现良好：`ENNReal` 不是环，例如减法会截断到零。如果你发现用来转换方程的引理 `lemma_name` 不适用于 `ENNReal`，尝试找到一个名为 `ENNReal.lemma_name_of_something` 之类的引理并使用它。 -/
 
-/-- Two sets `A, B` are independent for the ambient probability measure `ℙ` if
-`ℙ (A ∩ B) = ℙ A * ℙ B`. -/
+/-- 如果 `ℙ (A ∩ B) = ℙ A * ℙ B`，则对于环境概率测度 `ℙ`，两个集合 `A, B` 是独立的。 -/
 def IndepSet (A B : Set Ω) : Prop := ℙ (A ∩ B) = ℙ A * ℙ B
 
-/-- If `A` is independent of `B`, then `B` is independent of `A`. -/
+/-- 如果 `A` 独立于 `B`，则 `B` 独立于 `A`。 -/
 lemma IndepSet.symm : IndepSet A B → IndepSet B A := by
   sorry
 
-/- Many lemmas in measure theory require sets to be measurable (`MeasurableSet A`).
-If you are presented with a goal like `⊢ MeasurableSet (A ∩ B)`, try the `measurability` tactic.
-That tactic produces measurability proofs. -/
+/- 测度论中的许多引理需要集合是可测的（`MeasurableSet A`）。如果你遇到形如 `⊢ MeasurableSet (A ∩ B)` 的目标，尝试 `measurability` 策略。该策略产生可测性证明。 -/
 
--- Hints: `compl_eq_univ_diff`, `measure_diff`, `inter_univ`, `measure_compl`, `ENNReal.mul_sub`
+-- 提示：`compl_eq_univ_diff`，`measure_diff`，`inter_univ`，`measure_compl`，`ENNReal.mul_sub`
 lemma IndepSet.compl_right (hA : MeasurableSet A) (hB : MeasurableSet B) :
     IndepSet A B → IndepSet A Bᶜ := by
   sorry
 
-/- Apply `IndepSet.compl_right` to prove this generalization. It is good practice to add the iff
-version of some frequently used lemmas, this allows us to use them inside `rw` tactics. -/
+/- 应用 `IndepSet.compl_right` 来证明这个泛化。为一些常用引理添加 iff 版本是良好的做法，这使我们能在 `rw` 策略中使用它们。 -/
 lemma IndepSet.compl_right_iff (hA : MeasurableSet A) (hB : MeasurableSet B) :
     IndepSet A Bᶜ ↔ IndepSet A B := by
   sorry
 
--- Use what you have proved so far
+-- 使用到目前为止你已经证明的内容
 lemma IndepSet.compl_left (hA : MeasurableSet A) (hB : MeasurableSet B) (h : IndepSet A B) :
     IndepSet Aᶜ B := by
   sorry
 
-/- Can you write and prove a lemma `IndepSet.compl_left_iff`, following the examples above?-/
+/- 你能按照上面的例子写出并证明一个引理 `IndepSet.compl_left_iff` 吗？-/
 
--- Your lemma here
+-- 你的引理在这里
 
--- Hint: `ENNReal.mul_self_eq_self_iff`
+-- 提示：`ENNReal.mul_self_eq_self_iff`
 lemma indep_self (h : IndepSet A A) : ℙ A = 0 ∨ ℙ A = 1 := by
   sorry
 
 /-
 
-### Conditional probability
+### 条件概率
 
 -/
 
-/-- The probability of set `A` conditioned on `B`. -/
+/-- 集合 `A` 在 `B` 条件下的概率。 -/
 def condProb (A B : Set Ω) : ENNReal := ℙ (A ∩ B) / ℙ B
 
-/- We define a notation for `condProb A B` that makes it look more like paper math. -/
+/- 我们为 `condProb A B` 定义一个记号，使其看起来更像纸面数学。 -/
 notation3 "ℙ("A"|"B")" => condProb A B
 
-/- Now that we have defined `condProb`, we want to use it, but Lean knows nothing about it.
-We could start every proof with `rw [condProb]`, but it is more convenient to write lemmas about the
-properties of `condProb` first and then use those. -/
+/- 现在我们已经定义了 `condProb`，我们想使用它，但 Lean 对它一无所知。我们可以每个证明都从 `rw [condProb]` 开始，但更方便的做法是首先写出关于 `condProb` 性质的引理，然后使用那些引理。 -/
 
--- Hint : `measure_inter_null_of_null_left`
-@[simp] -- this makes the lemma usable by `simp`
+-- 提示：`measure_inter_null_of_null_left`
+@[simp] -- 这使得引理可以被 `simp` 使用
 lemma condProb_zero_left (A B : Set Ω) (hA : ℙ A = 0) : ℙ(A|B) = 0 := by
   sorry
 
@@ -107,26 +85,20 @@ lemma condProb_zero_left (A B : Set Ω) (hA : ℙ A = 0) : ℙ(A|B) = 0 := by
 lemma condProb_zero_right (A B : Set Ω) (hB : ℙ B = 0) : ℙ(A|B) = 0 := by
   sorry
 
-/- What other basic lemmas could be useful? Are there other "special" sets for which `condProb`
-takes known values? -/
+/- 还有哪些其他基本引理可能有用？是否还有其他"特殊"集合，对于它们 `condProb` 取已知值？ -/
 
--- Your lemma(s) here
+-- 你的引理在这里
 
-/- The next statement is a `theorem` and not a `lemma`, because we think it is important.
-There is no functional difference between those two keywords. -/
+/- 下面的陈述是一个 `theorem` 而不是 `lemma`，因为我们认为它很重要。这两个关键字之间没有功能差异。 -/
 
-/-- **Bayes Theorem** -/
+/-- **贝叶斯定理** -/
 theorem bayesTheorem (hB : ℙ B ≠ 0) : ℙ(A|B) = ℙ A * ℙ(B|A) / ℙ B := by
-  by_cases h : ℙ A = 0 -- this tactic perfoms a case disjunction.
-  -- Observe the goals that are created, and specifically the `h` assumption in both goals
+  by_cases h : ℙ A = 0 -- 这个策略执行情况分析。
+  -- 观察创建的目标，特别是两个目标中的 `h` 假设
   · sorry
   sorry
 
-/- Did you really need all those hypotheses?
-In Lean, division by zero follows the convention that `a/0 = 0` for all a. This means we can prove
-Bayes' Theorem without requiring `ℙ A ≠ 0` and `ℙ B ≠ 0`. However, this is a quirk of the
-formalization rather than the standard mathematical statement.
-If you want to know more about how division works in Lean, try to hover over `/` with your mouse. -/
+/- 你真的需要所有这些假设吗？在 Lean 中，除以零遵循惯例 `a/0 = 0` 对所有 a 成立。这意味着我们可以证明贝叶斯定理而不需要 `ℙ A ≠ 0` 和 `ℙ B ≠ 0`。然而，这是形式化的怪癖，而不是标准的数学陈述。如果你想了解更多关于除法在 Lean 中如何工作的信息，尝试用鼠标悬停在 `/` 上。 -/
 
 theorem bayesTheorem' (A B : Set Ω) : ℙ(A|B) = ℙ A * ℙ(B|A) / ℙ B := by
   sorry

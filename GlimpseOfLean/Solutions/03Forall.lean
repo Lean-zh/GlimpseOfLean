@@ -5,48 +5,37 @@ import Mathlib.Topology.Instances.Real.Lemmas
 open Function
 
 namespace Forall
-/- # Universal quantifiers
+/- # 全称量词
 
-In this file, we'll learn about the `∀` quantifier.
+在这个文件中，我们将学习 `∀` 量词。
 
-Let `P` be a predicate on a type `X`. This means for every mathematical
-object `x` with type `X`, we get a mathematical statement `P x`.
-In Lean, `P x` has type `Prop`.
+设 `P` 是类型 `X` 上的一个谓词。这意味着对于每一个类型为 `X` 的数学对象 `x`，我们得到一个数学陈述 `P x`。在 Lean 中，`P x` 的类型是 `Prop`。
 
-Lean sees a proof `h` of `∀ x, P x` as a function sending any `x : X` to
-a proof `h x` of `P x`.
-This already explains the main way to use an assumption or lemma which
-starts with a `∀`.
+Lean 将 `∀ x, P x` 的证明 `h` 看作一个函数，该函数将任意的 `x : X` 映射到 `P x` 的证明 `h x`。这已经解释了使用以 `∀` 开头的假设或引理的主要方式。
 
-In order to prove `∀ x, P x`, we use `intro x` to fix an arbitrary object
-with type `X`, and call it `x` (`intro` stands for "introduce").
+为了证明 `∀ x, P x`，我们使用 `intro x` 来固定一个任意的类型为 `X` 的对象，并将其命名为 `x`（`intro` 是 "introduce"（引入）的缩写）。
 
-Note also we don't need to give the type of `x` in the expression `∀ x, P x`
-as long as the type of `P` is clear to Lean, which can then infer the type of `x`.
+还要注意，我们不需要在表达式 `∀ x, P x` 中给出 `x` 的类型，只要 `P` 的类型对 Lean 来说是明确的，Lean 就能推断出 `x` 的类型。
 
-Let's define a predicate to play with `∀`.
+让我们定义一个谓词来练习 `∀`。
 -/
 
 def even_fun (f : ℝ → ℝ) := ∀ x, f (-x) = f x
 
 /-
-In the next proof, we also take the opportunity to introduce the
-`unfold` tactic, which simply unfolds definitions. Here this is purely
-for didactic reason, Lean doesn't need those `unfold` invocations.
-We will also use the `rfl` tactic, which proves equalities that are true
-by definition (in a very strong sense), it stands for "reflexivity".
+在下一个证明中，我们也借机介绍 `unfold` 策略，它简单地展开定义。这里这样做纯粹是出于教学目的，Lean 并不需要这些 `unfold` 调用。我们还将使用 `rfl` 策略，它证明根据定义（在非常强的意义上）为真的等式，它代表 "reflexivity"（自反性）。
 -/
 
 example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by
-  -- Our assumption that f is even means ∀ x, f (-x) = f x
+  -- 我们的假设 f 是偶函数意味着 ∀ x, f (-x) = f x
   unfold even_fun at hf
-  -- and the same for g
+  -- 对于 g 也是如此
   unfold even_fun at hg
-  -- We need to prove ∀ x, (f+g)(-x) = (f+g)(x)
+  -- 我们需要证明 ∀ x, (f+g)(-x) = (f+g)(x)
   unfold even_fun
-  -- Let x be any real number
+  -- 设 x 为任意实数
   intro x
-  -- and let's compute
+  -- 然后开始计算
   calc
     (f + g) (-x) = f (-x) + g (-x)  := by rfl
                _ = f x + g (-x)     := by rw [hf x]
@@ -55,25 +44,15 @@ example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + 
 
 
 /-
-Tactics like `apply`, `exact`, `rfl` and `calc` will automatically unfold definitions.
-You can test this by deleting the `unfold` lines in the above example.
+像 `apply`、`exact`、`rfl` 和 `calc` 这样的策略会自动展开定义。你可以通过删除上面例子中的 `unfold` 行来测试这一点。
 
-Tactics like `rw` and `ring` will generally not unfold definitions that appear in the goal.
-This is why the first computation line is necessary, although its proof is simply `rfl`.
-Before that line, `rw [hf x]` won't find anything like `f (-x)` hence will give up.
-The last line is not necessary however, since it only proves
-something that is true by definition, and is not followed by a `rw`.
+像 `rw` 和 `ring` 这样的策略通常不会展开出现在目标中的定义。这就是为什么第一行计算是必要的，尽管它的证明只是 `rfl`。在那一行之前，`rw [hf x]` 找不到任何类似 `f (-x)` 的东西，因此会放弃。然而最后一行不是必要的，因为它只是证明了一个根据定义为真的东西，并且后面没有跟着 `rw`。
 
-Also, Lean doesn't need to be told that `hf` should be specialized to
-`x` before rewriting, exactly as in the first file.
+另外，Lean 不需要被告知 `hf` 应该在重写之前特化为 `x`，就像在第一个文件中一样。
 
-Recall also that `rw` can take a list of expressions to use for
-rewriting. For instance `rw [h₁, h₂, h₃]` is equivalent to three
-lines `rw [h₁]`, `rw [h₂]` and `rw [h₃]`. Note that you can inspect the tactic
-state between those rewrites when reading a proof using this syntax. You
-simply need to move the cursor inside the list.
+还要回忆 `rw` 可以接受一个表达式列表用于重写。例如 `rw [h₁, h₂, h₃]` 等价于三行 `rw [h₁]`、`rw [h₂]` 和 `rw [h₃]`。注意当使用这种语法阅读证明时，你可以检查这些重写之间的策略状态。你只需要将光标移动到列表内部即可。
 
-Hence we can compress the above proof to:
+因此我们可以将上面的证明压缩为：
 -/
 
 example (f g : ℝ → ℝ) : even_fun f → even_fun g → even_fun (f + g) := by
@@ -83,8 +62,7 @@ example (f g : ℝ → ℝ) : even_fun f → even_fun g → even_fun (f + g) := 
                _ = f x + g x        := by rw [hf, hg]
 
 /-
-Now let's practice. Recall that if you need to learn how to type a unicode
-symbol you can put your mouse cursor above the symbol and wait for one second.
+现在让我们练习一下。回忆一下，如果你需要学习如何输入一个 unicode 符号，你可以将鼠标光标放在符号上方并等待一秒钟。
 -/
 
 example (f g : ℝ → ℝ) (hf : even_fun f) : even_fun (g ∘ f) := by
@@ -96,33 +74,29 @@ example (f g : ℝ → ℝ) (hf : even_fun f) : even_fun (g ∘ f) := by
   -- sorry
 
 /-
-Let's have more quantifiers, and play with forward and backward reasoning.
+让我们增加更多量词，并练习正向和反向推理。
 
-In the next definitions, note how `∀ x₁, ∀ x₂, ...` is abbreviated to `∀ x₁ x₂, ...`.
+在下面的定义中，注意 `∀ x₁, ∀ x₂, ...` 是如何简化为 `∀ x₁ x₂, ...` 的。
 -/
 
 def non_decreasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ ≤ f x₂
 
 def non_increasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ ≥ f x₂
 
-/- Let's be very explicit and use forward reasoning first. -/
+/- 让我们非常明确地首先使用正向推理。 -/
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by
-  -- Let x₁ and x₂ be real numbers such that x₁ ≤ x₂
+  -- 设 x₁ 和 x₂ 为满足 x₁ ≤ x₂ 的实数
   intro x₁ x₂ h
-  -- Since f is non-decreasing, f x₁ ≤ f x₂.
+  -- 由于 f 是非递减的，所以 f x₁ ≤ f x₂。
   have step₁ : f x₁ ≤ f x₂ := by exact hf x₁ x₂ h
-  -- Since g is non-decreasing, we then get g (f x₁) ≤ g (f x₂).
+  -- 由于 g 是非递减的，我们得到 g (f x₁) ≤ g (f x₂)。
   exact hg (f x₁) (f x₂) step₁
 
 /-
-In the above proof, note how inconvenient it is to specify `x₁` and `x₂` in `hf x₁ x₂ h` since
-they could be inferred from the type of `hf`.
-We could have written `hf _ _ h` and Lean would have filled the holes denoted by `_`.
-The same remark applies to the last line.
+在上面的证明中，注意在 `hf x₁ x₂ h` 中指定 `x₁` 和 `x₂` 是多么不方便，因为它们可以从 `hf` 的类型中推断出来。我们本来可以写 `hf _ _ h`，Lean 会填充用 `_` 表示的空洞。同样的说明适用于最后一行。
 
-One possible variation on the above proof is to
-use the `specialize` tactic to replace `hf` by its specialization to the relevant value.
+上面证明的一个可能的变体是使用 `specialize` 策略来将 `hf` 替换为其对相关值的特化。
  -/
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
@@ -132,9 +106,7 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
   exact hg (f x₁) (f x₂) hf
 
 /-
-This `specialize` tactic is mostly useful for exploration, or in preparation for rewriting
-in the assumption. One can very often replace its use by using more complicated expressions
-directly involving the original assumption, as in the next variation:
+这个 `specialize` 策略主要用于探索，或为在假设中重写做准备。通常可以通过使用直接涉及原始假设的更复杂表达式来替换它的使用，如下面的变体所示：
 -/
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by
@@ -142,21 +114,19 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
   exact hg (f x₁) (f x₂) (hf x₁ x₂ h)
 
 /-
-Let's see how backward reasoning would look like here.
-As usual with this style, we use `apply` and enjoy Lean specializing assumptions for us
-using so-called unification.
+让我们看看反向推理在这里会是什么样子的。和这种风格的惯例一样，我们使用 `apply` 并享受 Lean 使用所谓的归一化（unification）为我们特化假设。
 -/
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by
-  -- Let x₁ and x₂ be real numbers such that x₁ ≤ x₂
+  -- 设 x₁ 和 x₂ 为满足 x₁ ≤ x₂ 的实数
   intro x₁ x₂ h
-  -- We need to prove (g ∘ f) x₁ ≤ (g ∘ f) x₂.
-  -- Since g is non-decreasing, it suffices to prove f x₁ ≤ f x₂
+  -- 我们需要证明 (g ∘ f) x₁ ≤ (g ∘ f) x₂。
+  -- 由于 g 是非递减的，只要证明 f x₁ ≤ f x₂ 就足够了
   apply hg
-  -- which follows from our assumption on f
+  -- 这由我们关于 f 的假设可得
   apply hf
-  -- and on x₁ and x₂
+  -- 以及关于 x₁ 和 x₂ 的假设
   exact h
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_increasing g) :
@@ -167,78 +137,49 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_increasing g) :
   exact hf x₁ x₂ h
   -- sorry
 
-/- # Finding lemmas
+/- # 寻找引理
 
-Lean's mathematical library contains many useful facts, and remembering all of
-them by name is impossible.
-The following exercises teach you two techniques to avoid needing to remember names.
-* `simp` will simplify complicated expressions.
-* `apply?` will find lemmas from the library.
+Lean 的数学库包含许多有用的事实，要记住所有的名字是不可能的。下面的练习教你两种避免需要记住名字的技巧。
+* `simp` 会简化复杂的表达式。
+* `apply?` 会从库中寻找引理。
 -/
 
-/- Use `simp` as a first step to prove the following. Note that `X : Set ℝ`
-means that `X` is a set containing (only) real numbers. -/
+/- 使用 `simp` 作为第一步来证明以下内容。注意 `X : Set ℝ` 意味着 `X` 是一个（仅）包含实数的集合。 -/
 example (x : ℝ) (X Y : Set ℝ) (hx : x ∈ X) : x ∈ (X ∩ Y) ∪ (X \ Y) := by
   -- sorry
   simp
   exact hx
   -- sorry
 
-/- Use `apply?` to find the lemma that every continuous function with compact support
-has a global minimum. You can click on the suggestion that appears to replace
-`apply?` with the tactic it suggested.
+/- 使用 `apply?` 来找到说明每个具有紧支集的连续函数都有全局最小值的引理。你可以点击出现的建议来将 `apply?` 替换为它建议的策略。
 -/
 
 example (f : ℝ → ℝ) (hf : Continuous f) (h2f : HasCompactSupport f) : ∃ x, ∀ y, f x ≤ f y := by
   -- sorry
-  -- use `apply?` to find:
+  -- 使用 `apply?` 找到：
   exact Continuous.exists_forall_le_of_hasCompactSupport hf h2f
   -- sorry
 
 /-
-Note that `apply?` does not only suggest full proofs. It can suggest lemmas that
-apply but require to check side conditions. Accepting such a suggestion
-will output incomplete proofs using the `refine` tactic.
+注意 `apply?` 不仅仅建议完整的证明。它可以建议适用但需要检查副条件的引理。接受这样的建议将输出使用 `refine` 策略的不完整证明。
 
-Note that each suggestion comes with a list of side conditions that would need
-to be check. So you need to decide which suggestion to accept depending on what
-the side conditions look like. For instance, if the goal is to prove continuity of
-a function, one lemma always applies: the lemma saying that any function out of
-a discrete topological space is continuous. But it leaves as a side condition
-discreteness of the source space. So you should be careful when deciding to
-accept this suggestion which can very quickly lead to a dead end.
+注意每个建议都附有需要检查的副条件列表。因此你需要根据副条件的样子来决定接受哪个建议。例如，如果目标是证明函数的连续性，有一个引理总是适用：说明任何从离散拓扑空间出发的函数都是连续的引理。但它将源空间的离散性作为副条件。因此当决定接受这个建议时你应该小心，因为它很快就会导致死胡同。
 
-This is the end of this file where you learned how to handle universal quantifiers.
-You learned about tactics:
+这是本文件的结尾，你在这里学会了如何处理全称量词。你学会了以下策略：
 * `unfold`
 * `specialize`
 * `simp`
 * `apply?`
 
-You now have a choice what to do next. There is one more basic file `04Exists`
-about the existential quantifier and conjunctions. You can do that now,
-or dive directly in one of the specialized files.
-In the latter case, you should come back to `04Exists` if you get stuck on anything with `∃`/`∧`
-(where `∧` is the symbol for conjunctions, aka the logical “and” operator).
+现在你可以选择接下来做什么。还有一个基础文件 `04Exists` 关于存在量词和合取。你可以现在就做，或者直接深入到某个专门的文件中。在后一种情况下，如果你在任何涉及 `∃`/`∧` 的内容上遇到困难，你应该回到 `04Exists` (where `∧` is the symbol for conjunctions, aka the logical "and" operator)。
 
-You can start with specialized files in the `Topics` folder. You have choice between
-* `SequenceLimit` (easier, math) if you want to do some elementary calculus.
-  For this file it is recommended to do `04Exists` first.
-* `Probability` (easier, math) if you want to work with probability measures,
-  independent sets, and conditional probability, including Bayes' Theorem.
-* `RingTheory` (medium, math) if you want to do a bit a commutative algebra. It starts
-  very gently with basics about commutative rings, then introduces ideals and proves
-  Nœther’s first isomorphism theorem, and finishes with the Chinese remainder theorem
-  in general commutative rings.
-* `GaloisAdjunctions` (harder, math) if you want some more abstraction
-  and learn how to prove things about adjunctions between complete lattices.
-  It ends with a constructor of the product topology and its universal property
-  manipulating as few open sets as possible.
-* `ClassicalPropositionalLogic` (easier, logic) if you want to learn
-  how to do classical propositional logic in Lean.
-* `IntuitionisticPropositionalLogic` (harder, logic) if you want a bigger challenge
-  and do intuitionistic propositional logic.
+你可以从 `Topics` 文件夹中的专门文件开始。你可以选择：
+* `SequenceLimit`（较简单，数学）如果你想做一些初等微积分。建议先完成 `04Exists` 文件。
+* `Probability`（较简单，数学）如果你想研究概率测度、独立集合和条件概率，包括贝叶斯定理。
+* `RingTheory`（中等难度，数学）如果你想做一些交换代数。它从交换环的基础知识开始，然后介绍理想并证明 Nœther's first isomorphism theorem, and finishes with the Chinese remainder theorem 在一般交换环中。
+* `GaloisAdjunctions`（较难，数学）如果你想要更多抽象并学习如何证明关于完全格之间的伴随的事实。它以乘积拓扑的构造子及其泛性质结束尽可能少操作开集。
+* `ClassicalPropositionalLogic`（较简单，逻辑）如果你想学习如何在 Lean 中做经典命题逻辑。
+* `IntuitionisticPropositionalLogic`（较难，逻辑）如果你想要更大的挑战并做直觉主义命题逻辑。
 
-Note the two logic files are really for people interested in logic as a goal, not logic
-as a tool.
+注意这两个逻辑文件真正适合对逻辑作为目标而非作为工具感兴趣的人。
 -/

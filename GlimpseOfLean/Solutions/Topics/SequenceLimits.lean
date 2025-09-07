@@ -3,28 +3,19 @@ import GlimpseOfLean.Library.Basic
 namespace Topics
 
 /-
-In this file we manipulate the elementary definition of limits of
-sequences of real numbers.
-mathlib has a much more general definition of limits, but here
-we want to practice using the logical operators and relations
-covered in the previous files.
+在这个文件中，我们操作实数序列极限的基本定义。mathlib 有更加通用的极限定义，但在这里我们想要练习使用前面文件中涉及的逻辑运算符和关系。
 
-There are many exercises in this file, so do not hesitate to take a
-look at the solutions folder if you are stuck, there will be other
-exercises.
+这个文件中有很多练习，如果遇到困难，不要犹豫去查看解答文件夹，那里还会有其他练习。
 -/
 
 /-
-Before we start on, let us make sure Lean doesn't need so much help to
-prove equalities or inequalities that linearly follow from known
-equalities and inequalities. This is the job of the linear arithmetic
-tactic: `linarith`.
+在开始之前，让我们确保 Lean 不需要太多帮助就能证明从已知等式和不等式线性推导出的等式或不等式。这是线性算术策略 `linarith` 的工作。
 -/
 
 example (a b : ℝ) (hb : 0 ≤ b) : a ≤ a + b := by linarith
 
 /-
-Let's prove some exercises using `linarith`.
+让我们使用 `linarith` 来证明一些练习。
 -/
 
 example (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) : 0 ≤ a + b := by
@@ -38,38 +29,33 @@ example (a b c d : ℝ) (hab : a ≤ b) (hcd : c ≤ d) : a + c ≤ b + d := by
   -- sorry
 
 /-
-A sequence `u` is a function from `ℕ` to `ℝ`, hence Lean says
-`u : ℕ → ℝ`
-The definition we'll be using is:
+序列 `u` 是从 `ℕ` 到 `ℝ` 的函数，因此 Lean 表示为 `u : ℕ → ℝ`
+我们将使用的定义是：
 -/
 
-/-- Definition of “u tends to l” -/
+/-- "u 趋向于 l" 的定义 -/
 def seq_limit (u : ℕ → ℝ) (l : ℝ) := ∀ ε > 0, ∃ N, ∀ n ≥ N, |u n - l| ≤ ε
 
 /-
-Note the use of `∀ ε > 0, _` which is an abbreviation of
-`∀ ε, ε > 0 → _ `
+注意使用了 `∀ ε > 0, _`，这是 `∀ ε, ε > 0 → _ ` 的简写。
 
-In particular, a statement like `h : ∀ ε > 0, _`
-can be specialized to a given `ε₀` by
+特别地，像 `h : ∀ ε > 0, _` 这样的陈述可以通过以下方式特化到给定的 `ε₀`：
   `specialize h ε₀ hε₀`
-where `hε₀` is a proof of `ε₀ > 0`.
+其中 `hε₀` 是 `ε₀ > 0` 的证明。
 
-Also note that, wherever Lean expects some proof term, we can
-start a tactic mode proof using the keyword `by`.
-For instance, if the local context contains:
+另外注意，无论何时 Lean 期望某个证明项，我们都可以使用关键字 `by` 开始策略模式证明。例如，如果局部上下文包含：
 
 δ : ℝ
 δ_pos : δ > 0
 h : ∀ ε > 0, _
 
-then we can specialize h to the real number δ/2 using:
+那么我们可以使用以下方式将 h 特化到实数 δ/2：
   `specialize h (δ/2) (by linarith)`
-where `by linarith` will provide the proof of `δ/2 > 0` expected by Lean.
+其中 `by linarith` 将提供 Lean 期望的 `δ/2 > 0` 的证明。
 -/
 
-/- If u is constant with value l then u tends to l.
-Hint: `simp` can rewrite `|l - l|` to `0` -/
+/- 如果 u 是值为 l 的常数序列，那么 u 趋向于 l。
+提示：`simp` 可以将 `|l - l|` 重写为 `0` -/
 example (h : ∀ n, u n = l) : seq_limit u l := by
   -- sorry
   intros ε ε_pos
@@ -82,34 +68,28 @@ example (h : ∀ n, u n = l) : seq_limit u l := by
 
 
 /-
-A small user interface remark: you may have noticed in the previous example that
-your editor shows a somewhat ghostly `{u l}` after the `example` word.
-This text is not actually present in the Lean file, and cannot be edited.
-It is displayed as a hint that Lean inferred we wanted to work with some `u` and `l`.
-The fact that `u` should be a sequence and `l` a real numbered was inferred because
-the announced conclusion was `seq_limit u l`.
+关于用户界面的小备注：你可能已经注意到在前面的例子中，编辑器在 `example` 这个词后显示了一个有些虚幻的 `{u l}`。这个文本实际上不在 Lean 文件中，也不能编辑。它被显示为一个提示，表明 Lean 推断我们想要处理某些 `u` 和 `l`。`u` 应该是一个序列而 `l` 是一个实数这个事实是被推断出来的，因为宣告的结论是 `seq_limit u l`。
 
-The short version of the above paragraph is you can mostly ignore those ghostly
-indications and trust your common sense that `u` is a sequence and `l` a limit.
+上述段落的简短版本是，你大多可以忽略这些虚幻的指示，相信你的常识即 `u` 是一个序列，`l` 是一个极限。
 -/
 
 /-
-When dealing with absolute values, we'll use lemmas:
+在处理绝对值时，我们将使用以下引理：
 
 `abs_sub_comm (x y : ℝ) : |x - y| = |y - x|`
 
 `abs_le {x y : ℝ} : |x| ≤ y ↔ -y ≤ x ∧ x ≤ y`
 
-We will also use variants of the triangle inequality
+我们还将使用三角不等式的变形：
 
 `abs_add (x y : ℝ) : |x + y| ≤ |x| + |y|`
-or
+或
 `abs_sub_le  (a c b : ℝ) : |a - b| ≤ |a - c| + |c - b|`
-or the primed version:
+或带撇号的版本：
 `abs_sub_le' (a c b : ℝ) : |a - b| ≤ |a - c| + |b - c|`
 -/
 
--- Assume `l > 0`. Then `u` ts to `l` implies `u n ≥ l/2` for large enough `n`
+-- 假设 `l > 0`。那么 `u` 趋向于 `l` 意味着对于足够大的 `n`，`u n ≥ l/2`
 example (h : seq_limit u l) (hl : l > 0) :
     ∃ N, ∀ n ≥ N, u n ≥ l/2 := by
   -- sorry
@@ -123,7 +103,7 @@ example (h : seq_limit u l) (hl : l > 0) :
 
 
 /-
-When dealing with max, you can use
+在处理 max 时，你可以使用：
 
 `ge_max_iff (p q r) : r ≥ max p q ↔ r ≥ p ∧ r ≥ q`
 
@@ -131,10 +111,10 @@ When dealing with max, you can use
 
 `le_max_right p q : q ≤ max p q`
 
-Let's see an example.
+让我们看一个例子。
 -/
 
--- If `u` tends to `l` and `v` tends `l'` then `u+v` tends to `l+l'`
+-- 如果 `u` 趋向于 `l` 并且 `v` 趋向于 `l'`，那么 `u+v` 趋向于 `l+l'`
 example (hu : seq_limit u l) (hv : seq_limit v l') :
     seq_limit (u + v) (l + l') := by
   intros ε ε_pos
@@ -149,7 +129,7 @@ example (hu : seq_limit u l) (hv : seq_limit v l') :
   have fact₂ : |v n - l'| ≤ ε/2 := hN₂ n (by linarith)
   -- omit
   /-
-  -- alternative proof without using `calc`
+  -- 不使用 `calc` 的替代证明
   simp
   have : |u n + v n - (l + l')| = |(u n - l) + (v n - l')|
   · ring
@@ -166,10 +146,8 @@ example (hu : seq_limit u l) (hv : seq_limit v l') :
     _ ≤ ε                                             := by linarith
 
 
-/- Let's do something similar: the squeezing theorem.
-In that example it can help to use the `specialize` tactic (introduced in the file
-`03Forall.lean`) so that the `linarith` tactic can pick up the relevant files
-from the assumptions.
+/- 让我们做一些类似的事情：夹逼定理。
+在这个例子中，使用 `specialize` 策略（在文件 `03Forall.lean` 中介绍）会有帮助，这样 `linarith` 策略就可以从假设中拾取相关文件。
 -/
 example (hu : seq_limit u l) (hw : seq_limit w l) (h : ∀ n, u n ≤ v n) (h' : ∀ n, v n ≤ w n) :
     seq_limit v l := by
@@ -186,7 +164,7 @@ example (hu : seq_limit u l) (hw : seq_limit w l) (h : ∀ n, u n ≤ v n) (h' :
   specialize h' n
   rw [abs_le] at *
   constructor
-  -- Here `linarith` can finish, but on paper we would write
+  -- 这里 `linarith` 可以完成，但在纸上我们会写
   calc
     -ε ≤ u n - l := by linarith
      _ ≤ v n - l := by linarith
@@ -197,15 +175,14 @@ example (hu : seq_limit u l) (hw : seq_limit w l) (h : ∀ n, u n ≤ v n) (h' :
 
 
 
-/- In the next exercise, we'll use
+/- 在下一个练习中，我们将使用：
 
 `eq_of_abs_sub_le_all (x y : ℝ) : (∀ ε > 0, |x - y| ≤ ε) → x = y`
 
-Recall we listed three variations on the triangle inequality at the beginning of this file.
+回想一下，我们在这个文件的开头列出了三角不等式的三种变形。
 -/
 
--- A sequence admits at most one limit. You will be able to use that lemma in the following
--- exercises.
+-- 序列最多承认一个极限。你将能在下面的练习中使用这个引理。
 lemma unique_limit : seq_limit u l → seq_limit u l' → l = l' := by
   -- sorry
   intros hl hl'
@@ -224,7 +201,7 @@ lemma unique_limit : seq_limit u l → seq_limit u l' → l = l' := by
 
 
 /-
-Let's now practice deciphering definitions before proving.
+现在让我们练习在证明之前解读定义。
 -/
 
 def non_decreasing (u : ℕ → ℝ) := ∀ n m, n ≤ m → u n ≤ u m
@@ -248,22 +225,19 @@ example (M : ℝ) (h : is_seq_sup M u) (h' : non_decreasing u) : seq_limit u M :
   -- sorry
 
 /-
-We will now play with subsequences.
+现在我们来玩子序列。
 
-The new definition we will use is that `φ : ℕ → ℕ` is an extraction
-if it is (strictly) increasing.
+我们将使用的新定义是 `φ : ℕ → ℕ` 是一个抽取函数，如果它是（严格）递增的。
 -/
 
 def extraction (φ : ℕ → ℕ) := ∀ n m, n < m → φ n < φ m
 
 /-
-In the following, `φ` will always denote a function from `ℕ` to `ℕ`.
+在下面，`φ` 始终表示从 `ℕ` 到 `ℕ` 的函数。
 
-The next lemma is proved by an easy induction, but we haven't seen induction
-in this tutorial. If you did the natural number game then you can delete
-the proof below and try to reconstruct it.
+下一个引理通过简单的归纳来证明，但我们在这个教程中没有见过归纳法。如果你做过自然数游戏，那么你可以删除下面的证明并尝试重建它。
 -/
-/-- An extraction is greater than id -/
+/-- 抽取函数大于恒等函数 -/
 lemma id_le_extraction' : extraction φ → ∀ n, n ≤ φ n := by
   intros hyp n
   induction n with
@@ -272,12 +246,10 @@ lemma id_le_extraction' : extraction φ → ∀ n, n ≤ φ n := by
 
 
 /-
-In the exercise, we use `∃ n ≥ N, ...` which is the abbreviation of
-`∃ n, n ≥ N ∧ ...`.
+在练习中，我们使用 `∃ n ≥ N, ...`，这是 `∃ n, n ≥ N ∧ ...` 的简写。
 -/
 
-/-- Extractions take arbitrarily large values for arbitrarily large
-inputs. -/
+/-- 抽取函数对于任意大的输入取任意大的值。 -/
 lemma extraction_ge : extraction φ → ∀ N N', ∃ n ≥ N', φ n ≥ N := by
   -- sorry
   intro h N N'
@@ -289,14 +261,12 @@ lemma extraction_ge : extraction φ → ∀ N N', ∃ n ≥ N', φ n ≥ N := by
     _ ≤ φ (max N N') := by apply id_le_extraction' h
   -- sorry
 
-/- A real number `a` is a cluster point of a sequence `u`
-if `u` has a subsequence converging to `a`.
+/- 实数 `a` 是序列 `u` 的聚点，如果 `u` 有一个子序列收敛到 `a`。
 -/
 
 def cluster_point (u : ℕ → ℝ) (a : ℝ) := ∃ φ, extraction φ ∧ seq_limit (u ∘ φ) a
 
-/-- If `a` is a cluster point of `u` then there are values of
-`u` arbitrarily close to `a` for arbitrarily large input. -/
+/-- 如果 `a` 是 `u` 的聚点，那么对于任意大的输入，存在 `u` 的值任意接近 `a`。 -/
 lemma near_cluster :
   cluster_point u a → ∀ ε > 0, ∀ N, ∃ n ≥ N, |u n - a| ≤ ε := by
   -- sorry
@@ -308,7 +278,7 @@ lemma near_cluster :
   -- sorry
 
 
-/-- If `u` tends to `l` then its subsequences tend to `l`. -/
+/-- 如果 `u` 趋向于 `l`，那么它的子序列趋向于 `l`。 -/
 lemma subseq_tendsto_of_tendsto' (h : seq_limit u l) (hφ : extraction φ) :
 seq_limit (u ∘ φ) l := by
   -- sorry
@@ -322,7 +292,7 @@ seq_limit (u ∘ φ) l := by
     _ ≤ φ n := id_le_extraction' hφ n
   -- sorry
 
-/-- If `u` tends to `l` all its cluster points are equal to `l`. -/
+/-- 如果 `u` 趋向于 `l`，那么它的所有聚点都等于 `l`。 -/
 lemma cluster_limit (hl : seq_limit u l) (ha : cluster_point u a) : a = l := by
   -- sorry
   rcases ha with ⟨φ, φ_extr, lim_u_φ⟩
@@ -330,7 +300,7 @@ lemma cluster_limit (hl : seq_limit u l) (ha : cluster_point u a) : a = l := by
   exact unique_limit lim_u_φ lim_u_φ'
   -- sorry
 
-/-- Cauchy_sequence sequence -/
+/-- 柯西序列 -/
 def CauchySequence (u : ℕ → ℝ) :=
   ∀ ε > 0, ∃ N, ∀ p q, p ≥ N → q ≥ N → |u p - u q| ≤ ε
 
@@ -350,7 +320,7 @@ example : (∃ l, seq_limit u l) → CauchySequence u := by
   -- sorry
 
 /-
-In the next exercise, you can reuse
+在下一个练习中，你可以重用：
  near_cluster : cluster_point u a → ∀ ε > 0, ∀ N, ∃ n ≥ N, |u n - a| ≤ ε
 -/
 
