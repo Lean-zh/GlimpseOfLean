@@ -1,0 +1,41 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - zh_CN
+      - master
+  pull_request:
+    branches:
+      - zh_CN
+      - master
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        pip install mkdocs>=1.4.0
+        pip install mkdocs-material>=9.0.0
+        pip install mkdocs-static-i18n>=0.5.0
+    
+    - name: Build documentation
+      run: |
+        # Build MkDocs site
+        mkdocs build
+    
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/zh_CN'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./site
