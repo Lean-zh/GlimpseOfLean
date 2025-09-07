@@ -1,43 +1,26 @@
 import GlimpseOfLean.Library.Short
 
-/- # A shorter Glimpse of Lean
+/- # Lean 简短入门
 
-This file is the short track of the Glimpse of Lean project. It is meant for people
-who want to spend two hours discovering Lean. The hope is that two hours are
-enough to reach at least the first exercises about limits of sequences of real numbers.
-If you go faster or have a bit more time, you can try to do all those exercises.
+这个文件是 Glimpse of Lean 项目的简短版本。它适合那些想要花费两个小时来了解 Lean 的人。希望两个小时足够至少完成关于实数数列极限的首批练习。如果你进度较快或有更多时间，可以尝试完成所有这些练习。
 
-Of course the proofs are not always the most idiomatic ones since we aim to keep
-the amount of things to explain very low, while still giving a glimpse of how Lean
-sees mathematical proofs.
+当然，由于我们的目标是尽量减少需要解释的内容，同时仍然让人了解 Lean 是如何看待数学证明的，这里的证明并不总是最符合惯用法的。
 
-Every command that is typed to make progress in the proof is called a “tactic”.
-We will learn about a dozen of them. For each tactic, we will see a couple of
-examples and then you will have exercises to do. The goal of each exercise is
-to replace the word `sorry` by a sequence of tactics that bring Lean to report
-there are no remaining goal, without reporting any error along the way.
+每个用来推进证明的命令都被称为"策略"(tactic)。我们将学习其中的十几个。对于每个策略，我们会看到几个例子，然后你将有练习要做。每个练习的目标是将单词 `sorry` 替换为一系列策略，使 Lean 报告没有剩余目标，且过程中不报告任何错误。
 -/
 
-/- ## Computing
+/- ## 计算
 
-We start with basic computations using real numbers. We could play the micro-management
-game invoking properties like commutatitivity and associativity of addition.
-But we can also ask Lean to take care of any proof that only uses those properties
-using the `ring` tactic.
-By “only those properties” we mean in particular it won’t use any assumption
-specific to the proof at hand.
+我们从使用实数的基本计算开始。我们可以进行微观管理游戏，调用加法的交换律和结合律等性质。但我们也可以要求 Lean 使用 `ring` 策略来处理任何仅使用这些性质的证明。通过"仅这些性质"，我们特别是指它不会使用任何特定于当前证明的假设。
 
-The word `ring` refers to the abstract mathematical definition that encapsulates the
-basic properties of addition, subtraction and multiplication. Knowing about this
-abstract algebra is not required here.
+单词 `ring` 指的是抽象数学定义，它封装了加法、减法和乘法的基本性质。这里不需要了解这个抽象代数的知识。
 -/
 
 example (a b : ℝ) : (a+b)^2 = a^2 + 2*a*b + b^2 := by
   ring
 
 /-
-Now it’s your turn: replace the word sorry with the relevant tactic to
-finish the exercise.
+现在轮到你了：将单词 sorry 替换为相关的策略来完成练习。
 -/
 
 example (a b : ℝ) : (a+b)*(a-b) = a^2 - b^2 := by
@@ -46,19 +29,17 @@ example (a b : ℝ) : (a+b)*(a-b) = a^2 - b^2 := by
   -- sorry
 
 /-
-Our next tactic is the `congr` tactic (`congr` stands for “congruence”).
-It tries to prove equalities by comparing both sides and creating new goals each time it
-sees some mismatch.
+我们的下一个策略是 `congr` 策略（`congr` 代表"同余"）。它试图通过比较两边并在每次看到不匹配时创建新目标来证明等式。
 -/
 
 example (a b : ℝ) (f : ℝ → ℝ) : f ((a+b)^2) = f (a^2 + 2*a*b + b^2) := by
   congr
-  -- `congr` recognized the pattern `f _ = f _` and created a new goal
-  -- about the mismatching part, namely the arguments supplied to `f`.
+  -- `congr` 识别出模式 `f _ = f _` 并创建了一个新目标
+  -- 关于不匹配的部分，即提供给 `f` 的参数。
   ring
 
 /-
-Try it on the next example.
+在下一个例子中试试。
 -/
 
 example (a b : ℝ) (f : ℝ → ℝ) : f ((a+b)^2 - 2*a*b) = f (a^2 + b^2) := by
@@ -68,36 +49,24 @@ example (a b : ℝ) (f : ℝ → ℝ) : f ((a+b)^2 - 2*a*b) = f (a^2 + b^2) := b
   -- sorry
 
 /-
-When there are several mismatches, `congr` creates several goals.
-Sometimes it gets over-enthusastic and matches “too much”. For instance, if the goal
-is `f (a+b) = f (b+a)` then `congr` will recognize the common pattern
-`f (_ + _) = f (_ + _)` and create two goals: `a = b` and `b = a`.
-This can be controlled in various ways. The most basic one is enough for us: we can limit
-the number of function application layers by putting a number after `congr`.
-In the example the two functions that are applied are `f` and addition, and we want to
-go only through the application of `f`.
+当存在多个不匹配时，`congr` 会创建多个目标。有时它会过于热情，匹配"太多"。例如，如果目标是 `f (a+b) = f (b+a)`，那么 `congr` 会识别出通用模式 `f (_ + _) = f (_ + _)` 并创建两个目标：`a = b` 和 `b = a`。这可以通过各种方式控制。最基本的方式对我们来说就足够了：我们可以通过在 `congr` 后放一个数字来限制函数应用层数。在示例中，应用的两个函数是 `f` 和加法，我们只想通过 `f` 的应用。
 -/
 
 example (a b : ℝ) (f : ℝ → ℝ) : f (a + b) = f (b + a) := by
-  congr 1 -- try removing that 1 or increasing it to see the issue.
+  congr 1 -- 尝试移除那个 1 或增加它来查看问题。
   ring
 
 /-
-Actually `congr` does more than finding mismatches, it also try to resolve them
-using assumptions. In the next example, `congr` creates the goal `a + b = c` by
-matching, and then immediately proves it by noticing and using assumption `h`.
+实际上 `congr` 不仅仅是找到不匹配，它还尝试使用假设来解决它们。在下一个例子中，`congr` 通过匹配创建目标 `a + b = c`，然后立即通过注意到并使用假设 `h` 来证明它。
 -/
 
 example (a b c : ℝ) (h : a + b = c) (f : ℝ → ℝ) : f (a + b) = f c := by
   congr
 
 /-
-The tactics `ring` and `congr` are the basic tools we will use to compute.
-But sometimes we need to chain several computation steps.
-This is the job of the `calc` tactic.
+策略 `ring` 和 `congr` 是我们用来计算的基本工具。但有时我们需要连接几个计算步骤。这是 `calc` 策略的工作。
 
-In the following example, it helps to carefully consider the tactic state
-displayed after each `by` after the `calc` line.
+在下面的例子中，仔细考虑在 `calc` 行后每个 `by` 后显示的策略状态是有帮助的。
 -/
 
 example (a b c d : ℝ) (h : c = b*a - d) (h' : d = a*b) : c = 0 := by
@@ -107,28 +76,17 @@ example (a b c d : ℝ) (h : c = b*a - d) (h' : d = a*b) : c = 0 := by
     _ = 0         := by ring
 
 /-
-Note that each `_` stands for the right-hand side of the previous line.
-So we are really proving a sequence of equalities, and then the `calc` tactic
-takes care of applying transitivity of equality (or equalities and inequalities
-when proving inequalities). Each proof in this sequence is introduced by `:= by`.
+注意每个 `_` 代表前一行的右边。因此我们实际上是在证明一系列等式，然后 `calc` 策略负责应用等式的传递性（或在证明不等式时应用等式和不等式）。这个序列中的每个证明都由 `:= by` 引入。
 
-The indentation rules for `calc` are a bit subtle, especially when there
-are other tactics after `calc`. Be careful to always align the `_`.
-Aligning the equality signs and the `:=` signs looks nice but is not mandatory.
+`calc` 的缩进规则有点微妙，特别是当 `calc` 后还有其他策略时。要小心始终对齐 `_`。对齐等号和 `:=` 符号看起来很好，但不是强制性的。
 
-Laying out those calculation steps and copy-pasting the common pieces can be a
-bit tedious on larger examples, but we get help from the calc widget, as can be
-seen on the video at
+在更大的例子中，布置这些计算步骤并复制粘贴公共片段可能有点繁琐，但我们得到了 calc widget 的帮助，如视频中所示：
 
 https://www.imo.universite-paris-saclay.fr/~patrick.massot/calc_widget.webm
 
-As you can see there, the `calc?` tactic propose to create a one-line compution,
-and then putting the cursor after `:= by` allows to select subterms to replace in
-a new calculation step.
+如你在那里看到的，`calc?` 策略提议创建一行计算，然后将光标放在 `:= by` 后允许选择子项以在新的计算步骤中替换。
 
-Note that subterm selection is done using Shift-click.
-There is no “click and move the cursor and then stop clicking”.
-This is different from regular selection of text in your editor or browser.
+注意子项选择是使用 Shift-click 完成的。没有"点击并移动光标然后停止点击"。这与你编辑器或浏览器中的常规文本选择不同。
 -/
 
 example (a b c : ℝ) (h : a = -b) (h' : b + c = 0) : b*(a - c) = 0 := by
@@ -141,8 +99,7 @@ example (a b c : ℝ) (h : a = -b) (h' : b + c = 0) : b*(a - c) = 0 := by
   -- sorry
 
 /-
-We can also handle inequalities using `gcongr` (which stands for “generalized congruence”)
-instead of `congr`.
+我们也可以使用 `gcongr`（代表"广义同余"）而不是 `congr` 来处理不等式。
 -/
 
 example (a b : ℝ) (h : a ≤ 2*b) : a + b ≤ 3*b := by
@@ -158,61 +115,47 @@ example (a b : ℝ) (h : b ≤ a) : a + b ≤ 2*a := by
   -- sorry
 
 /-
-The last tactic you will use in computation is the simplifier `simp`. It will
-repeatedly apply a number of lemmas that are marked as simplification lemmas.
-For instance the proof below simplifies `x - x` to `0` and then `|0|` to `0`.
+你在计算中将使用的最后一个策略是简化器 `simp`。它会重复应用标记为可简化引理的多个引理。例如，下面的证明将 `x - x` 简化为 `0`，然后将 `|0|` 简化为 `0`。
 -/
 
 example (x : ℝ) : |x - x| = 0 := by
   simp
 
 
-/- ## Universal quantifiers and implications
+/- ## 全称量词和蕴含
 
-Now let’s learn about the `∀` quantifier.
+现在让我们学习关于 `∀` 量词。
 
-Let `P` be a predicate on a type `X`. This means for every mathematical
-object `x` with type `X`, we get a mathematical statement `P x`.
+设 `P` 是类型 `X` 上的谓词。这意味着对于每个类型为 `X` 的数学对象 `x`，我们得到一个数学陈述 `P x`。
 
-Lean sees a proof `h` of `∀ x, P x` as a function sending any `x : X` to
-a proof `h x` of `P x`.
-This already explains the main way to use an assumption or lemma which
-starts with a `∀`: we can simply feed it an element of the relevant `X`.
+Lean 将 `∀ x, P x` 的证明 `h` 看作一个函数，将任何 `x : X` 发送到 `P x` 的证明 `h x`。这里已经演示了使用 `∀` 开头假设或引理的方法：
+我们可以简单地向它提供相关 `X` 的一个元素。
 
-Note we don't need to spell out `X` in the expression `∀ x, P x`
-as long as the type of `P` is clear to Lean, which can then infer the type of `x`.
+注意我们不需要在表达式 `∀ x, P x` 中拼写出 `X`，只要 `P` 的类型对 Lean 来说是清楚的，它就可以推断 `x` 的类型。
 
-Let's define a predicate to play with `∀`. In that example we have a function
-`f : ℝ → ℝ` at hand, and `X = ℝ` (this value of `X` is inferred from the fact
-that we feed `x` to `f` which goes from `ℝ` to `ℝ`).
+让我们定义一个谓词来玩 `∀`。在这个例子中我们有一个函数 `f : ℝ → ℝ`，`X = ℝ`（这里不用写 `f (x : ℝ)`，由于 `X` 的值能从 `f` 是 `ℝ` 到 `ℝ` 的函数这个事实推断出来）。
 -/
 
 def even_fun (f : ℝ → ℝ) := ∀ x, f (-x) = f x
 
 /-
-In the above definition, note how there is no parentheses in `f x`.
-This is how Lean denotes function application. In `f (-x)` there are parentheses
-to prevent Lean from seeing a subtraction of `f` and `x` (which would make no sense).
-Also be careful the space between `f` and `(-x)` is mandatory.
+在上述定义中，注意在 `f x` 中没有括号。这是 Lean 表示函数应用的方式。在 `f (-x)` 中有括号是为了防止 Lean 看到 `f` 和 `x` 的减法（这没有意义）。还要小心 `f` 和 `(-x)` 之间的空格是强制的。
 
-The `apply` tactic can be used to specialize universally quantified statements.
+`apply` 策略可以用来特化全称量词的陈述。
 -/
 
 example (f : ℝ → ℝ) (hf : even_fun f) : f (-3) = f 3 := by
   apply hf 3
 
 /-
-Fortunately, Lean is willing to work for us, so we can leave out the `3` and
-let the `apply` tactic compare the goal with the assumption
-and decide to specialize it to `x = 3`.
+幸运的是，Lean 足够智能，我们省略 `3` 也能通过。 `apply` 策略会比较目标与假设并决定将其特化为 `x = 3`。
 -/
 
 example (f : ℝ → ℝ) (hf : even_fun f) : f (-3) = f 3 := by
   apply hf
 
 /-
-In the following exercise, you get to choose whether you want help from Lean
-or do all the work.
+在下面的练习中，你可以选择是否要 Lean 的帮助还是自己做所有工作。
 -/
 example (f : ℝ → ℝ) (hf : even_fun f) : f (-5) = f 5 := by
   -- sorry
@@ -220,58 +163,49 @@ example (f : ℝ → ℝ) (hf : even_fun f) : f (-5) = f 5 := by
   -- sorry
 
 /-
-This was about using a `∀`. Let us now see how to prove a `∀`.
+这是关于使用 `∀` 的。现在让我们看看如何证明 `∀`。
 
-In order to prove `∀ x, P x`, we use `intro x₀` to fix an arbitrary object
-with type `X`, and call it `x₀` (`intro` stands for “introduce”).
-Note we don’t have to use the letter `x₀`, any name will work.
+为了证明 `∀ x, P x`，我们使用 `intro x₀` 来固定一个任意的类型为 `X` 的对象，并称其为 `x₀`（`intro` 代表"引入"）。注意我们不必使用字母 `x₀`，任何名称都可以。
 
-We will prove that the real cosine function is even. After introducing some `x₀`,
-the simplifier tactic can finish the proof. Remember to carefully inspect the goal
-at the beginning of each line.
+我们将证明实数余弦函数是偶函数。在引入一些 `x₀` 后，简化器策略可以完成证明。记得仔细检查每行开头的目标。
 -/
 
-open Real in -- this line insists that we mean real cos, not the complex numbers one.
+open Real in -- 这一行声明我们指的是实数 cos，而不是复数的。
 example : even_fun cos := by
   intro x₀
   simp
 
 /-
-In order to get slightly more interesting examples, we will both use and prove
-some universally quantified statements.
+为了得到稍微更有趣的例子，我们将同时使用和证明一些全称量词的陈述。
 
-In the next proof, we also take the opportunity to introduce the
-`unfold` tactic, which simply unfolds definitions. Here this is purely
-for didactic reason, Lean doesn't need those `unfold` invocations.
+在下一个证明中，我们也借机介绍了 `unfold` 策略，它只是展开定义。这里这纯粹是出于教学目的，Lean 不需要这些 `unfold` 调用。
 -/
 
 example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by
-  -- Our assumption on that f is even means ∀ x, f (-x) = f x
-  unfold even_fun at hf -- note how `hf` changes after this line
-  -- and the same for g
+  -- 我们关于 f 是偶函数的假设意味着 ∀ x, f (-x) = f x
+  -- unfold even_fun at * -- 对所有位置的展开定义
+  unfold even_fun at hf -- 注意 `hf` 在这一行后如何变化
+  -- 对 g 也是如此
   unfold even_fun at hg
-  -- We need to prove ∀ x, (f+g)(-x) = (f+g)(x)
+  -- 我们需要证明 ∀ x, (f+g)(-x) = (f+g)(x)
   unfold even_fun
-  -- Let x₀ be any real number
+  -- 设 x₀ 为任意实数
   intro x₀
-  -- and let's compute
+  -- 让我们计算
   calc
     (f + g) (-x₀) = f (-x₀) + g (-x₀)  := by simp
     _             = f x₀ + g (-x₀)     := by congr 1; apply hf
-  -- put you cursor between `;` and `apply` in the previous line to see the intermediate goal
+  -- 将光标放在前一行中 `;` 和 `apply` 之间以查看中间目标
     _             = f x₀ + g x₀        := by congr 1; apply hg
     _             = (f + g) x₀         := by simp
 
 
 /-
-Tactics like `congr` and `ring` will not unfold definitions that appear in the goal.
-This is why the first computation line is necessary, although it only unfolds a definition.
-The last line is not necessary however, since it only proves
-something that is true by definition, and is not followed by any other tactic.
+像 `congr` 和 `ring` 这样的策略不会展开出现在目标中的定义。这就是为什么第一个行是必要的，尽管它只是展开加法定义。然而，最后一行不是必要的，因为它只是证明按定义为真的东西，并且没有被任何其他策略跟随。
 
-Also note that `congr` can generate several goals so we don’t have to call it twice.
+还注意 `congr` 可以生成多个目标，所以我们不必调用它两次。
 
-Hence we can compress the above proof to:
+因此我们可以将上述证明压缩为：
 -/
 
 example (f g : ℝ → ℝ)  (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by
@@ -281,17 +215,16 @@ example (f g : ℝ → ℝ)  (hf : even_fun f) (hg : even_fun g) : even_fun (f +
     _             = f x₀ + g x₀        := by congr 1; apply hf; apply hg
 
 /-
-If you would rather uncompress the proof, you can use the `specialize` tactic to
-specialize a universally quantified assumption before using it.
+如果你宁愿展开证明，可以使用 `specialize` 策略在使用它之前特化全称量词的假设。
 -/
 
 example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + g) := by
-  -- Let x₀ be any real number
+  -- 设 x₀ 为任意实数
   intro x₀
-  specialize hf x₀ -- hf is now only about the x₀ we just introduced
-  specialize hg x₀ -- hg is now only about the x₀ we just introduced
-  -- and let's compute
-  -- (note how `congr` now finds assumptions finishing those steps)
+  specialize hf x₀ -- hf 现在只与 x₀ 相关
+  specialize hg x₀ -- hg 现在只与 x₀ 相关
+  -- 让我们计算
+  -- （注意 `congr` 现在如何找到假设来完成这些步骤）
   calc
     (f + g) (-x₀) = f (-x₀) + g (-x₀)  := by simp
     _             = f x₀ + g (-x₀)     := by congr
@@ -299,13 +232,9 @@ example (f g : ℝ → ℝ) (hf : even_fun f) (hg : even_fun g) : even_fun (f + 
     _             = (f + g) x₀         := by simp
 
 /-
-Now let's practice. If you need to learn how to type a unicode symbol, you can
-put your mouse cursor above the symbol and wait for one second.
-Recall you can set a depth limit in `congr` by giving it a number as in `congr 1`.
+现在让我们练习。如果你需要学习如何输入 unicode 符号，可以将鼠标光标放在符号上方并等待一秒钟。回想一下，你可以通过给 `congr` 一个数字（如 `congr 1`）来设置深度限制。
 
-Note also that you can call your arbitrary real number `x` instead of `x₀` if
-you want to save some typing. We called it `x₀` only to emphasize it doesn’t
-need to be the same notation as in the statement.
+还注意，如果你想节省一些输入，你可以称你的任意实数为 `x` 而不是 `x₀`。我们称其为 `x₀` 只是为了强调它不需要与陈述中的符号相同。
 -/
 
 example (f g : ℝ → ℝ) (hf : even_fun f) : even_fun (g ∘ f) := by
@@ -317,9 +246,9 @@ example (f g : ℝ → ℝ) (hf : even_fun f) : even_fun (g ∘ f) := by
   -- sorry
 
 /-
-Let's now combine the universal quantifier with implication.
+现在让我们将全称量词与蕴含结合起来。
 
-In the next definitions, note how `∀ x₁, ∀ x₂, ...` is abbreviated to `∀ x₁ x₂, ...`.
+在下一个定义中，注意 `∀ x₁, ∀ x₂, ...` 如何缩写为 `∀ x₁ x₂, ...`。
 -/
 
 def non_decreasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ ≤ f x₂
@@ -327,42 +256,33 @@ def non_decreasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ 
 def non_increasing (f : ℝ → ℝ) := ∀ x₁ x₂, x₁ ≤ x₂ → f x₁ ≥ f x₂
 
 /-
-Note how Lean uses a single arrow `→` to denote implication. This is the same arrow
-as in `f : ℝ → ℝ`. Indeed Lean sees a proof of the implication `P → Q` as a
-function from proofs of `P` to proofs of `Q`.
+注意 Lean 如何使用单箭头 `→` 来表示蕴含。这与 `f : ℝ → ℝ` 中的箭头相同。实际上 Lean 将蕴含 `P → Q` 的证明看作从 `P` 的证明到 `Q` 的证明的函数。
 
-So an assumption `hf : non_decreasing f` is a function that takes as input two numbers
-and a inequality between them and outputs an inequality between their images under `f`.
+因此假设 `hf : non_decreasing f` 是一个函数，它以两个数字和它们之间的不等式为输入，并输出它们在 `f` 下的像之间的不等式。
 -/
 
 example (f : ℝ → ℝ) (hf : non_decreasing f) (x₁ x₂ : ℝ) (hx : x₁ ≤ x₂) : f x₁ ≤ f x₂ := by
   apply hf x₁ x₂ hx
 
 /-
-We can ask Lean to work more for us, as in the following example:
+我们可以要求 Lean 为我们做更多工作，如下例所示：
 -/
 
 example (f : ℝ → ℝ) (hf : non_decreasing f) (x₁ x₂ : ℝ) (hx : x₁ ≤ x₂) : f x₁ ≤ f x₂ := by
-  apply hf -- Lean compares the goal with the assumption `hf`. It recognizes that `hf`
-           -- needs to be specialized to the numbers `x₁` and `x₂` that are given, to get
-           -- the implication `x₁ ≤ x₂ → f x₁ ≤ f x₂` and then asks for a proof of the
-           -- premise `x₁ ≤ x₂`
-  apply hx -- Our assumption hx is such a proof
+  apply hf -- Lean 比较目标与假设 `hf`。它识别出 `hf`
+           -- 需要特化为给定的数字 `x₁` 和 `x₂`，以得到
+           -- 蕴含 `x₁ ≤ x₂ → f x₁ ≤ f x₂`，然后要求前提 `x₁ ≤ x₂` 的证明
+  apply hx -- 我们的假设 hx 就是这样一个证明
 
 /-
-Note that the tactic `apply` does not mean anything vague like “make something
-of that expression somehow”. It asks for an input that is either a full proof
-as in the first example, or a proof of statement involving universal
-quantifiers and implications in front of some statement that can be specialized
-to the current goal (as in the previous example).
+注意策略 `apply` 不意味着任何模糊的东西，如"以某种方式使用那个表达式"。它要求一个输入，该输入要么是完整的证明如第一个例子，要么是涉及全称量词和蕴含在某个陈述前面的证明，该陈述可以特化为当前目标（如前一个例子）。
 
-In this very simple example, we did not gain much. Now compare the following
-two proofs of the same statement.
+在这个非常简单的例子中，我们没有获得太多。现在比较下面相同陈述的两个证明。
 -/
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     non_decreasing (g ∘ f) := by
-  intro x₁ x₂ hx -- Note how `intro` is also introducing the assumption `h : x₁ ≤ x₂`
+  intro x₁ x₂ hx -- 注意 `intro` 如何也引入假设 `h : x₁ ≤ x₂`
   apply hg (f x₁) (f x₂) (hf x₁ x₂ hx)
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
@@ -373,9 +293,7 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
   apply hx
 
 /-
-Take some time to understand how, in the second proof, Lean saves us the
-trouble of finding the relevant pairs of numbers and also nicely cuts the proof
-into pieces. You can choose your way in the following variation.
+花一些时间理解在第二个证明中，Lean 如何为我们省去了寻找相关数字对的麻烦，也很好地将证明切成片段。你可以在下面的变体中选择你的方式。
 -/
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_increasing g) :
@@ -386,12 +304,9 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_increasing g) :
   -- sorry
 
 /-
-At this stage you should feel that such a proof actually doesn’t require any
-thinking at all. And indeed Lean can easily handle the full proof in one tactic
-(but we won’t need this here).
+在这个阶段，你应该感觉到这样的证明实际上不需要任何思考。实际上 Lean 可以轻松地在一个策略中处理完整的证明（但我们这里不需要这个）。
 
-We can also use the `specialize` tactic to feed arguments to an assumption
-before using it, as we saw with the example of even functions.
+我们也可以使用 `specialize` 策略在使用假设之前向其提供参数，正如我们在偶函数例子中看到的那样。
 -/
 
 example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
@@ -405,14 +320,12 @@ example (f g : ℝ → ℝ) (hf : non_decreasing f) (hg : non_decreasing g) :
     _          = (g + f) x₂  := by simp
 
 
-/- # Finding lemmas
+/- # 寻找引理
 
-Lean’s mathematical library contains many useful facts, and remembering all of
-them by name is infeasible. We already saw the simplifier tactic `simp` which
-applies many lemmas without using their names.
+Lean 的数学库包含许多有用的事实，记住所有引理的名字是不可行的。我们已经看到了简化器策略 `simp`，它应用许多引理而不使用它们的名称。
 
-Use `simp` to prove the following. Note that `X : Set ℝ` means that `X` is a
-set containing (only) real numbers. -/
+使用 `simp` 来证明以下内容。注意 `X : Set ℝ` 意味着 `X` 是一个
+只包含实数的集合。-/
 
 example (x : ℝ) (X Y : Set ℝ) (hx : x ∈ X) : x ∈ (X ∩ Y) ∪ (X \ Y) := by
   -- sorry
@@ -421,48 +334,34 @@ example (x : ℝ) (X Y : Set ℝ) (hx : x ∈ X) : x ∈ (X ∩ Y) ∪ (X \ Y) :
   -- sorry
 
 /-
-The `apply?` tactic will find lemmas from the library and tell you their names.
-It creates a suggestion below the goal display. You can click on this suggestion
-to edit your code.
-Use `apply?` to find the lemma that every continuous function with compact support
-has a global minimum. -/
+`apply?` 策略将从库中找到引理并告诉你它们的名称。它在目标显示下方创建一个建议。你可以点击这个建议来编辑你的代码。使用 `apply?` 找到每个具有紧支撑的连续函数都有全局最小值的引理。-/
 
 example (f : ℝ → ℝ) (hf : Continuous f) (h2f : HasCompactSupport f) : ∃ x, ∀ y, f x ≤ f y := by
   -- sorry
-  -- use `apply?` to find:
+  -- 使用 `apply?` 找到：
   exact Continuous.exists_forall_le_of_hasCompactSupport hf h2f
   -- sorry
 
-/- ## Existential quantifiers
+/- ## 存在量词
 
-In order to prove `∃ x, P x`, we give some `x₀` that works with `use x₀` and
-then prove `P x₀`. This `x₀` can be an object from the local context
-or a more complicated expression. In the example below, the property
-to check after `use` is true by definition so the proof is over.
+为了证明 `∃ x, P x`，我们用 `use x₀` 给出一些有效的 `x₀`，然后证明 `P x₀`。这个 `x₀` 可以是来自局部上下文的对象或更复杂的表达式。在下面的例子中，要在 `use` 后检查的性质按定义为真，所以证明结束了。
 -/
 example : ∃ n : ℕ, 8 = 2*n := by
   use 4
 
 /-
-In order to use `h : ∃ x, P x`, we use the `rcases` tactic to fix
-one `x₀` that works.
+为了使用 `h : ∃ x, P x`，我们使用 `rcases` 策略来固定一个有效的 `x₀`。
 
-Again `h` can come straight from the local context or can be a more
-complicated expression.
+同样 `h` 可以直接来自局部上下文或可以是一个更复杂的表达式。
 
-The examples will use divisibility in `ℤ` (beware the `∣` symbol which is
-not ASCII but a unicode symbol). The angle brackets appearing after the
-word `with` are also unicode symbols.
-If your keyboard is not configured to directly type those symbols, you can
-put your mouse cursor above the symbol and wait for one second to see how
-to type them in this editor.
+例子将在 `ℤ` 中使用整除（注意 `∣` 符号不是 ASCII 而是 unicode 符号）。在单词 `with` 后出现的尖括号也是 unicode 符号。如果你的键盘没有配置为直接输入这些符号，你可以将鼠标光标放在符号上方并等待一秒钟来查看如何在这个编辑器中输入它们。
 
 -/
 
 example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : b ∣ c) : a ∣ c := by
-  rcases h₁ with ⟨k, hk⟩ -- we fix some `k` such that `b = a * k`
-  rcases h₂ with ⟨l, hl⟩ -- we fix some `l` such that `c = b * l`
-  -- Since `a ∣ c` means `∃ k, c = a*k`, we need the `use` tactic.
+  rcases h₁ with ⟨k, hk⟩ -- 我们固定一些 `k` 使得 `b = a * k`
+  rcases h₂ with ⟨l, hl⟩ -- 我们固定一些 `l` 使得 `c = b * l`
+  -- 由于 `a ∣ c` 意味着 `∃ k, c = a*k`，我们需要 `use` 策略。
   use k*l
   calc
     c = b*l     := by congr
@@ -480,22 +379,17 @@ example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : a ∣ c) : a ∣ b + c := by
   -- sorry
 
 /-
-## Conjunctions
+## 合取
 
-We now explain how to handle one more logical gadget: conjunction.
+我们现在解释如何处理另一个逻辑小工具：合取。
 
-Given two statements `P` and `Q`, the conjunction `P ∧ Q` is the statement that
-`P` and `Q` are both true (`∧` is sometimes called the “logical and”).
+给定两个陈述 `P` 和 `Q`，合取 `P ∧ Q` 是 `P` 和 `Q` 都为真的陈述（`∧` 有时被称为"逻辑与"）。
 
-In order to prove `P ∧ Q` we use the `constructor` tactic that splits the goal
-into proving `P` and then proving `Q`.
+为了证明 `P ∧ Q`，我们使用 `constructor` 策略，它将目标分割为证明 `P` 然后证明 `Q`。
 
-In order to use a proof `h` of `P ∧ Q`, we use `h.1` to get a proof of `P`
-and `h.2` to get a proof of `Q`. We can also use `rcases h with ⟨hP, hQ⟩` to
-get `hP : P` and `hQ : Q`.
+为了使用 `P ∧ Q` 的证明 `h`，我们使用 `h.1` 来得到 `P` 的证明和 `h.2` 来得到 `Q` 的证明。我们也可以使用 `rcases h with ⟨hP, hQ⟩` 来得到 `hP : P` 和 `hQ : Q`。
 
-Let us see both in action in a very basic logic proof: let us deduce `Q ∧ P`
-from `P ∧ Q`.
+让我们在一个非常基本的逻辑证明中看到两者的作用：让我们从 `P ∧ Q` 推导出 `Q ∧ P`。
 -/
 
 example (P Q : Prop) (h : P ∧ Q) : Q ∧ P := by
@@ -504,47 +398,39 @@ example (P Q : Prop) (h : P ∧ Q) : Q ∧ P := by
   apply h.1
 
 /-
-## Limits
+## 极限
 
-We learned enough tactics to manipulate a definition involving both kinds of quantifiers:
-limits of sequences of real numbers.
+我们学习了足够的策略来操作涉及两种量词的定义：实数序列的极限。
 
 -/
 
-/-- A sequence `u` converges to a limit `l` if the following holds. -/
+/-- 我们称序列 `u` 收敛到极限 `l`，如果以下成立。-/
 def seq_limit (u : ℕ → ℝ) (l : ℝ) := ∀ ε > 0, ∃ N, ∀ n ≥ N, |u n - l| ≤ ε
 
 /-
-Let’s see an example manipulating this definition and using a lot of the tactics
-we’ve seen above: if `u` is constant with value `l` then `u` tends to `l`.
+让我们看一个使用我们上面看到的许多策略的例子：如果 `u` 是值为 `l` 的常数，那么 `u` 趋于 `l`。
 
-Remember `apply?` can find lemmas whose name you don’t want to remember, such as
-the lemma saying that positive implies non-negative. -/
+记住 `apply?` 可以找到你不想记住名称的引理，比如说正数蕴含非负数的引理。-/
 example (h : ∀ n, u n = l) : seq_limit u l := by
   intro ε ε_pos
   use 0
   intro n hn
   calc |u n - l| = |l - l| := by congr; apply h
     _            = 0       := by simp
-    _            ≤ ε       := by apply?
+    _            ≤ ε       := by apply? -- exact le_of_lt ε_pos
 
-/- When dealing with absolute values, we'll use the lemma:
+/- 在处理绝对值时，我们将使用引理：
 
 `abs_le {x y : ℝ} : |x| ≤ y ↔ -y ≤ x ∧ x ≤ y`
 
-When dealing with max, we’ll use
+在处理 max 时，我们将使用
 
 `ge_max_iff (p q r) : r ≥ max p q ↔ r ≥ p ∧ r ≥ q`
 
-The way we will use those lemmas is with the rewriting command
-`rw`. Let's see an example.
-In that example, we kept `apply?` instead of accepting its suggestions in order to emphasize
-there is no need to remember those lemma names.
-Note also how we can use `by` anywhere to start proving something using tactics. In the example
-below, we use it to prove `ε/2 > 0` from our assumption `ε > 0`.
+我们使用这些引理的方式是用重写命令 `rw`。让我们看一个例子。在上边的例子中，我们保留了 `apply?` 而不是接受其建议，以便强调不需要记住这些引理名称。还注意我们如何可以在任何地方使用 `by` 开始使用策略证明某些东西。在下面的例子中，我们使用它来从我们的假设 `ε > 0` 证明 `ε/2 > 0`。
 -/
 
--- If `u` tends to `l` and `v` tends `l'` then `u+v` tends to `l+l'`
+-- 如果 `u` 趋于 `l` 和 `v` 趋于 `l'`，那么 `u+v` 趋于 `l+l'`
 example (hu : seq_limit u l) (hv : seq_limit v l') :
     seq_limit (u + v) (l + l') := by
   intro ε ε_pos
@@ -552,7 +438,7 @@ example (hu : seq_limit u l) (hv : seq_limit v l') :
   rcases hv (ε/2) (by apply?) with ⟨N₂, hN₂⟩
   use max N₁ N₂
   intro n hn
-  rw [ge_max_iff] at hn -- Note how hn changes from `n ≥ max N₁ N₂` to `n ≥ N₁ ∧ n ≥ N₂`
+  rw [ge_max_iff] at hn -- 注意 hn 如何从 `n ≥ max N₁ N₂` 变为 `n ≥ N₁ ∧ n ≥ N₂`
   specialize hN₁ n hn.1
   specialize hN₂ n hn.2
   calc
@@ -563,9 +449,7 @@ example (hu : seq_limit u l) (hv : seq_limit v l') :
     _ = ε                                             := by simp
 
 
-/- Let's do something similar: the squeezing theorem using both `ge_max_iff` and `abs_le`.
-You will probably want to rewrite using `abs_le` in several assumptions as well as in the
-goal. You can use `rw [abs_le] at *` for this. -/
+/- 让我们做类似的事情：使用 `ge_max_iff` 和 `abs_le` 的夹逼定理。你可能想要在几个假设以及目标中使用 `abs_le` 重写。你可以为此使用 `rw [abs_le] at *`。-/
 example (hu : seq_limit u l) (hw : seq_limit w l) (h : ∀ n, u n ≤ v n) (h' : ∀ n, v n ≤ w n) :
     seq_limit v l := by
   -- sorry
@@ -590,15 +474,15 @@ example (hu : seq_limit u l) (hw : seq_limit w l) (h : ∀ n, u n ≤ v n) (h' :
   -- sorry
 
 
-/- In the next exercise, we'll use
+/- 在下一个练习中，我们将使用
 
 `eq_of_abs_sub_le_all (x y : ℝ) : (∀ ε > 0, |x - y| ≤ ε) → x = y`
 
-as the first step.
+作为第一步。
 -/
 
--- A sequence admits at most one limit. You will be able to use that lemma in the following
--- exercises.
+-- 序列最多有一个极限。你将能够在以下练习中使用那个引理
+-- 练习。
 lemma uniq_limit (hl : seq_limit u l) (hl' : seq_limit u l') : l = l' := by
   apply eq_of_abs_sub_le_all
   -- sorry
@@ -614,25 +498,21 @@ lemma uniq_limit (hl : seq_limit u l) (hl' : seq_limit u l') : l = l' := by
 
 /-
 
-## Subsequences
+## 子序列
 
-We will now play with subsequences.
+我们现在将玩子序列。
 
-The new definition we will use is that `φ : ℕ → ℕ` is an extraction
-if it is (strictly) increasing.
+我们称 `φ : ℕ → ℕ` 是一个提取，若它是（严格）递增的。
 -/
 
 def extraction (φ : ℕ → ℕ) := ∀ n m, n < m → φ n < φ m
 
 /-
-In the following, `φ` will always denote a function from `ℕ` to `ℕ`.
+在以下内容中，`φ` 总是表示从 `ℕ` 到 `ℕ` 的函数。
 
-The next lemma is proved by an easy induction, but we haven't seen induction
-in this tutorial. If you did the natural number game then you can delete
-the proof below and try to reconstruct it. Otherwise you can simply take a quick look
-at how proofs by induction look like (but we won’t need any other one here).
+下一个引理通过简单的归纳证明，但我们在本教程中没有看到归纳。如果你做过自然数游戏，那么你可以删除下面的证明并尝试重构它。否则你可以简单地快速查看归纳证明的样子（但我们这里不需要任何其他的）。
 -/
-/-- An extraction is greater than id -/
+/-- 提取大于恒等函数-/
 lemma id_le_extraction' : extraction φ → ∀ n, n ≤ φ n := by
   intro hyp n
   induction n with
@@ -642,14 +522,12 @@ lemma id_le_extraction' : extraction φ → ∀ n, n ≤ φ n := by
         _    < φ (n + 1) := by apply hyp; apply?)
 
 /-
-In the exercise, we use `∃ n ≥ N, ...` which is the abbreviation of
-`∃ n, n ≥ N ∧ ...`.
+在练习中，我们使用 `∃ n ≥ N, ...`，这是 `∃ n, n ≥ N ∧ ...` 的缩写。
 
-Don’t forget to move the cursor around to see what each `apply?` is proving.
+不要忘记移动光标查看每个 `apply?` 在证明什么。
 -/
 
-/-- Extractions take arbitrarily large values for arbitrarily large
-inputs. -/
+/-- 提取对任意大的输入取任意大的值。-/
 lemma extraction_ge : extraction φ → ∀ N N', ∃ n ≥ N', φ n ≥ N := by
   -- sorry
   intro h N N'
@@ -661,12 +539,10 @@ lemma extraction_ge : extraction φ → ∀ N N', ∃ n ≥ N', φ n ≥ N := by
     _ ≤ φ (max N N') := by apply?
   -- sorry
 
-/-- A real number `a` is a cluster point of a sequence `u`
-if `u` has a subsequence converging to `a`. -/
+/-- 我们称实数 `a` 是序列 `u` 的聚点，若 `u` 有一个收敛到 `a` 的子序列。-/
 def cluster_point (u : ℕ → ℝ) (a : ℝ) := ∃ φ, extraction φ ∧ seq_limit (u ∘ φ) a
 
-/-- If `a` is a cluster point of `u` then there are values of
-`u` arbitrarily close to `a` for arbitrarily large input. -/
+/-- 如果 `a` 是 `u` 的聚点，那么对任意大的输入，`u` 的值任意接近 `a`。-/
 lemma near_cluster :
   cluster_point u a → ∀ ε > 0, ∀ N, ∃ n ≥ N, |u n - a| ≤ ε := by
   -- sorry
@@ -681,7 +557,7 @@ lemma near_cluster :
   -- sorry
 
 
-/-- If `u` tends to `l` then its subsequences tend to `l`. -/
+/-- 如果 `u` 趋于 `l`，那么它的子序列趋于 `l`。-/
 lemma subseq_tendsto_of_tendsto' (h : seq_limit u l) (hφ : extraction φ) :
   seq_limit (u ∘ φ) l := by
   -- sorry
@@ -695,7 +571,7 @@ lemma subseq_tendsto_of_tendsto' (h : seq_limit u l) (hφ : extraction φ) :
     _ ≤ φ n := id_le_extraction' hφ n
   -- sorry
 
-/-- If `u` tends to `l` all its cluster points are equal to `l`. -/
+/-- 如果 `u` 趋于 `l`，那么它的所有聚点都等于 `l`。-/
 lemma cluster_limit (hl : seq_limit u l) (ha : cluster_point u a) : a = l := by
   -- sorry
   rcases ha with ⟨φ, φ_extr, lim_u_φ⟩
@@ -704,8 +580,7 @@ lemma cluster_limit (hl : seq_limit u l) (ha : cluster_point u a) : a = l := by
   apply?
   -- sorry
 
-/-- `u` is a Cauchy sequence if its values get arbitrarily close for large
-enough inputs. -/
+/-- `u` 是柯西序列，如果对足够大的输入，它的值变得任意接近。-/
 def CauchySequence (u : ℕ → ℝ) :=
   ∀ ε > 0, ∃ N, ∀ p q, p ≥ N → q ≥ N → |u p - u q| ≤ ε
 
@@ -724,4 +599,3 @@ example : (∃ l, seq_limit u l) → CauchySequence u := by
     _ ≤ ε/2 + ε/2 := by gcongr; apply?; apply?
     _ = ε := by simp
   -- sorry
-

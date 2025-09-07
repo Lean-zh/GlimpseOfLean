@@ -1,6 +1,6 @@
 # Lean 快速入门
 
-[中文](README.zh.md) | [English](README.md)
+[中文](README.md) | [English](README.en.md)
 
 本仓库为希望快速了解 Lean 定理证明的读者提供了一个入门介绍。目标是在 2 到 3 小时内感受一下在 Lean 中进行证明的样子，或者花费半天到一整天的时间来学习。
 
